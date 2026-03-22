@@ -1,0 +1,39 @@
+:root,
+.kui-theme-finance {
+  --kui-color-bg: #ffffff;
+  --kui-color-surface: #ffffff;
+  --kui-color-surface-soft: rgb(15 23 42 / 0.04);
+  --kui-color-border: hsl(214.3 31.8% 91.4%);
+  --kui-color-text: hsl(222.2 84% 4.9%);
+  --kui-color-muted: hsl(215.4 16.3% 46.9%);
+  --kui-color-accent: hsl(222.2 47.4% 11.2%);
+  --kui-color-accent-ink: hsl(210 40% 98%);
+  --kui-color-danger-bg: hsl(0 84.2% 95%);
+  --kui-color-danger-border: hsl(0 84.2% 80%);
+  --kui-color-danger-text: hsl(0 72% 35%);
+  --kui-color-success-bg: hsl(142.1 76.2% 93%);
+  --kui-color-success-border: hsl(142.1 70% 78%);
+  --kui-color-success-text: hsl(142.1 76.2% 24%);
+
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --success: 142.1 76.2% 36.3%;
+  --success-foreground: 355.7 100% 97.3%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 222.2 84% 4.9%;
+}

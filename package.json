@@ -1,0 +1,33 @@
+{
+  "name": "all-web-ui",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "bun test"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles/styles.css",
+    "./themes/admin-bw.css": "./src/styles/themes/admin-bw.css",
+    "./themes/finance.css": "./src/styles/themes/finance.css",
+    "./button": "./src/components/button.tsx",
+    "./input": "./src/components/input.tsx",
+    "./panel": "./src/components/panel.tsx",
+    "./badge": "./src/components/badge.tsx",
+    "./loading-status": "./src/components/loading-status.tsx",
+    "./empty-state": "./src/components/empty-state.tsx"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "typescript": "5.9.2"
+  }
+}
