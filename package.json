@@ -1,33 +1,76 @@
 {
   "name": "all-web-ui",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.2",
+  "packageManager": "bun@1.3.12",
   "type": "module",
   "scripts": {
+    "build": "bun run ./scripts/build.mjs",
+    "prepare": "bun run build",
+    "prepack": "bun run build",
     "typecheck": "tsc --noEmit",
     "test": "bun test"
   },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "./dist/styles/styles.css",
+    "./dist/styles/themes/admin-bw.css",
+    "./dist/styles/themes/finance.css"
+  ],
   "exports": {
-    ".": "./src/index.ts",
-    "./styles.css": "./src/styles/styles.css",
-    "./themes/admin-bw.css": "./src/styles/themes/admin-bw.css",
-    "./themes/finance.css": "./src/styles/themes/finance.css",
-    "./button": "./src/components/button.tsx",
-    "./input": "./src/components/input.tsx",
-    "./panel": "./src/components/panel.tsx",
-    "./badge": "./src/components/badge.tsx",
-    "./loading-status": "./src/components/loading-status.tsx",
-    "./empty-state": "./src/components/empty-state.tsx"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles/styles.css",
+    "./themes/admin-bw.css": "./dist/styles/themes/admin-bw.css",
+    "./themes/finance.css": "./dist/styles/themes/finance.css",
+    "./button": {
+      "types": "./dist/components/button.d.ts",
+      "import": "./dist/components/button.js",
+      "default": "./dist/components/button.js"
+    },
+    "./input": {
+      "types": "./dist/components/input.d.ts",
+      "import": "./dist/components/input.js",
+      "default": "./dist/components/input.js"
+    },
+    "./panel": {
+      "types": "./dist/components/panel.d.ts",
+      "import": "./dist/components/panel.js",
+      "default": "./dist/components/panel.js"
+    },
+    "./badge": {
+      "types": "./dist/components/badge.d.ts",
+      "import": "./dist/components/badge.js",
+      "default": "./dist/components/badge.js"
+    },
+    "./loading-status": {
+      "types": "./dist/components/loading-status.d.ts",
+      "import": "./dist/components/loading-status.js",
+      "default": "./dist/components/loading-status.js"
+    },
+    "./empty-state": {
+      "types": "./dist/components/empty-state.d.ts",
+      "import": "./dist/components/empty-state.js",
+      "default": "./dist/components/empty-state.js"
+    }
   },
   "peerDependencies": {
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
   },
   "devDependencies": {
-    "@types/react": "^19.1.12",
-    "@types/react-dom": "^19.1.9",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
-    "typescript": "5.9.2"
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "react": "19.2.5",
+    "react-dom": "19.2.5",
+    "typescript": "5.9.3"
   }
 }
