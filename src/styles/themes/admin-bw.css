@@ -1,39 +1,48 @@
-.admin-bw-theme,
-.kui-theme-admin-bw {
+/* ==========================================================================
+   Admin BW theme — ops console, pure black with white rule.
+   Overrides the --kui-* contract; the same component layer in styles.css
+   renders untouched under this skin.
+   ========================================================================== */
+.theme-admin-bw,
+.kui-theme-admin-bw,
+.admin-bw-theme {
   --kui-color-bg: #050505;
   --kui-color-surface: #121212;
   --kui-color-surface-soft: rgb(255 255 255 / 0.06);
+  --kui-color-surface-strong: rgb(255 255 255 / 0.12);
   --kui-color-border: #4a4a4a;
+
   --kui-color-text: #f7f7f7;
   --kui-color-muted: #c0c0c0;
+
   --kui-color-accent: #ffffff;
   --kui-color-accent-ink: #000000;
+
   --kui-color-danger-bg: #171012;
   --kui-color-danger-border: #79565d;
   --kui-color-danger-text: #f6ebee;
   --kui-color-success-bg: #101510;
   --kui-color-success-border: #4f6f53;
   --kui-color-success-text: #edf7ee;
+  --kui-color-warning-bg: #17140e;
+  --kui-color-warning-border: #7a6946;
+  --kui-color-warning-text: #faf3e1;
+  --kui-color-info-bg: #101419;
+  --kui-color-info-border: #5e7082;
+  --kui-color-info-text: #eef5fb;
 
-  --color-bg: var(--kui-color-bg);
-  --color-bg-soft: #0f0f0f;
-  --color-card: var(--kui-color-surface);
-  --color-card-soft: #1a1a1a;
-  --color-border: var(--kui-color-border);
-  --color-text: var(--kui-color-text);
-  --color-muted: var(--kui-color-muted);
-  --color-accent: var(--kui-color-accent);
-  --color-accent-ink: var(--kui-color-accent-ink);
-  --color-danger-bg: var(--kui-color-danger-bg);
-  --color-danger-border: var(--kui-color-danger-border);
-  --color-danger-text: var(--kui-color-danger-text);
-  --color-success-bg: var(--kui-color-success-bg);
-  --color-success-border: var(--kui-color-success-border);
-  --color-success-text: var(--kui-color-success-text);
-  --color-warning-bg: #17140e;
-  --color-warning-border: #7a6946;
-  --color-warning-text: #faf3e1;
-  --color-info-bg: #101419;
-  --color-info-border: #5e7082;
-  --color-info-text: #eef5fb;
+  /* Korean finance convention preserved in dark: red=up, blue=down, brightened
+     for legibility on a near-black surface. */
+  --kui-color-up: #ff6b6b;
+  --kui-color-up-soft: #2a1515;
+  --kui-color-down: #6aa8ff;
+  --kui-color-down-soft: #141c2a;
+  --kui-color-flat: #c0c0c0;
+
+  /* The single gradient the system allows — elevated panel on dark only. */
+  --kui-panel-elevated-bg: linear-gradient(180deg, rgb(34 34 34 / 0.96) 0%, rgb(15 15 15 / 0.99) 100%);
+
+  --kui-shadow-card: 0 1px 2px rgb(0 0 0 / 0.4);
+  --kui-shadow-soft: 0 12px 32px rgb(0 0 0 / 0.35);
+  --kui-shadow-panel: 0 16px 40px rgb(0 0 0 / 0.55);
 }

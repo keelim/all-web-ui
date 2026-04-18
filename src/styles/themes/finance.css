@@ -1,20 +1,73 @@
+/* ==========================================================================
+   Finance theme — light, ink-on-paper, default surface for keelim-vercel.
+   Same values as the :root block in styles.css; declared under the explicit
+   .theme-finance / .kui-theme-finance classes so pages that nest themes
+   (e.g. a dark section inside a light shell) can scope explicitly.
+   ========================================================================== */
 :root,
+.theme-finance,
 .kui-theme-finance {
   --kui-color-bg: #ffffff;
   --kui-color-surface: #ffffff;
   --kui-color-surface-soft: rgb(15 23 42 / 0.04);
+  --kui-color-surface-strong: rgb(15 23 42 / 0.08);
   --kui-color-border: hsl(214.3 31.8% 91.4%);
+
   --kui-color-text: hsl(222.2 84% 4.9%);
   --kui-color-muted: hsl(215.4 16.3% 46.9%);
+
   --kui-color-accent: hsl(222.2 47.4% 11.2%);
   --kui-color-accent-ink: hsl(210 40% 98%);
+
   --kui-color-danger-bg: hsl(0 84.2% 95%);
   --kui-color-danger-border: hsl(0 84.2% 80%);
   --kui-color-danger-text: hsl(0 72% 35%);
   --kui-color-success-bg: hsl(142.1 76.2% 93%);
   --kui-color-success-border: hsl(142.1 70% 78%);
   --kui-color-success-text: hsl(142.1 76.2% 24%);
+  --kui-color-warning-bg: hsl(38 92% 94%);
+  --kui-color-warning-border: hsl(38 92% 70%);
+  --kui-color-warning-text: hsl(25 90% 32%);
+  --kui-color-info-bg: hsl(214 95% 95%);
+  --kui-color-info-border: hsl(214 85% 80%);
+  --kui-color-info-text: hsl(221 83% 32%);
 
+  /* Korean finance convention: red = 상승 (up), blue = 하락 (down). */
+  --kui-color-up: hsl(2 78% 55%);
+  --kui-color-up-soft: hsl(2 78% 96%);
+  --kui-color-down: hsl(214 85% 45%);
+  --kui-color-down-soft: hsl(214 85% 96%);
+  --kui-color-flat: hsl(215.4 16.3% 46.9%);
+
+  --kui-panel-elevated-bg: var(--kui-color-surface);
+
+  --kui-radius-sm: 0.85rem;
+  --kui-radius-md: 1.15rem;
+  --kui-radius-lg: 1.5rem;
+  --radius: 0.5rem;
+
+  --kui-shadow-card: 0 1px 2px rgb(15 23 42 / 0.06), 0 1px 3px rgb(15 23 42 / 0.04);
+  --kui-shadow-soft: 0 12px 32px rgb(15 23 42 / 0.05);
+  --kui-shadow-panel: 0 16px 40px rgb(15 23 42 / 0.08);
+
+  --font-sans: 'Pretendard', 'Pretendard Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+  --font-display: 'Pretendard', 'Pretendard Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-numeric: 'JetBrains Mono', 'SF Mono', ui-monospace, 'Roboto Mono', monospace;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* shadcn HSL bridge — mirrors keelim-vercel/app/globals.css so downstream
+     Tailwind + shadcn components inherit the same tokens. */
   --background: 0 0% 100%;
   --foreground: 222.2 84% 4.9%;
   --card: 0 0% 100%;
