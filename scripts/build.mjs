@@ -1,4 +1,4 @@
-import { cp, mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { cp, mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, extname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
@@ -7,7 +7,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(here, '..');
 const distDir = resolve(repoRoot, 'dist');
 
-await rm(distDir, { recursive: true, force: true });
+await removeDistDir();
 
 await new Promise((resolvePromise, rejectPromise) => {
   const child = spawn('bunx', ['tsc', '-p', 'tsconfig.build.json'], {
@@ -33,6 +33,26 @@ await cp(resolve(repoRoot, 'src', 'styles', 'themes', 'admin-bw.css'), resolve(d
 await cp(resolve(repoRoot, 'src', 'styles', 'themes', 'finance.css'), resolve(distDir, 'styles', 'themes', 'finance.css'));
 
 await rewriteRelativeJsSpecifiers(distDir);
+
+async function removeDistDir() {
+  await new Promise((resolvePromise, rejectPromise) => {
+    const child = spawn('/bin/rm', ['-rf', distDir], {
+      cwd: repoRoot,
+      stdio: 'inherit'
+    });
+
+    child.on('exit', (code) => {
+      if (code === 0) {
+        resolvePromise();
+        return;
+      }
+
+      rejectPromise(new Error(`dist cleanup failed with exit code ${code ?? 'unknown'}`));
+    });
+
+    child.on('error', rejectPromise);
+  });
+}
 
 async function rewriteRelativeJsSpecifiers(directory) {
   const entries = await readdir(directory, { withFileTypes: true });

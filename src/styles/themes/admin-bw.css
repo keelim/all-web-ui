@@ -6,6 +6,8 @@
 .theme-admin-bw,
 .kui-theme-admin-bw,
 .admin-bw-theme {
+  color: var(--kui-color-text);
+
   --kui-color-bg: #050505;
   --kui-color-surface: #121212;
   --kui-color-surface-soft: rgb(255 255 255 / 0.06);
