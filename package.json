@@ -8,6 +8,7 @@
     "build": "bun run ./scripts/build.mjs",
     "prepare": "bun run build",
     "prepack": "bun run build",
+    "design:lint": "bunx @google/design.md lint DESIGN.md",
     "typecheck": "tsc --noEmit",
     "test": "bun test"
   },

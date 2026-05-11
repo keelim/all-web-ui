@@ -6,7 +6,10 @@ this package should consume its workflow shape, not vendor its source.
 
 ## Local Contract
 
-- `.stitch/DESIGN.md` is the promptable design-system source for Stitch work.
+- `../DESIGN.md` is the canonical design.md source for Stitch work, agent
+  prompts, and token-aware design reasoning.
+- `.stitch/DESIGN.md` is a compatibility pointer to `../DESIGN.md`; do not
+  maintain a second design system file here.
 - `.stitch/designs/` is the landing area for downloaded Stitch HTML and
   screenshots.
 - `src/components/*`, `src/styles/*`, `src/index.ts`, `src/manifest.ts`, and
@@ -17,9 +20,9 @@ this package should consume its workflow shape, not vendor its source.
 ## Relevant Upstream Skills
 
 - `stitch-design`: use for prompt enhancement, screen generation/editing, and
-  keeping prompts aligned to `.stitch/DESIGN.md`.
+  keeping prompts aligned to `DESIGN.md`.
 - `design-md`: use when a Stitch project has enough screens to refresh this
-  design system document from real generated assets.
+  design.md document from real generated assets.
 - `react:components`: use when converting downloaded Stitch HTML/screenshots
   into React components. For all-web-ui, adapt its Vite/app assumptions to this
   package's `src/components` primitive model.
@@ -29,7 +32,7 @@ this package should consume its workflow shape, not vendor its source.
 
 ## Conversion Rules
 
-1. Start from `.stitch/DESIGN.md` before asking Stitch for new screens.
+1. Start from `DESIGN.md` before asking Stitch for new screens.
 2. Save generated screen assets under `.stitch/designs/`.
 3. Convert only durable primitives or token updates into `src/`.
 4. Avoid hardcoded hex colors in components; map styles through `--kui-*` and
@@ -41,6 +44,20 @@ this package should consume its workflow shape, not vendor its source.
 7. For consumer-facing primitive changes, run the root
    `scripts/verify-all-web-ui-integration.sh --full` from the workspace root
    when the sibling repos are available.
+
+## design.md Validation
+
+`DESIGN.md` follows the `google-labs-code/design.md` concept: YAML front matter
+for machine-readable tokens plus ordered markdown sections for rationale. Every
+change to `DESIGN.md` must be validated with:
+
+```bash
+bun run design:lint
+```
+
+Treat the CLI as an external validation aid, not a package dependency. If the
+command cannot run because the upstream package or network is unavailable,
+record that blocker explicitly instead of skipping the check silently.
 
 ## Skill Installation Note
 

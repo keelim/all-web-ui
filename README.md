@@ -76,9 +76,14 @@ The workspace is currently in a mixed migration state: some consumers still use 
 
 This repo is prepared to use the
 [`google-labs-code/stitch-skills`](https://github.com/google-labs-code/stitch-skills)
-workflow without vendoring the upstream skills. Use `.stitch/DESIGN.md` as the
-design-system source for Stitch prompts and `.stitch/designs/` for downloaded
-Stitch HTML/screenshots.
+workflow without vendoring the upstream skills. Root `DESIGN.md` follows the
+[`google-labs-code/design.md`](https://github.com/google-labs-code/design.md)
+concept: YAML front matter for machine-readable tokens plus ordered markdown
+sections for design rationale.
+
+Use `DESIGN.md` as the design-system source for Stitch prompts and
+`.stitch/designs/` for downloaded Stitch HTML/screenshots. `.stitch/DESIGN.md`
+is only a compatibility pointer back to the canonical root file.
 
 When converting Stitch output, keep the result inside the package contract:
 shared primitives, `--kui-*` tokens, shadcn-compatible semantic variables,
