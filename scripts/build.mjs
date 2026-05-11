@@ -28,6 +28,7 @@ await new Promise((resolvePromise, rejectPromise) => {
 });
 
 await mkdir(resolve(distDir, 'styles', 'themes'), { recursive: true });
+await cp(resolve(repoRoot, 'src', 'styles', 'spacing.css'), resolve(distDir, 'styles', 'spacing.css'));
 await cp(resolve(repoRoot, 'src', 'styles', 'styles.css'), resolve(distDir, 'styles', 'styles.css'));
 await cp(resolve(repoRoot, 'src', 'styles', 'themes', 'admin-bw.css'), resolve(distDir, 'styles', 'themes', 'admin-bw.css'));
 await cp(resolve(repoRoot, 'src', 'styles', 'themes', 'finance.css'), resolve(distDir, 'styles', 'themes', 'finance.css'));

@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'bun:test';
 
@@ -50,6 +51,33 @@ describe('all-web-ui exports', () => {
     expect(renderToStaticMarkup(<DropdownMenu><DropdownMenuTrigger>메뉴</DropdownMenuTrigger></DropdownMenu>)).toContain('메뉴');
     expect(renderToStaticMarkup(<Breadcrumb><BreadcrumbList><BreadcrumbItem>홈</BreadcrumbItem></BreadcrumbList></Breadcrumb>)).toContain('aria-label="breadcrumb"');
     expect(componentManifest.some((entry) => entry.exportPath === 'all-web-ui/button' && entry.lifecycle === 'stable')).toBe(true);
+  });
+
+  it('exposes shared spacing css as a package export', () => {
+    const packageJson = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
+    const spacingCss = readFileSync(new URL('../src/styles/spacing.css', import.meta.url), 'utf8');
+
+    expect(packageJson.exports['./spacing.css']).toBe('./dist/styles/spacing.css');
+    expect(packageJson.sideEffects).toContain('./dist/styles/spacing.css');
+    expect(spacingCss).toContain('--space-4: 1rem;');
+    expect(spacingCss).toContain('--kui-space-4: var(--space-4);');
+  });
+
+  it('ships light and dark semantic theme tokens for shared primitives', () => {
+    const financeCss = readFileSync(new URL('../src/styles/themes/finance.css', import.meta.url), 'utf8');
+    const adminCss = readFileSync(new URL('../src/styles/themes/admin-bw.css', import.meta.url), 'utf8');
+    const packageJson = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
+
+    expect(packageJson.sideEffects).toContain('./dist/styles/themes/finance.css');
+    expect(packageJson.sideEffects).toContain('./dist/styles/themes/admin-bw.css');
+    expect(financeCss).toContain("[data-theme='dark']");
+    expect(financeCss).toContain('--kui-color-bg: hsl(222.2 84% 4.9%);');
+    expect(financeCss).toContain('--background: 222.2 84% 4.9%;');
+    expect(financeCss).toContain('--popover: 222.2 84% 5.8%;');
+    expect(adminCss).toContain('.admin-bw-theme');
+    expect(adminCss).toContain('--background: 0 0% 2%;');
+    expect(adminCss).toContain('--popover: 0 0% 7%;');
+    expect(adminCss).toContain('--ring: 0 0% 97%;');
   });
 
   it('renders panel loading markup with progress steps', () => {

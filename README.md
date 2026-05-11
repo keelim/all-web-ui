@@ -6,6 +6,7 @@ Shared UI primitives and theme tokens for the keelim web apps.
 
 - `all-web-ui`
 - `all-web-ui/styles.css`
+- `all-web-ui/spacing.css`
 - `all-web-ui/themes/admin-bw.css`
 - `all-web-ui/themes/finance.css`
 - `all-web-ui/button`
@@ -46,9 +47,18 @@ Shared UI primitives and theme tokens for the keelim web apps.
 
 ```tsx
 import 'all-web-ui/styles.css';
-import 'all-web-ui/themes/admin-bw.css';
+import 'all-web-ui/themes/finance.css';
 import { Button, Panel } from 'all-web-ui';
 ```
+
+`styles.css` provides the component layer and the default finance light tokens.
+Import `themes/finance.css` when a consumer uses `next-themes` class or
+`data-theme` dark mode; it maps `.dark` and `[data-theme='dark']` to the same
+semantic shadcn variables used by the shared primitives.
+
+Admin surfaces should import `themes/admin-bw.css` and wrap the relevant area in
+`.admin-bw-theme`, `.theme-admin-bw`, or `.kui-theme-admin-bw`. Spacing-only
+consumers can import `all-web-ui/spacing.css` without taking on a color theme.
 
 ## Build
 

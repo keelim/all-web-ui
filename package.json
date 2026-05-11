@@ -18,6 +18,7 @@
     "dist"
   ],
   "sideEffects": [
+    "./dist/styles/spacing.css",
     "./dist/styles/styles.css",
     "./dist/styles/themes/admin-bw.css",
     "./dist/styles/themes/finance.css"
@@ -29,6 +30,7 @@
       "default": "./dist/index.js"
     },
     "./styles.css": "./dist/styles/styles.css",
+    "./spacing.css": "./dist/styles/spacing.css",
     "./themes/admin-bw.css": "./dist/styles/themes/admin-bw.css",
     "./themes/finance.css": "./dist/styles/themes/finance.css",
     "./button": {
