@@ -72,6 +72,19 @@ This emits a `dist/` directory with JS, type declarations, and theme CSS so the 
 
 The workspace is currently in a mixed migration state: some consumers still use direct sibling source imports, while package-export adoption is being rolled out incrementally at adapter/layout boundaries.
 
+## Stitch workflow
+
+This repo is prepared to use the
+[`google-labs-code/stitch-skills`](https://github.com/google-labs-code/stitch-skills)
+workflow without vendoring the upstream skills. Use `.stitch/DESIGN.md` as the
+design-system source for Stitch prompts and `.stitch/designs/` for downloaded
+Stitch HTML/screenshots.
+
+When converting Stitch output, keep the result inside the package contract:
+shared primitives, `--kui-*` tokens, shadcn-compatible semantic variables,
+exports, manifest entries, and focused tests. See `.stitch/README.md` and
+`AGENTS.md` for the agent workflow.
+
 ## Ownership
 
 `all-web-ui` owns the shared shadcn-compatible primitive layer for the web apps. Downstream `components/ui/*` files in consumer repos should be temporary re-export shims or app-specific composites, not independent generic primitive implementations.
