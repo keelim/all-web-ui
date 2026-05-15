@@ -50,7 +50,7 @@ describe('all-web-ui exports', () => {
     expect(renderToStaticMarkup(<Sheet><SheetTrigger>열기</SheetTrigger></Sheet>)).toContain('열기');
     expect(renderToStaticMarkup(<DropdownMenu><DropdownMenuTrigger>메뉴</DropdownMenuTrigger></DropdownMenu>)).toContain('메뉴');
     expect(renderToStaticMarkup(<Breadcrumb><BreadcrumbList><BreadcrumbItem>홈</BreadcrumbItem></BreadcrumbList></Breadcrumb>)).toContain('aria-label="breadcrumb"');
-    expect(componentManifest.some((entry) => entry.exportPath === 'all-web-ui/button' && entry.lifecycle === 'stable')).toBe(true);
+    expect(componentManifest.some((entry) => entry.exportPath === '@keelim/all-web-ui/button' && entry.lifecycle === 'stable')).toBe(true);
   });
 
   it('exposes shared spacing css as a package export', () => {

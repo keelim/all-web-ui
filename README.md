@@ -4,51 +4,51 @@ Shared UI primitives and theme tokens for the keelim web apps.
 
 ## Exports
 
-- `all-web-ui`
-- `all-web-ui/styles.css`
-- `all-web-ui/spacing.css`
-- `all-web-ui/themes/admin-bw.css`
-- `all-web-ui/themes/finance.css`
-- `all-web-ui/button`
-- `all-web-ui/input`
-- `all-web-ui/panel`
-- `all-web-ui/badge`
-- `all-web-ui/loading-status`
-- `all-web-ui/empty-state`
-- `all-web-ui/card`
-- `all-web-ui/calendar`
-- `all-web-ui/table`
-- `all-web-ui/tabs`
-- `all-web-ui/tooltip`
-- `all-web-ui/sheet`
-- `all-web-ui/dropdown-menu`
-- `all-web-ui/breadcrumb`
-- `all-web-ui/accordion`
-- `all-web-ui/alert`
-- `all-web-ui/alert-dialog`
-- `all-web-ui/avatar`
-- `all-web-ui/checkbox`
-- `all-web-ui/dialog`
-- `all-web-ui/hover-card`
-- `all-web-ui/label`
-- `all-web-ui/popover`
-- `all-web-ui/progress`
-- `all-web-ui/radio-group`
-- `all-web-ui/scroll-area`
-- `all-web-ui/select`
-- `all-web-ui/skeleton`
-- `all-web-ui/slider`
-- `all-web-ui/switch`
-- `all-web-ui/textarea`
-- `all-web-ui/toast`
-- `all-web-ui/manifest`
+- `@keelim/all-web-ui`
+- `@keelim/all-web-ui/styles.css`
+- `@keelim/all-web-ui/spacing.css`
+- `@keelim/all-web-ui/themes/admin-bw.css`
+- `@keelim/all-web-ui/themes/finance.css`
+- `@keelim/all-web-ui/button`
+- `@keelim/all-web-ui/input`
+- `@keelim/all-web-ui/panel`
+- `@keelim/all-web-ui/badge`
+- `@keelim/all-web-ui/loading-status`
+- `@keelim/all-web-ui/empty-state`
+- `@keelim/all-web-ui/card`
+- `@keelim/all-web-ui/calendar`
+- `@keelim/all-web-ui/table`
+- `@keelim/all-web-ui/tabs`
+- `@keelim/all-web-ui/tooltip`
+- `@keelim/all-web-ui/sheet`
+- `@keelim/all-web-ui/dropdown-menu`
+- `@keelim/all-web-ui/breadcrumb`
+- `@keelim/all-web-ui/accordion`
+- `@keelim/all-web-ui/alert`
+- `@keelim/all-web-ui/alert-dialog`
+- `@keelim/all-web-ui/avatar`
+- `@keelim/all-web-ui/checkbox`
+- `@keelim/all-web-ui/dialog`
+- `@keelim/all-web-ui/hover-card`
+- `@keelim/all-web-ui/label`
+- `@keelim/all-web-ui/popover`
+- `@keelim/all-web-ui/progress`
+- `@keelim/all-web-ui/radio-group`
+- `@keelim/all-web-ui/scroll-area`
+- `@keelim/all-web-ui/select`
+- `@keelim/all-web-ui/skeleton`
+- `@keelim/all-web-ui/slider`
+- `@keelim/all-web-ui/switch`
+- `@keelim/all-web-ui/textarea`
+- `@keelim/all-web-ui/toast`
+- `@keelim/all-web-ui/manifest`
 
 ## Usage
 
 ```tsx
-import 'all-web-ui/styles.css';
-import 'all-web-ui/themes/finance.css';
-import { Button, Panel } from 'all-web-ui';
+import '@keelim/all-web-ui/styles.css';
+import '@keelim/all-web-ui/themes/finance.css';
+import { Button, Panel } from '@keelim/all-web-ui';
 ```
 
 `styles.css` provides the component layer and the default finance light tokens.
@@ -58,7 +58,7 @@ semantic shadcn variables used by the shared primitives.
 
 Admin surfaces should import `themes/admin-bw.css` and wrap the relevant area in
 `.admin-bw-theme`, `.theme-admin-bw`, or `.kui-theme-admin-bw`. Spacing-only
-consumers can import `all-web-ui/spacing.css` without taking on a color theme.
+consumers can import `@keelim/all-web-ui/spacing.css` without taking on a color theme.
 
 ## Build
 
@@ -66,11 +66,11 @@ consumers can import `all-web-ui/spacing.css` without taking on a color theme.
 bun run build
 ```
 
-This emits a `dist/` directory with JS, type declarations, and theme CSS so the package can move toward a versioned shared-package workflow.
+This emits a `dist/` directory with JS, type declarations, and theme CSS for the `@keelim/all-web-ui` GitHub Packages release.
 
-`bun install` also runs the package `prepare` hook so the local sibling-repo workflow can regenerate `dist/` before app consumers resolve package exports.
+`bun install` also runs the package `prepare` hook so the local workspace workflow can regenerate `dist/` before app consumers resolve package exports.
 
-The workspace is currently in a mixed migration state: some consumers still use direct sibling source imports, while package-export adoption is being rolled out incrementally at adapter/layout boundaries.
+Consumers should install the exact published version from `https://npm.pkg.github.com` and import scoped package exports such as `@keelim/all-web-ui/button`.
 
 ## Stitch workflow
 
@@ -92,6 +92,6 @@ exports, manifest entries, and focused tests. See `.stitch/README.md` and
 
 ## Ownership
 
-`all-web-ui` owns the shared shadcn-compatible primitive layer for the web apps. Downstream `components/ui/*` files in consumer repos should be temporary re-export shims or app-specific composites, not independent generic primitive implementations.
+`@keelim/all-web-ui` owns the shared shadcn-compatible primitive layer for the web apps. Downstream `components/ui/*` files in consumer repos should be temporary re-export shims or app-specific composites, not independent generic primitive implementations.
 
 The `componentManifest` export records the lifecycle status for shared primitives. New primitive exports should be added to both `package.json` and the manifest before consumer migration.
