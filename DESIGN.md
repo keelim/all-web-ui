@@ -224,6 +224,31 @@ surfaces, white rules, and high-contrast foreground text for internal console
 work. Both themes share the same component contract: reusable React primitives,
 `--kui-*` CSS variables, and a shadcn-compatible semantic HSL bridge.
 
+## Web Platform Contract
+
+all-web-ui targets the current web consumers of this shared package:
+`keelim-vercel`, `rich/web`, and `agent-skill-console`. Treat those consumers as
+the compatibility baseline before adding broader platform claims. This package
+does not own app routes, product workflows, native mobile shells, or React
+Native primitives.
+
+Consumers should choose the smallest style surface that matches their use case:
+
+- Finance app surfaces import `all-web-ui/styles.css` plus
+  `all-web-ui/themes/finance.css`.
+- Admin console surfaces import `all-web-ui/styles.css` plus
+  `all-web-ui/themes/admin-bw.css`, then scope the console with
+  `.admin-bw-theme`, `.theme-admin-bw`, or `.kui-theme-admin-bw`.
+- Spacing-only consumers import `all-web-ui/spacing.css` without taking on a
+  color theme.
+
+Finance dark mode is selector-driven for Next/shadcn consumers. Preserve
+`.dark`, `[data-theme='dark']`, `.theme-dark`, `.kui-theme-dark`,
+`.theme-finance.dark`, and `.kui-theme-finance.dark` as equivalent dark-mode
+entry points. Components should continue to read semantic shadcn variables such
+as `--background`, `--foreground`, `--card`, `--popover`, `--border`, and
+`--ring` through the theme bridge instead of branching per consumer.
+
 ## Colors
 
 - **Primary (#0f172a):** Ink-like action and emphasis color for the finance
@@ -248,6 +273,11 @@ system monospace fallback for numeric, code-like, and ticker values. Finance
 numbers should use tabular figures so prices, rates, and counts align
 vertically.
 
+Text must remain readable across desktop, tablet, and mobile web viewports.
+Primitive text should not depend on one app shell width, one locale, or one font
+loading path. Long labels and Korean/English mixed strings must wrap or truncate
+inside their owning component without overlapping adjacent controls.
+
 Headings should be confident but not editorial. Use compact heading sizes inside
 panels and dashboards. Reserve display-scale type for true first-screen
 experiences in consuming apps, not for package examples or internal docs.
@@ -262,6 +292,12 @@ Prefer dense but organized layouts for SaaS, finance, admin, and workflow
 surfaces. Do not nest UI cards inside larger decorative cards. Repeated items
 may be cards; page sections should be full-width bands or unframed layouts
 owned by the consuming app.
+
+Primitive layouts should be stable under mouse, keyboard, and touch input. Use
+explicit dimensions or responsive constraints for controls, grids, tab lists,
+tables, and toolbars so hover states, loading text, icons, and dynamic labels do
+not resize the surrounding layout. Mobile and narrow desktop views should keep
+primary actions reachable without depending on hover-only affordances.
 
 ## Elevation & Depth
 
@@ -286,6 +322,11 @@ variant classes already exported by `src/components/button.tsx`. Primary
 buttons use the ink action color with light text; secondary buttons stay quiet
 with border treatment; ghost buttons sit on a soft surface wash.
 
+Controls must support keyboard navigation, pointer interaction, and touch
+interaction through the existing Radix/shadcn primitive behavior. Keep
+`focus-visible` rings and disabled states visible in both finance and admin
+themes. Icon buttons need an accessible name supplied by the consuming app.
+
 Inputs are full-width by default, softly rounded, filled with the muted surface
 wash, and focused with an accent border plus subtle ring.
 
@@ -297,6 +338,18 @@ Loading and empty states should stay compact and useful. They inherit the same
 panel geometry and tokenized status language rather than introducing
 illustrative or marketing-style visuals.
 
+## Accessibility & Motion
+
+Use color as reinforcement, not the only state indicator. Status chips, market
+movement, validation states, and destructive actions need text, iconography, or
+component structure that still communicates meaning when color contrast,
+theme, or locale changes.
+
+Motion should be short and functional. Preserve Radix/shadcn transitions when
+they communicate open, close, focus, or swipe state, but avoid decorative motion
+that makes repeated admin or finance work harder. Consumers should be able to
+honor `prefers-reduced-motion` without component rewrites.
+
 ## Do's and Don'ts
 
 Do use `--kui-*` tokens and shadcn semantic variables when changing shared
@@ -304,7 +357,13 @@ styles. Do keep new primitives package-level and reusable. Do update
 `src/index.ts`, `src/manifest.ts`, package exports, and focused tests when a
 primitive is added.
 
+Do keep consumer compatibility evidence grounded in actual dependency/import
+usage, not workspace membership alone. Do document any token-semantic change in
+this file and the CSS token files in the same change.
+
 Do not hardcode component colors that bypass this design system. Do not add app
-routes, demo flows, or product-specific workflows to this package. Do not treat
-Stitch output as production code until it has been reduced to a durable
-primitive or token update.
+routes, demo flows, or product-specific workflows to this package. Do not
+introduce a second design source under `.stitch/`; `.stitch/DESIGN.md` remains
+a compatibility pointer to this file. Do not treat Stitch output as production
+code until it has been reduced to a durable primitive, token update, or
+documentation change that belongs in this shared package.
