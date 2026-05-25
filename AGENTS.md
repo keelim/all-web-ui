@@ -65,3 +65,18 @@ workspace root with:
 ```bash
 ./scripts/verify-all-web-ui-integration.sh --full
 ```
+
+## CodeGraph Search
+
+When working from the `keelim-maestro` workspace root, use the root dispatcher
+instead of a root aggregate graph:
+
+```bash
+bun run cg -- context all-web-ui "<task>"
+bun run cg -- query all-web-ui <symbol>
+bun run cg -- files all-web-ui --max-depth 2
+```
+
+If an AI starts inside this repo directly, first check `/Users/keelim/Desktop/keelim-maestro`
+for the dispatcher and prefer its child-targeted `--path` calls. Do not initialize
+or rely on a workspace-root `.codegraph/` that mixes child repositories.
