@@ -31,6 +31,22 @@ import {
   componentManifest
 } from '../src';
 
+function manifestNameToDesignKey(name: string) {
+  return name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+}
+
+function readDesignComponentKeys(designMd: string) {
+  const frontMatterMatch = designMd.match(/^---\n([\s\S]*?)\n---/);
+  expect(frontMatterMatch).not.toBeNull();
+
+  const frontMatter = frontMatterMatch?.[1] ?? '';
+  const componentsStart = frontMatter.indexOf('components:\n');
+  expect(componentsStart).toBeGreaterThanOrEqual(0);
+
+  const componentsBlock = frontMatter.slice(componentsStart + 'components:\n'.length);
+  return new Set([...componentsBlock.matchAll(/^  ([a-z0-9-]+):$/gm)].map((match) => match[1]));
+}
+
 describe('all-web-ui exports', () => {
   it('renders shared primitives with stable class contracts', () => {
     expect(renderToStaticMarkup(<Button variant="primary">저장</Button>)).toContain('kui-button--primary');
@@ -94,5 +110,24 @@ describe('all-web-ui exports', () => {
     expect(html).toContain('data-loading-variant="panel"');
     expect(html).toContain('kui-loading-panel__step is-active');
     expect(html).toContain('진행 상황 확인');
+  });
+
+  it('keeps the Stitch DESIGN.md component catalog aligned with stable exports', () => {
+    const designMd = readFileSync(new URL('../DESIGN.md', import.meta.url), 'utf8');
+    const designComponentKeys = readDesignComponentKeys(designMd);
+    const stableComponentKeys = componentManifest
+      .filter((entry) => entry.lifecycle === 'stable')
+      .map((entry) => manifestNameToDesignKey(entry.name));
+    const missingComponentKeys = stableComponentKeys.filter((key) => !designComponentKeys.has(key));
+
+    expect(missingComponentKeys).toEqual([]);
+    expect(designComponentKeys.has('button-accent')).toBe(true);
+    expect(designComponentKeys.has('badge-success')).toBe(true);
+    expect(designComponentKeys.has('market-up-chip')).toBe(true);
+    expect(designComponentKeys.has('admin-shell')).toBe(true);
+
+    for (const entry of componentManifest.filter((component) => component.lifecycle === 'stable')) {
+      expect(designMd).toContain(entry.exportPath);
+    }
   });
 });

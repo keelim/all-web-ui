@@ -99,27 +99,68 @@ spacing:
   12: 48px
   16: 64px
 components:
-  button-primary:
+  accordion:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.md}"
+  alert:
+    backgroundColor: "{colors.surface-soft}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.lg}"
+  alert-dialog:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.xl}"
+  avatar:
+    backgroundColor: "{colors.surface-soft}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.full}"
+  badge:
+    backgroundColor: "{colors.surface-soft}"
+    textColor: "{colors.muted-foreground}"
+    typography: "{typography.caption}"
+    rounded: "{rounded.full}"
+    padding: 8px
+  breadcrumb:
+    backgroundColor: "{colors.background}"
+    textColor: "{colors.muted-foreground}"
+  button:
     backgroundColor: "{colors.primary}"
     textColor: "{colors.on-primary}"
     typography: "{typography.label}"
     rounded: "{rounded.md}"
     padding: 12px
     height: 44px
-  button-secondary:
+  calendar:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.foreground}"
-    typography: "{typography.label}"
-    rounded: "{rounded.md}"
-    padding: 12px
-    height: 44px
-  button-ghost:
+    rounded: "{rounded.lg}"
+  card:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.xl}"
+    padding: 24px
+  checkbox:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.sm}"
+  dialog:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.xl}"
+  dropdown-menu:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.lg}"
+  empty-state:
     backgroundColor: "{colors.surface-soft}"
-    textColor: "{colors.muted-foreground}"
-    typography: "{typography.label}"
-    rounded: "{rounded.md}"
-    padding: 12px
-    height: 44px
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.xl}"
+    padding: 24px
+  hover-card:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.lg}"
   input:
     backgroundColor: "{colors.surface-soft}"
     textColor: "{colors.foreground}"
@@ -127,24 +168,72 @@ components:
     rounded: "{rounded.lg}"
     padding: 16px
     height: 48px
+  label:
+    textColor: "{colors.foreground}"
+    typography: "{typography.label}"
+  loading-status:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.xl}"
+    padding: 24px
   panel:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.foreground}"
     rounded: "{rounded.xl}"
     padding: 24px
-  badge-muted:
+  popover:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.lg}"
+  progress:
     backgroundColor: "{colors.surface-soft}"
-    textColor: "{colors.muted-foreground}"
-    typography: "{typography.caption}"
+    textColor: "{colors.primary}"
     rounded: "{rounded.full}"
-    padding: 8px
-  page:
-    backgroundColor: "{colors.background}"
+  radio-group:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.foreground}"
+  scroll-area:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.foreground}"
+  select:
+    backgroundColor: "{colors.surface-soft}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.lg}"
+    height: 44px
+  sheet:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.lg}"
+  skeleton:
+    backgroundColor: "{colors.surface-strong}"
+    rounded: "{rounded.md}"
+  slider:
+    backgroundColor: "{colors.surface-soft}"
+    textColor: "{colors.primary}"
+  switch:
+    backgroundColor: "{colors.surface-strong}"
+    textColor: "{colors.primary}"
+    rounded: "{rounded.full}"
+  table:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.foreground}"
+  tabs:
+    backgroundColor: "{colors.surface-soft}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.md}"
+  textarea:
+    backgroundColor: "{colors.surface-soft}"
     textColor: "{colors.foreground}"
     typography: "{typography.body}"
-  divider:
-    backgroundColor: "{colors.border}"
-    height: 1px
+    rounded: "{rounded.lg}"
+  tooltip:
+    backgroundColor: "{colors.foreground}"
+    textColor: "{colors.background}"
+    rounded: "{rounded.sm}"
+  toast:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.lg}"
   button-accent:
     backgroundColor: "{colors.accent}"
     textColor: "{colors.accent-foreground}"
@@ -152,34 +241,9 @@ components:
     rounded: "{rounded.md}"
     padding: 12px
     height: 44px
-  button-ghost-hover:
-    backgroundColor: "{colors.surface-strong}"
-    textColor: "{colors.foreground}"
-    typography: "{typography.label}"
-    rounded: "{rounded.md}"
-    padding: 12px
-    height: 44px
-  badge-danger:
-    backgroundColor: "{colors.danger-soft}"
-    textColor: "{colors.danger}"
-    typography: "{typography.caption}"
-    rounded: "{rounded.full}"
-    padding: 8px
   badge-success:
     backgroundColor: "{colors.success-soft}"
     textColor: "{colors.success}"
-    typography: "{typography.caption}"
-    rounded: "{rounded.full}"
-    padding: 8px
-  badge-warning:
-    backgroundColor: "{colors.warning-soft}"
-    textColor: "{colors.warning}"
-    typography: "{typography.caption}"
-    rounded: "{rounded.full}"
-    padding: 8px
-  badge-info:
-    backgroundColor: "{colors.info-soft}"
-    textColor: "{colors.info}"
     typography: "{typography.caption}"
     rounded: "{rounded.full}"
     padding: 8px
@@ -189,25 +253,10 @@ components:
     typography: "{typography.numeric}"
     rounded: "{rounded.full}"
     padding: 8px
-  market-down-chip:
-    backgroundColor: "{colors.market-down-soft}"
-    textColor: "{colors.market-down}"
-    typography: "{typography.numeric}"
-    rounded: "{rounded.full}"
-    padding: 8px
   admin-shell:
     backgroundColor: "{colors.admin-background}"
     textColor: "{colors.admin-foreground}"
     typography: "{typography.body}"
-  admin-panel:
-    backgroundColor: "{colors.admin-surface}"
-    textColor: "{colors.admin-foreground}"
-    rounded: "{rounded.xl}"
-    padding: 24px
-  admin-caption:
-    backgroundColor: "{colors.admin-surface}"
-    textColor: "{colors.admin-muted}"
-    typography: "{typography.caption}"
 ---
 
 # DESIGN.md
@@ -337,6 +386,48 @@ than ad hoc component hex values.
 Loading and empty states should stay compact and useful. They inherit the same
 panel geometry and tokenized status language rather than introducing
 illustrative or marketing-style visuals.
+
+### Stitch Component Catalog
+
+Stitch should treat `src/manifest.ts` as the package component inventory and
+use the YAML `components:` block above as the machine-readable design catalog.
+These are the stable package primitives Stitch may reference when generating
+or restyling screens:
+
+| Component | Export path | Stitch usage |
+| --- | --- | --- |
+| Accordion | `@keelim/all-web-ui/accordion` | Stacked disclosure for dense settings and reference panels. |
+| Alert | `@keelim/all-web-ui/alert` | Inline status feedback with semantic tone and readable copy. |
+| AlertDialog | `@keelim/all-web-ui/alert-dialog` | Blocking confirmation for destructive or irreversible actions. |
+| Avatar | `@keelim/all-web-ui/avatar` | Compact identity marker with image and fallback text. |
+| Badge | `@keelim/all-web-ui/badge` | Status, category, and compact metadata pill. |
+| Breadcrumb | `@keelim/all-web-ui/breadcrumb` | Hierarchical navigation trail for console pages. |
+| Button | `@keelim/all-web-ui/button` | Primary, secondary, ghost, danger, and icon command control. |
+| Calendar | `@keelim/all-web-ui/calendar` | Date picker for filters, timelines, and scheduling. |
+| Card | `@keelim/all-web-ui/card` | Repeated content container mapped to panel geometry. |
+| Checkbox | `@keelim/all-web-ui/checkbox` | Binary selection in forms and tables. |
+| Dialog | `@keelim/all-web-ui/dialog` | General modal for focused editing or inspection. |
+| DropdownMenu | `@keelim/all-web-ui/dropdown-menu` | Compact contextual menu for secondary actions. |
+| EmptyState | `@keelim/all-web-ui/empty-state` | Compact no-data or no-results feedback. |
+| HoverCard | `@keelim/all-web-ui/hover-card` | Pointer preview for supplemental metadata only. |
+| Input | `@keelim/all-web-ui/input` | Single-line data entry with soft filled surface. |
+| Label | `@keelim/all-web-ui/label` | Accessible form label and compact descriptor. |
+| LoadingStatus | `@keelim/all-web-ui/loading-status` | Inline or panel loading feedback with optional steps. |
+| Panel | `@keelim/all-web-ui/panel` | Theme-aware grouped surface for dashboards and forms. |
+| Popover | `@keelim/all-web-ui/popover` | Lightweight floating surface for filters and controls. |
+| Progress | `@keelim/all-web-ui/progress` | Linear determinate progress with text nearby when meaning matters. |
+| RadioGroup | `@keelim/all-web-ui/radio-group` | Single-choice form or filter option set. |
+| ScrollArea | `@keelim/all-web-ui/scroll-area` | Bounded scrolling region for long lists or panels. |
+| Select | `@keelim/all-web-ui/select` | Single-selection dropdown for bounded options. |
+| Sheet | `@keelim/all-web-ui/sheet` | Edge panel for secondary work without page navigation. |
+| Skeleton | `@keelim/all-web-ui/skeleton` | Layout-stable placeholder while data loads. |
+| Slider | `@keelim/all-web-ui/slider` | Numeric range input for bounded tuning. |
+| Switch | `@keelim/all-web-ui/switch` | Binary on/off setting with external text label. |
+| Table | `@keelim/all-web-ui/table` | Dense semantic tabular data display. |
+| Tabs | `@keelim/all-web-ui/tabs` | Compact switcher for sibling panels and modes. |
+| Textarea | `@keelim/all-web-ui/textarea` | Multi-line notes, prompts, and descriptions. |
+| Tooltip | `@keelim/all-web-ui/tooltip` | Short assistive label for compact controls. |
+| Toast | `@keelim/all-web-ui/toast` | Transient save, sync, and background-event feedback. |
 
 ## Accessibility & Motion
 
