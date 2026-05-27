@@ -6,6 +6,14 @@ export { Badge, type BadgeProps } from './components/badge';
 export { LoadingStatus, type LoadingStatusProps } from './components/loading-status';
 export { EmptyState, type EmptyStateProps } from './components/empty-state';
 export {
+  DataNumber,
+  MetricCard,
+  MetricValue,
+  type DataNumberProps,
+  type MetricCardProps,
+  type MetricValueProps
+} from './components/metric-card';
+export {
   Card,
   CardContent,
   CardDescription,

@@ -42,6 +42,15 @@
   --kui-color-down-soft: hsl(214 85% 96%);
   --kui-color-flat: hsl(215.4 16.3% 46.9%);
 
+  --kui-metric-card-bg: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--kui-color-surface) 94%, var(--kui-color-accent) 6%) 0%,
+    var(--kui-color-surface) 100%
+  );
+  --kui-metric-card-highlight: color-mix(in srgb, var(--kui-color-accent) 14%, transparent);
+  --kui-metric-card-shadow: var(--kui-shadow-panel);
+  --kui-metric-value-shadow: none;
+
   --kui-radius-sm: 0.85rem;
   --kui-radius-md: 1.15rem;
   --kui-radius-lg: 1.5rem;
@@ -304,6 +313,61 @@
 
 .kui-panel--soft {
   background: var(--kui-color-surface-soft);
+}
+
+/* ==========================================================================
+   Metric card
+   ========================================================================== */
+.kui-metric-card {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: var(--kui-radius-lg);
+  border: 1px solid var(--kui-color-border);
+  background: var(--kui-metric-card-bg, var(--kui-panel-elevated-bg, var(--kui-color-surface)));
+  color: var(--kui-color-text);
+  box-shadow: var(--kui-metric-card-shadow, var(--kui-shadow-panel));
+}
+
+.kui-metric-card::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  pointer-events: none;
+  content: '';
+  background: var(--kui-metric-card-highlight, var(--kui-color-border));
+}
+
+.kui-metric-card--padding-none { padding: 0; }
+.kui-metric-card--padding-sm { padding: 0.75rem; }
+.kui-metric-card--padding-md { padding: 1rem; }
+.kui-metric-card--padding-lg { padding: 1.25rem; }
+
+.kui-metric-value {
+  display: block;
+  min-width: 0;
+  color: var(--kui-color-text);
+  font-family: var(--font-numeric);
+  font-weight: 720;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum', 'zero';
+  line-height: 1;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+  text-shadow: var(--kui-metric-value-shadow, none);
+}
+
+.kui-metric-value--sm { font-size: 1.75rem; }
+.kui-metric-value--md { font-size: 2.25rem; }
+.kui-metric-value--lg { font-size: 3rem; }
+.kui-metric-value--xl { font-size: 4rem; }
+
+.kui-data-number {
+  font-family: var(--font-numeric);
+  font-weight: 720;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum', 'zero';
+  letter-spacing: 0;
 }
 
 /* ==========================================================================

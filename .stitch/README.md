@@ -12,6 +12,9 @@ this package should consume its workflow shape, not vendor its source.
   maintain a second design system file here.
 - `.stitch/designs/` is the landing area for downloaded Stitch HTML and
   screenshots.
+- `.stitch/metadata.json` records the current Stitch project, design-system
+  assets, final reference screens, and local artifact paths. Update it after
+  uploads, design-system creation/update, screen generation, or edits.
 - `src/components/*`, `src/styles/*`, `src/index.ts`, `src/manifest.ts`, and
   `package.json` remain the package contract for consumers.
 - Do not add app pages, routing, or mock product flows to this package. Convert
@@ -34,16 +37,33 @@ this package should consume its workflow shape, not vendor its source.
 
 1. Start from `DESIGN.md` before asking Stitch for new screens.
 2. Save generated screen assets under `.stitch/designs/`.
-3. Convert only durable primitives or token updates into `src/`.
-4. Avoid hardcoded hex colors in components; map styles through `--kui-*` and
+3. Update `.stitch/metadata.json` with the project id, asset id, screen id,
+   local artifact paths, and any refine-prompt or `outputComponents` notes.
+4. Convert only durable primitives or token updates into `src/`.
+5. Avoid hardcoded hex colors in components; map styles through `--kui-*` and
    shadcn bridge variables.
-5. Add every new primitive to `src/index.ts`, `src/manifest.ts`, `package.json`
+6. Add every new primitive to `src/index.ts`, `src/manifest.ts`, `package.json`
    exports, and tests.
-6. Verify the package locally with `bun run typecheck`, `bun test`, and
+7. Verify the package locally with `bun run typecheck`, `bun test`, and
    `bun run build`.
-7. For consumer-facing primitive changes, run the root
+8. For consumer-facing primitive changes, run the root
    `scripts/verify-all-web-ui-integration.sh --full` from the workspace root
    when the sibling repos are available.
+
+See `.stitch/conversion.md` for the package-specific adapter from Stitch output
+to all-web-ui primitives. See `.stitch/designs/README.md` for the reference
+board acceptance checklist.
+
+## Metadata Discipline
+
+Keep `.stitch/metadata.json` as the repo-local pointer to remote Stitch state.
+When Stitch tools are unavailable on the current surface, do not guess or edit
+remote-state fields. Record the blocker in the work report and leave existing
+metadata intact.
+
+After a Stitch design-system sync, verify project state before generation. A
+successful upload or update call alone is not enough evidence that the active
+project theme is current.
 
 ## design.md Validation
 

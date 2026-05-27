@@ -171,11 +171,20 @@ components:
   label:
     textColor: "{colors.foreground}"
     typography: "{typography.label}"
+  divider:
+    backgroundColor: "{colors.border}"
+    height: 1px
   loading-status:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.foreground}"
     rounded: "{rounded.xl}"
     padding: 24px
+  metric-card:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.foreground}"
+    typography: "{typography.numeric}"
+    rounded: "{rounded.xl}"
+    padding: 16px
   panel:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.foreground}"
@@ -247,9 +256,33 @@ components:
     typography: "{typography.caption}"
     rounded: "{rounded.full}"
     padding: 8px
+  alert-danger:
+    backgroundColor: "{colors.danger-soft}"
+    textColor: "{colors.danger}"
+    typography: "{typography.body-sm}"
+    rounded: "{rounded.lg}"
+    padding: 16px
+  alert-warning:
+    backgroundColor: "{colors.warning-soft}"
+    textColor: "{colors.warning}"
+    typography: "{typography.body-sm}"
+    rounded: "{rounded.lg}"
+    padding: 16px
+  alert-info:
+    backgroundColor: "{colors.info-soft}"
+    textColor: "{colors.info}"
+    typography: "{typography.body-sm}"
+    rounded: "{rounded.lg}"
+    padding: 16px
   market-up-chip:
     backgroundColor: "{colors.market-up-soft}"
     textColor: "{colors.market-up}"
+    typography: "{typography.numeric}"
+    rounded: "{rounded.full}"
+    padding: 8px
+  market-down-chip:
+    backgroundColor: "{colors.market-down-soft}"
+    textColor: "{colors.market-down}"
     typography: "{typography.numeric}"
     rounded: "{rounded.full}"
     padding: 8px
@@ -257,6 +290,12 @@ components:
     backgroundColor: "{colors.admin-background}"
     textColor: "{colors.admin-foreground}"
     typography: "{typography.body}"
+  admin-console-panel:
+    backgroundColor: "{colors.admin-surface}"
+    textColor: "{colors.admin-muted}"
+    typography: "{typography.numeric}"
+    rounded: "{rounded.md}"
+    padding: 16px
 ---
 
 # DESIGN.md
@@ -276,10 +315,11 @@ work. Both themes share the same component contract: reusable React primitives,
 ## Web Platform Contract
 
 all-web-ui targets the current web consumers of this shared package:
-`keelim-vercel`, `rich/web`, and `agent-skill-console`. Treat those consumers as
-the compatibility baseline before adding broader platform claims. This package
-does not own app routes, product workflows, native mobile shells, or React
-Native primitives.
+`keelim-vercel` and `rich/web`. Treat those consumers as the compatibility
+baseline before adding broader platform claims. Historical or absent workspaces
+should not be listed as active consumers until they return to this checkout and
+the integration verifier covers them again. This package does not own app
+routes, product workflows, native mobile shells, or React Native primitives.
 
 Consumers should choose the smallest style surface that matches their use case:
 
@@ -387,6 +427,18 @@ Loading and empty states should stay compact and useful. They inherit the same
 panel geometry and tokenized status language rather than introducing
 illustrative or marketing-style visuals.
 
+Status alerts use semantic danger, warning, and info pairs from the YAML
+catalog. Market movement chips keep the Korean finance color convention explicit
+with separate up/down token pairs. Admin shell examples use the admin
+background, surface, foreground, and muted text roles together so monochrome
+console references do not invent their own gray scale.
+
+Metric cards are compact data-display surfaces for dashboard totals, rates,
+balances, and other high-signal finance/admin metrics. Use `MetricCard` for
+the bordered surface, `MetricValue` for the primary tabular figure, and
+`DataNumber` for inline numeric cells or labels that need consistent tabular
+alignment.
+
 ### Stitch Component Catalog
 
 Stitch should treat `src/manifest.ts` as the package component inventory and
@@ -413,6 +465,7 @@ or restyling screens:
 | Input | `@keelim/all-web-ui/input` | Single-line data entry with soft filled surface. |
 | Label | `@keelim/all-web-ui/label` | Accessible form label and compact descriptor. |
 | LoadingStatus | `@keelim/all-web-ui/loading-status` | Inline or panel loading feedback with optional steps. |
+| MetricCard | `@keelim/all-web-ui/metric-card` | Compact metric surface with tabular number helpers for finance/admin panels. |
 | Panel | `@keelim/all-web-ui/panel` | Theme-aware grouped surface for dashboards and forms. |
 | Popover | `@keelim/all-web-ui/popover` | Lightweight floating surface for filters and controls. |
 | Progress | `@keelim/all-web-ui/progress` | Linear determinate progress with text nearby when meaning matters. |

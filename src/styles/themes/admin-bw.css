@@ -45,6 +45,15 @@
 
   /* The single gradient the system allows — elevated panel on dark only. */
   --kui-panel-elevated-bg: linear-gradient(180deg, rgb(34 34 34 / 0.96) 0%, rgb(15 15 15 / 0.99) 100%);
+  --kui-metric-card-bg: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--kui-color-accent) 8%, transparent) 0%,
+    color-mix(in srgb, var(--kui-color-surface) 92%, var(--kui-color-bg) 8%) 38%,
+    var(--kui-color-bg) 100%
+  );
+  --kui-metric-card-highlight: color-mix(in srgb, var(--kui-color-accent) 18%, transparent);
+  --kui-metric-card-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 20px 54px rgb(0 0 0 / 0.42);
+  --kui-metric-value-shadow: 0 0 18px rgb(255 255 255 / 0.08);
 
   --kui-shadow-card: 0 1px 2px rgb(0 0 0 / 0.4);
   --kui-shadow-soft: 0 12px 32px rgb(0 0 0 / 0.35);

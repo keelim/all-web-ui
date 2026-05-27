@@ -71,6 +71,11 @@
       "import": "./dist/components/empty-state.js",
       "default": "./dist/components/empty-state.js"
     },
+    "./metric-card": {
+      "types": "./dist/components/metric-card.d.ts",
+      "import": "./dist/components/metric-card.js",
+      "default": "./dist/components/metric-card.js"
+    },
     "./card": {
       "types": "./dist/components/card.d.ts",
       "import": "./dist/components/card.js",

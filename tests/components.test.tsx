@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'bun:test';
 
@@ -15,6 +15,9 @@ import {
   EmptyState,
   Input,
   LoadingStatus,
+  DataNumber,
+  MetricCard,
+  MetricValue,
   Panel,
   Sheet,
   SheetTrigger,
@@ -35,6 +38,18 @@ function manifestNameToDesignKey(name: string) {
   return name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
 }
 
+function manifestEntryToPackageSubpath(exportPath: string) {
+  return exportPath.replace('@keelim/all-web-ui', '.');
+}
+
+function packageExportForComponent(componentKey: string) {
+  return {
+    types: `./dist/components/${componentKey}.d.ts`,
+    import: `./dist/components/${componentKey}.js`,
+    default: `./dist/components/${componentKey}.js`
+  };
+}
+
 function readDesignComponentKeys(designMd: string) {
   const frontMatterMatch = designMd.match(/^---\n([\s\S]*?)\n---/);
   expect(frontMatterMatch).not.toBeNull();
@@ -53,6 +68,9 @@ describe('all-web-ui exports', () => {
     expect(renderToStaticMarkup(<Button variant="default">저장</Button>)).toContain('kui-button--primary');
     expect(renderToStaticMarkup(<Input placeholder="입력" />)).toContain('kui-input');
     expect(renderToStaticMarkup(<Panel as="section">내용</Panel>)).toContain('kui-panel--elevated');
+    expect(renderToStaticMarkup(<MetricCard><MetricValue>12.4%</MetricValue></MetricCard>)).toContain('kui-metric-card--padding-md');
+    expect(renderToStaticMarkup(<MetricValue size="xl">1,204</MetricValue>)).toContain('kui-metric-value--xl');
+    expect(renderToStaticMarkup(<DataNumber>3.1415</DataNumber>)).toContain('kui-data-number');
     expect(renderToStaticMarkup(<Badge tone="accent">강조</Badge>)).toContain('kui-badge--accent');
     expect(renderToStaticMarkup(<Badge variant="secondary">보조</Badge>)).toContain('kui-badge--muted');
     expect(renderToStaticMarkup(<EmptyState description="비어 있음" />)).toContain('kui-empty-state');
@@ -67,6 +85,7 @@ describe('all-web-ui exports', () => {
     expect(renderToStaticMarkup(<DropdownMenu><DropdownMenuTrigger>메뉴</DropdownMenuTrigger></DropdownMenu>)).toContain('메뉴');
     expect(renderToStaticMarkup(<Breadcrumb><BreadcrumbList><BreadcrumbItem>홈</BreadcrumbItem></BreadcrumbList></Breadcrumb>)).toContain('aria-label="breadcrumb"');
     expect(componentManifest.some((entry) => entry.exportPath === '@keelim/all-web-ui/button' && entry.lifecycle === 'stable')).toBe(true);
+    expect(componentManifest.some((entry) => entry.exportPath === '@keelim/all-web-ui/metric-card' && entry.lifecycle === 'stable')).toBe(true);
   });
 
   it('exposes shared spacing css as a package export', () => {
@@ -74,6 +93,7 @@ describe('all-web-ui exports', () => {
     const spacingCss = readFileSync(new URL('../src/styles/spacing.css', import.meta.url), 'utf8');
 
     expect(packageJson.exports['./spacing.css']).toBe('./dist/styles/spacing.css');
+    expect(packageJson.exports['./metric-card'].import).toBe('./dist/components/metric-card.js');
     expect(packageJson.sideEffects).toContain('./dist/styles/spacing.css');
     expect(spacingCss).toContain('--space-4: 1rem;');
     expect(spacingCss).toContain('--kui-space-4: var(--space-4);');
@@ -114,19 +134,27 @@ describe('all-web-ui exports', () => {
 
   it('keeps the Stitch DESIGN.md component catalog aligned with stable exports', () => {
     const designMd = readFileSync(new URL('../DESIGN.md', import.meta.url), 'utf8');
+    const indexTs = readFileSync(new URL('../src/index.ts', import.meta.url), 'utf8');
+    const packageJson = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
     const designComponentKeys = readDesignComponentKeys(designMd);
-    const stableComponentKeys = componentManifest
-      .filter((entry) => entry.lifecycle === 'stable')
-      .map((entry) => manifestNameToDesignKey(entry.name));
+    const stableComponents = componentManifest.filter((entry) => entry.lifecycle === 'stable');
+    const stableComponentKeys = stableComponents.map((entry) => manifestNameToDesignKey(entry.name));
     const missingComponentKeys = stableComponentKeys.filter((key) => !designComponentKeys.has(key));
 
     expect(missingComponentKeys).toEqual([]);
     expect(designComponentKeys.has('button-accent')).toBe(true);
     expect(designComponentKeys.has('badge-success')).toBe(true);
     expect(designComponentKeys.has('market-up-chip')).toBe(true);
+    expect(designComponentKeys.has('market-down-chip')).toBe(true);
     expect(designComponentKeys.has('admin-shell')).toBe(true);
 
-    for (const entry of componentManifest.filter((component) => component.lifecycle === 'stable')) {
+    for (const entry of stableComponents) {
+      const componentKey = manifestNameToDesignKey(entry.name);
+      const packageSubpath = manifestEntryToPackageSubpath(entry.exportPath);
+
+      expect(existsSync(new URL(`../src/components/${componentKey}.tsx`, import.meta.url))).toBe(true);
+      expect(packageJson.exports[packageSubpath]).toEqual(packageExportForComponent(componentKey));
+      expect(indexTs).toMatch(new RegExp(`from ['"]\\./components/${componentKey}['"]`));
       expect(designMd).toContain(entry.exportPath);
     }
   });

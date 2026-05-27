@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "projectId": "3340586322886510921",
+  "projectName": "projects/3340586322886510921",
+  "title": "all-web-ui",
+  "canonicalDesignSource": "../DESIGN.md",
+  "compatibilityDesignSource": ".stitch/DESIGN.md",
+  "designSystems": [
+    {
+      "assetId": "7fc8f56dd0184c9c8ccacd823fd7286c",
+      "sourceScreen": "projects/3340586322886510921/screens/14114691137860067637",
+      "source": "DESIGN.md upload followed by create_design_system_from_design_md",
+      "status": "latest-known"
+    },
+    {
+      "assetId": "348ee718b02b439b82ce6221b0b7a2cc",
+      "sourceScreen": "projects/3340586322886510921/screens/14114691137860067637",
+      "source": "earlier DESIGN.md sync",
+      "status": "historical"
+    },
+    {
+      "assetId": "b0556649d1a94d698c1f9efcc44367a4",
+      "source": "pre-existing design system before the May 2026 sync",
+      "status": "historical"
+    }
+  ],
+  "screens": {
+    "component-reference-board": {
+      "id": "d5193357b37444b3b631544bec61e8c3",
+      "sourceScreen": "projects/3340586322886510921/screens/d5193357b37444b3b631544bec61e8c3",
+      "title": "all-web-ui Component Reference Board",
+      "deviceType": "DESKTOP",
+      "localHtml": ".stitch/designs/component-reference-board-d5193357b37444b3b631544bec61e8c3.html",
+      "localScreenshot": ".stitch/designs/component-reference-board-d5193357b37444b3b631544bec61e8c3.png",
+      "status": "final-reference",
+      "generationNotes": [
+        "Prompt was constrained to layout, content, and structure for a desktop web component reference board.",
+        "Final refined board includes the required finance/admin examples, compact table, loading state, navigation, overlays, and feedback sections.",
+        "Future Stitch edits should record outputComponents text and the exact refine prompt in this metadata entry."
+      ]
+    }
+  },
+  "syncNotes": [
+    "Root DESIGN.md is canonical; .stitch/DESIGN.md is only a compatibility pointer.",
+    "Generated HTML and screenshots under .stitch/designs are reference artifacts, not package source.",
+    "After any Stitch upload, design-system update, screen generation, or edit, refresh this file with the project id, asset id, screen id, local artifact paths, and verification notes.",
+    "A successful Stitch design-system update call is not sufficient evidence by itself; verify the project/design system state before generating follow-up screens."
+  ],
+  "updatedAt": "2026-05-26T13:05:00Z"
+}

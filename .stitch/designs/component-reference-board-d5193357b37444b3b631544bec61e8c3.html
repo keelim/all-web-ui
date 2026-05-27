@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>all-web-ui Component Reference Board</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-fixed": "#131b2e",
+                      "error": "#ba1a1a",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "on-secondary-fixed": "#0b1c30",
+                      "primary": "#000000",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "surface-strong": "#e2e8f0",
+                      "market-up-soft": "#fff1f2",
+                      "surface-tint": "#565e74",
+                      "error-container": "#ffdad6",
+                      "admin-fg": "#f7f7f7",
+                      "surface-container": "#e8edff",
+                      "market-down": "#1d4ed8",
+                      "on-surface": "#131c2b",
+                      "surface-variant": "#dbe2f8",
+                      "primary-fixed-dim": "#bec6e0",
+                      "on-tertiary-fixed-variant": "#0039b5",
+                      "surface-dim": "#d2daf0",
+                      "on-primary-container": "#7c839b",
+                      "border": "#e2e8f0",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "secondary-container": "#d0e1fb",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "primary-container": "#131b2e",
+                      "tertiary": "#000000",
+                      "surface-soft": "#f8fafc",
+                      "market-up": "#b91c1c",
+                      "on-tertiary-fixed": "#001551",
+                      "on-surface-variant": "#45464d",
+                      "surface-bright": "#f9f9ff",
+                      "inverse-on-surface": "#edf0ff",
+                      "on-secondary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "surface-container-highest": "#dbe2f8",
+                      "admin-muted": "#c0c0c0",
+                      "on-secondary-container": "#54647a",
+                      "inverse-primary": "#bec6e0",
+                      "admin-surface": "#121212",
+                      "market-down-soft": "#eff6ff",
+                      "surface": "#f9f9ff",
+                      "on-background": "#131c2b",
+                      "on-error-container": "#93000a",
+                      "inverse-surface": "#283041",
+                      "surface-container-low": "#f1f3ff",
+                      "surface-container-high": "#e0e8fe",
+                      "secondary": "#505f76",
+                      "outline-variant": "#c6c6cd",
+                      "primary-fixed": "#dae2fd",
+                      "secondary-fixed": "#d3e4fe",
+                      "outline": "#76777d",
+                      "warning": "#92400e",
+                      "tertiary-container": "#001551",
+                      "on-tertiary-container": "#547aff",
+                      "tertiary-fixed-dim": "#b7c4ff",
+                      "success": "#166534",
+                      "on-tertiary": "#ffffff",
+                      "admin-bg": "#050505",
+                      "background": "#f9f9ff",
+                      "tertiary-fixed": "#dce1ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "2": "8px",
+                      "10": "40px",
+                      "8": "32px",
+                      "3": "12px",
+                      "4": "16px",
+                      "12": "48px",
+                      "0": "0px",
+                      "1": "4px",
+                      "16": "64px",
+                      "6": "24px",
+                      "5": "20px"
+              },
+              "fontFamily": {
+                      "numeric": [
+                              "JetBrains Mono"
+                      ],
+                      "body-sm": [
+                              "Pretendard"
+                      ],
+                      "body": [
+                              "Pretendard"
+                      ],
+                      "h1": [
+                              "Pretendard"
+                      ],
+                      "h1-mobile": [
+                              "Pretendard"
+                      ],
+                      "display-xl": [
+                              "Pretendard"
+                      ],
+                      "h2": [
+                              "Pretendard"
+                      ],
+                      "caption": [
+                              "Pretendard"
+                      ],
+                      "label": [
+                              "Pretendard"
+                      ]
+              },
+              "fontSize": {
+                      "numeric": [
+                              "15px",
+                              {
+                                      "lineHeight": "21px",
+                                      "letterSpacing": "0em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "22px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body": [
+                              "15px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "h1": [
+                              "32px",
+                              {
+                                      "lineHeight": "37px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "h1-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-xl": [
+                              "72px",
+                              {
+                                      "lineHeight": "76px",
+                                      "letterSpacing": "0em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "h2": [
+                              "24px",
+                              {
+                                      "lineHeight": "29px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "caption": [
+                              "12px",
+                              {
+                                      "lineHeight": "17px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label": [
+                              "13px",
+                              {
+                                      "lineHeight": "17px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-background font-body text-body antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col">
+<!-- Top Navigation (Shared Component) -->
+<header class="bg-surface dark:bg-admin-bg text-primary dark:text-admin-fg font-body text-body w-full h-11 border-b border-border dark:border-admin-surface flex justify-between items-center px-6 sticky top-0 z-50">
+<div class="flex items-center gap-6">
+<span class="font-h2 text-h2 font-bold text-on-surface dark:text-admin-fg tracking-tight">all-web-ui</span>
+<nav class="hidden md:flex gap-6 h-full items-center">
+<a class="text-primary dark:text-admin-fg font-bold border-b-2 border-primary dark:border-admin-fg pb-1 h-full flex items-center pt-1 cursor-pointer active:opacity-80 transition-colors" href="#">Primitives</a>
+<a class="text-on-surface-variant dark:text-admin-muted hover:bg-surface-soft dark:hover:bg-admin-surface transition-colors px-2 py-1 rounded cursor-pointer active:opacity-80" href="#">Finance</a>
+<a class="text-on-surface-variant dark:text-admin-muted hover:bg-surface-soft dark:hover:bg-admin-surface transition-colors px-2 py-1 rounded cursor-pointer active:opacity-80" href="#">Admin</a>
+<a class="text-on-surface-variant dark:text-admin-muted hover:bg-surface-soft dark:hover:bg-admin-surface transition-colors px-2 py-1 rounded cursor-pointer active:opacity-80" href="#">Docs</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-on-primary px-4 py-1.5 rounded text-label font-label font-medium hover:bg-surface-tint transition-colors cursor-pointer active:opacity-80">Feedback</button>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto p-6 md:p-8">
+<div class="max-w-7xl mx-auto space-y-12">
+<!-- Header Section -->
+<section class="border-b border-border pb-6">
+<div class="flex items-end gap-3 mb-2">
+<h1 class="font-h1 text-h1 text-on-surface tracking-tight">Component Reference Board</h1>
+<span class="bg-surface-soft text-on-surface-variant px-2 py-0.5 rounded font-numeric text-caption border border-border">v1.0.4</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Shared finance and admin UI primitives engineered for operational durability.</p>
+</section>
+<!-- First Primitive Row -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Actions Column -->
+<section class="space-y-6">
+<h2 class="font-h2 text-h2 border-b border-border pb-2 mb-4">Actions</h2>
+<div class="space-y-4">
+<div class="flex flex-col gap-3 p-4 bg-surface-container-lowest border border-border rounded-lg shadow-sm">
+<h3 class="font-label text-label text-on-surface-variant uppercase tracking-wider mb-2">Buttons</h3>
+<button class="bg-primary text-on-primary font-label text-label px-4 min-h-[44px] rounded hover:opacity-90 transition-opacity w-full text-center">Primary Action</button>
+<button class="bg-transparent border border-border text-on-surface font-label text-label px-4 min-h-[44px] rounded hover:bg-surface-soft transition-colors w-full text-center">Secondary Action</button>
+<button class="bg-transparent text-on-surface-variant font-label text-label px-4 min-h-[44px] rounded hover:bg-surface-soft transition-colors w-full text-center">Ghost Action</button>
+<button class="bg-error text-on-error font-label text-label px-4 min-h-[44px] rounded hover:opacity-90 transition-opacity w-full text-center">Danger Action</button>
+</div>
+</div>
+</section>
+<!-- Form Controls Column -->
+<section class="space-y-6">
+<h2 class="font-h2 text-h2 border-b border-border pb-2 mb-4">Form Controls</h2>
+<div class="space-y-4 p-4 bg-surface-container-lowest border border-border rounded-lg shadow-sm">
+<div class="flex flex-col gap-1">
+<label class="font-label text-label text-on-surface">Text Input</label>
+<input class="bg-surface-soft border border-border rounded px-4 py-2 font-body-sm text-body-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all min-h-[44px]" placeholder="Enter value..." type="text"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label text-label text-on-surface">Select</label>
+<select class="bg-surface-soft border border-border rounded px-4 py-2 font-body-sm text-body-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all min-h-[44px] appearance-none">
+<option>Option 1</option>
+<option>Option 2</option>
+</select>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label text-label text-on-surface">Textarea</label>
+<textarea class="bg-surface-soft border border-border rounded px-4 py-2 font-body-sm text-body-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all min-h-[80px]" placeholder="Enter details..."></textarea>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-2">
+<div class="flex flex-col gap-3">
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="w-4 h-4 rounded border-border text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+<span class="font-body-sm text-body-sm">Checkbox</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="w-4 h-4 border-border text-primary focus:ring-primary cursor-pointer" name="radiogroup1" type="radio"/>
+<span class="font-body-sm text-body-sm">Radio One</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="w-4 h-4 border-border text-primary focus:ring-primary cursor-pointer" name="radiogroup1" type="radio"/>
+<span class="font-body-sm text-body-sm">Radio Two</span>
+</label>
+</div>
+<div class="flex flex-col gap-3">
+<label class="flex items-center gap-2 cursor-pointer">
+<div class="relative inline-flex items-center">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-strong rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</div>
+<span class="font-body-sm text-body-sm">Switch</span>
+</label>
+<div class="flex flex-col gap-1 mt-1">
+<label class="font-label text-caption text-on-surface-variant">Slider</label>
+<input class="w-full h-1 bg-surface-strong rounded-lg appearance-none cursor-pointer accent-primary" type="range"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Overlays & Nav Column -->
+<section class="space-y-6">
+<h2 class="font-h2 text-h2 border-b border-border pb-2 mb-4">Navigation &amp; Overlays</h2>
+<div class="space-y-4 p-4 bg-surface-container-lowest border border-border rounded-lg shadow-sm">
+<h3 class="font-label text-label text-on-surface-variant uppercase tracking-wider mb-2">Navigation</h3>
+<nav class="flex text-body-sm font-body-sm text-on-surface-variant gap-2 items-center mb-4">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Portfolios</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-on-surface font-medium">Alpha Fund</span>
+</nav>
+<div class="flex border-b border-border mb-4">
+<button class="px-4 py-2 border-b-2 border-primary font-label text-label text-primary">Overview</button>
+<button class="px-4 py-2 border-b-2 border-transparent font-label text-label text-on-surface-variant hover:text-on-surface">History</button>
+<button class="px-4 py-2 border-b-2 border-transparent font-label text-label text-on-surface-variant hover:text-on-surface">Settings</button>
+</div>
+<div class="flex items-center gap-1 mb-6">
+<button class="w-8 h-8 flex items-center justify-center rounded border border-border text-on-surface-variant hover:bg-surface-soft"><span class="material-symbols-outlined text-[18px]">chevron_left</span></button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary font-numeric text-caption">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-border text-on-surface hover:bg-surface-soft font-numeric text-caption">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-border text-on-surface hover:bg-surface-soft font-numeric text-caption">3</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-border text-on-surface-variant hover:bg-surface-soft"><span class="material-symbols-outlined text-[18px]">chevron_right</span></button>
+</div>
+<h3 class="font-label text-label text-on-surface-variant uppercase tracking-wider mb-2">Overlays</h3>
+<div class="flex items-center gap-4">
+<div class="relative group inline-block">
+<button class="border border-border bg-surface-soft px-3 py-1.5 rounded font-label text-label text-on-surface cursor-help">Hover me</button>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-inverse-surface text-on-error rounded font-caption text-caption opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Helpful tooltip</div>
+</div>
+</div>
+<div class="mt-4 border border-border rounded-lg p-4 bg-surface-container-lowest shadow-md max-w-xs relative">
+<h4 class="font-label text-label text-on-surface mb-1">Confirm Deletion</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">Are you sure you want to delete this asset? This action cannot be undone.</p>
+<div class="flex justify-end gap-2">
+<button class="px-3 py-1.5 font-label text-label rounded border border-border hover:bg-surface-soft">Cancel</button>
+<button class="px-3 py-1.5 font-label text-label rounded bg-error text-on-error hover:opacity-90">Delete</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Grouped Sections -->
+<div class="space-y-8">
+<section>
+<div class="flex justify-between items-end border-b border-border pb-2 mb-4">
+<h2 class="font-h2 text-h2">Data Display (Finance Focus)</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+<!-- Metric Cards -->
+<div class="bg-surface-container-lowest border border-border rounded-lg p-4 shadow-sm flex flex-col justify-between min-h-[100px]">
+<span class="font-label text-label text-on-surface-variant">Total AUM</span>
+<div class="flex items-end justify-between mt-2">
+<span class="font-numeric text-h1 text-on-surface tracking-tight">$14.2B</span>
+<span class="bg-market-up-soft text-market-up px-2 py-0.5 rounded font-numeric text-caption border border-market-up/20">+1.5%</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-border rounded-lg p-4 shadow-sm flex flex-col justify-between min-h-[100px]">
+<span class="font-label text-label text-on-surface-variant">Daily PnL</span>
+<div class="flex items-end justify-between mt-2">
+<span class="font-numeric text-h1 text-on-surface tracking-tight">+$24M</span>
+<span class="bg-market-up-soft text-market-up px-2 py-0.5 rounded font-numeric text-caption border border-market-up/20">+0.8%</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-border rounded-lg p-4 shadow-sm flex flex-col justify-between min-h-[100px]">
+<span class="font-label text-label text-on-surface-variant">Active Assets</span>
+<div class="flex items-end justify-between mt-2">
+<span class="font-numeric text-h1 text-on-surface tracking-tight">1,240</span>
+<span class="bg-market-down-soft text-market-down px-2 py-0.5 rounded font-numeric text-caption border border-market-down/20">-4</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+<div class="lg:col-span-3 bg-surface-container-lowest border border-border rounded-lg shadow-sm overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-soft border-b border-border">
+<th class="font-label text-caption text-on-surface-variant uppercase tracking-wider py-3 px-4 flex items-center gap-1 cursor-pointer hover:text-on-surface">Asset <span class="material-symbols-outlined text-[14px]">arrow_drop_down</span></th>
+<th class="font-label text-caption text-on-surface-variant uppercase tracking-wider py-3 px-4">Status</th>
+<th class="font-label text-caption text-on-surface-variant uppercase tracking-wider py-3 px-4 text-right">Amount</th>
+<th class="font-label text-caption text-on-surface-variant uppercase tracking-wider py-3 px-4 text-right">Date</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border">
+<tr class="hover:bg-surface-soft/50 transition-colors">
+<td class="py-3 px-4 font-body-sm text-on-surface font-medium">Apple Inc. (AAPL)</td>
+<td class="py-3 px-4"><span class="bg-success/10 text-success px-2 py-0.5 rounded text-caption font-label border border-success/20">Active</span></td>
+<td class="py-3 px-4 font-numeric text-body-sm text-on-surface text-right">$1,245,000.00</td>
+<td class="py-3 px-4 font-numeric text-caption text-on-surface-variant text-right">2024-03-15</td>
+</tr>
+<tr class="hover:bg-surface-soft/50 transition-colors">
+<td class="py-3 px-4 font-body-sm text-on-surface font-medium">Tesla Inc. (TSLA)</td>
+<td class="py-3 px-4"><span class="bg-warning/10 text-warning px-2 py-0.5 rounded text-caption font-label border border-warning/20">Pending</span></td>
+<td class="py-3 px-4 font-numeric text-body-sm text-on-surface text-right">$850,200.50</td>
+<td class="py-3 px-4 font-numeric text-caption text-on-surface-variant text-right">2024-03-14</td>
+</tr>
+<tr class="hover:bg-surface-soft/50 transition-colors">
+<td class="py-3 px-4 font-body-sm text-on-surface font-medium">Global Bonds ETF</td>
+<td class="py-3 px-4"><span class="bg-success/10 text-success px-2 py-0.5 rounded text-caption font-label border border-success/20">Active</span></td>
+<td class="py-3 px-4 font-numeric text-body-sm text-on-surface text-right">$3,420,000.00</td>
+<td class="py-3 px-4 font-numeric text-caption text-on-surface-variant text-right">2024-03-12</td>
+</tr>
+<tr class="hover:bg-surface-soft/50 transition-colors">
+<td class="py-3 px-4 font-body-sm text-on-surface font-medium">Tech Startup Fund</td>
+<td class="py-3 px-4"><span class="bg-surface-strong text-on-surface-variant px-2 py-0.5 rounded text-caption font-label border border-border">Closed</span></td>
+<td class="py-3 px-4 font-numeric text-body-sm text-on-surface text-right">$0.00</td>
+<td class="py-3 px-4 font-numeric text-caption text-on-surface-variant text-right">2024-02-28</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="bg-surface-container-lowest border border-border rounded-lg shadow-sm p-4">
+<h3 class="font-label text-label text-on-surface-variant uppercase tracking-wider mb-4">Loading State</h3>
+<div class="space-y-3 animate-pulse">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-surface-strong rounded-full"></div>
+<div class="flex-1 space-y-2">
+<div class="h-3 bg-surface-strong rounded w-3/4"></div>
+<div class="h-2 bg-surface-strong rounded w-1/2"></div>
+</div>
+</div>
+<div class="h-2 bg-surface-strong rounded w-full mt-4"></div>
+<div class="h-2 bg-surface-strong rounded w-5/6"></div>
+<div class="h-2 bg-surface-strong rounded w-4/6"></div>
+<div class="mt-4 flex items-center justify-between">
+<div class="h-4 bg-surface-strong rounded w-16"></div>
+<div class="flex gap-1">
+<span class="material-symbols-outlined text-surface-strong animate-spin">progress_activity</span>
+<span class="font-caption text-caption text-on-surface-variant">Syncing...</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section>
+<h2 class="font-h2 text-h2 border-b border-border pb-2 mb-4">Feedback &amp; Status</h2>
+<div class="space-y-4 p-4 bg-surface-container-lowest border border-border rounded-lg shadow-sm">
+<h3 class="font-label text-label text-on-surface-variant uppercase tracking-wider mb-2">Status Badges</h3>
+<div class="flex flex-wrap gap-2">
+<span class="bg-success text-on-primary px-3 py-1 rounded-full font-label text-caption inline-flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">check_circle</span>Success</span>
+<span class="bg-warning text-on-primary px-3 py-1 rounded-full font-label text-caption inline-flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">warning</span>Warning</span>
+<span class="bg-error text-on-primary px-3 py-1 rounded-full font-label text-caption inline-flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">error</span>Danger</span>
+</div>
+<h3 class="font-label text-label text-on-surface-variant uppercase tracking-wider mb-2 mt-4">Market Chips</h3>
+<div class="flex gap-2">
+<span class="bg-market-up-soft text-market-up px-2 py-0.5 rounded font-numeric text-caption border border-market-up/20 inline-flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">trending_up</span>+2.4%</span>
+<span class="bg-market-down-soft text-market-down px-2 py-0.5 rounded font-numeric text-caption border border-market-down/20 inline-flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">trending_down</span>-1.2%</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Admin Console Specialization -->
+<section class="bg-admin-bg p-6 md:p-8 rounded-xl border border-admin-surface">
+<h2 class="font-h2 text-h2 text-admin-fg border-b border-admin-surface pb-2 mb-6 font-bold">Admin Console Preview</h2>
+<div class="space-y-6">
+<!-- System Alert -->
+<div class="bg-error/10 border border-error/20 rounded p-4 flex items-start gap-3">
+<span class="material-symbols-outlined text-error mt-0.5">warning</span>
+<div>
+<h4 class="font-label text-label text-error mb-1">System Degraded Performance</h4>
+<p class="font-body-sm text-body-sm text-admin-muted">Database replication lag detected in US-East-1. Latency increased by 140ms.</p>
+</div>
+</div>
+<!-- Settings Form Row -->
+<div class="bg-admin-surface border border-admin-surface rounded-lg p-4 flex items-center justify-between">
+<div>
+<h4 class="font-label text-label text-admin-fg mb-1">Strict Authentication Mode</h4>
+<p class="font-body-sm text-body-sm text-admin-muted">Require hardware security keys for all superuser actions.</p>
+</div>
+<button class="bg-admin-fg text-admin-bg font-label text-label px-4 py-2 rounded hover:opacity-90 transition-opacity">Enable</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+<!-- Footer (Shared Component) -->
+<footer class="bg-surface-soft dark:bg-admin-bg text-secondary dark:text-admin-muted font-caption text-caption w-full py-4 border-t border-border dark:border-admin-surface flex justify-between items-center px-8">
+<span class="font-label text-label font-bold text-on-surface dark:text-admin-fg">© 2024 all-web-ui • Professional Systems Group</span>
+<div class="flex gap-4">
+<a class="text-on-surface-variant dark:text-admin-muted hover:text-primary dark:hover:text-admin-fg transition-opacity" href="#">System Status</a>
+<a class="text-on-surface-variant dark:text-admin-muted hover:text-primary dark:hover:text-admin-fg transition-opacity" href="#">API Docs</a>
+<a class="text-on-surface-variant dark:text-admin-muted hover:text-primary dark:hover:text-admin-fg transition-opacity" href="#">Release Notes</a>
+</div>
+</footer>
+</body></html>

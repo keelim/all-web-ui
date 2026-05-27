@@ -42,6 +42,14 @@
   --kui-color-flat: hsl(215.4 16.3% 46.9%);
 
   --kui-panel-elevated-bg: var(--kui-color-surface);
+  --kui-metric-card-bg: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--kui-color-surface) 94%, var(--kui-color-accent) 6%) 0%,
+    var(--kui-color-surface) 100%
+  );
+  --kui-metric-card-highlight: color-mix(in srgb, var(--kui-color-accent) 14%, transparent);
+  --kui-metric-card-shadow: var(--kui-shadow-panel);
+  --kui-metric-value-shadow: none;
 
   --kui-radius-sm: 0.85rem;
   --kui-radius-md: 1.15rem;
@@ -125,6 +133,15 @@
   --kui-color-flat: hsl(215 20.2% 65.1%);
 
   --kui-panel-elevated-bg: hsl(222.2 84% 5.8%);
+  --kui-metric-card-bg: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--kui-color-accent) 8%, transparent) 0%,
+    color-mix(in srgb, var(--kui-color-surface) 92%, var(--kui-color-bg) 8%) 38%,
+    var(--kui-color-bg) 100%
+  );
+  --kui-metric-card-highlight: color-mix(in srgb, var(--kui-color-accent) 18%, transparent);
+  --kui-metric-card-shadow: 0 20px 54px rgb(0 0 0 / 0.42);
+  --kui-metric-value-shadow: 0 0 18px rgb(255 255 255 / 0.08);
 
   --kui-shadow-card: 0 1px 2px rgb(0 0 0 / 0.34), 0 1px 3px rgb(0 0 0 / 0.28);
   --kui-shadow-soft: 0 12px 32px rgb(0 0 0 / 0.3);
