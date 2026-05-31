@@ -6,11 +6,12 @@ import { spawn } from 'node:child_process';
 const here = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(here, '..');
 const distDir = resolve(repoRoot, 'dist');
+const tscBin = resolve(repoRoot, 'node_modules', '.bin', process.platform === 'win32' ? 'tsc.cmd' : 'tsc');
 
 await removeDistDir();
 
 await new Promise((resolvePromise, rejectPromise) => {
-  const child = spawn('bunx', ['tsc', '-p', 'tsconfig.build.json'], {
+  const child = spawn(tscBin, ['-p', 'tsconfig.build.json'], {
     cwd: repoRoot,
     stdio: 'inherit'
   });

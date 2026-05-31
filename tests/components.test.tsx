@@ -99,6 +99,37 @@ describe('all-web-ui exports', () => {
     expect(spacingCss).toContain('--kui-space-4: var(--space-4);');
   });
 
+  it('keeps Stitch reference metadata tied to local artifacts', () => {
+    const metadata = JSON.parse(readFileSync(new URL('../.stitch/metadata.json', import.meta.url), 'utf8'));
+    const prompt = readFileSync(new URL('../.stitch/component-reference-board.prompt.md', import.meta.url), 'utf8');
+    const referenceBoard = metadata.screens['component-reference-board'];
+
+    expect(metadata.projectId).toBe('3340586322886510921');
+    expect(metadata.canonicalDesignSource).toBe('../DESIGN.md');
+    expect(metadata.compatibilityDesignSource).toBe('.stitch/DESIGN.md');
+    expect(metadata.designSystems.some((entry: { status?: string }) => entry.status === 'latest-known')).toBe(true);
+    expect(referenceBoard.status).toBe('final-reference');
+    expect(referenceBoard.localHtml).toContain(referenceBoard.id);
+    expect(referenceBoard.localScreenshot).toContain(referenceBoard.id);
+    expect(existsSync(new URL(`../${referenceBoard.localHtml}`, import.meta.url))).toBe(true);
+    expect(existsSync(new URL(`../${referenceBoard.localScreenshot}`, import.meta.url))).toBe(true);
+    expect(prompt).toContain('layout, content');
+    expect(prompt).not.toMatch(/#[0-9a-f]{3,8}\b/i);
+    expect(prompt).not.toContain('hsl(');
+  });
+
+  it('keeps local validation commands deterministic in the Bun workspace', () => {
+    const packageJson = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
+    const buildScript = readFileSync(new URL('../scripts/build.mjs', import.meta.url), 'utf8');
+    const stylesCss = readFileSync(new URL('../src/styles/styles.css', import.meta.url), 'utf8');
+
+    expect(packageJson.scripts['design:lint']).toBe('bun x @google/design.md lint DESIGN.md');
+    expect(buildScript).toContain("node_modules', '.bin'");
+    expect(buildScript).not.toContain("spawn('bunx'");
+    expect(stylesCss).not.toContain('letter-spacing: -');
+    expect(stylesCss).not.toContain('letter-spacing: 0.');
+  });
+
   it('ships light and dark semantic theme tokens for shared primitives', () => {
     const financeCss = readFileSync(new URL('../src/styles/themes/finance.css', import.meta.url), 'utf8');
     const adminCss = readFileSync(new URL('../src/styles/themes/admin-bw.css', import.meta.url), 'utf8');

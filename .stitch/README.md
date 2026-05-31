@@ -12,6 +12,8 @@ this package should consume its workflow shape, not vendor its source.
   maintain a second design system file here.
 - `.stitch/designs/` is the landing area for downloaded Stitch HTML and
   screenshots.
+- `.stitch/component-reference-board.prompt.md` is the reusable prompt template
+  for regenerating or refining the current component reference board.
 - `.stitch/metadata.json` records the current Stitch project, design-system
   assets, final reference screens, and local artifact paths. Update it after
   uploads, design-system creation/update, screen generation, or edits.

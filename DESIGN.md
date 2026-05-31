@@ -3,17 +3,17 @@ version: alpha
 name: all-web-ui
 description: Shared finance and admin UI primitives for keelim web apps.
 colors:
-  primary: "#0f172a"
-  on-primary: "#f8fafc"
-  foreground: "#020817"
-  muted-foreground: "#64748b"
+  primary: "hsl(222.2 47.4% 11.2%)"
+  on-primary: "hsl(210 40% 98%)"
+  foreground: "hsl(222.2 84% 4.9%)"
+  muted-foreground: "hsl(215.4 16.3% 46.9%)"
   background: "#ffffff"
   surface: "#ffffff"
   surface-soft: "#f8fafc"
   surface-strong: "#e2e8f0"
-  border: "#e2e8f0"
-  accent: "#0f172a"
-  accent-foreground: "#f8fafc"
+  border: "hsl(214.3 31.8% 91.4%)"
+  accent: "hsl(222.2 47.4% 11.2%)"
+  accent-foreground: "hsl(210 40% 98%)"
   danger: "#b91c1c"
   danger-soft: "#fee2e2"
   success: "#166534"
@@ -81,10 +81,10 @@ typography:
     letterSpacing: 0em
     fontFeature: "'tnum', 'zero'"
 rounded:
-  sm: 8px
-  md: 10px
-  lg: 12px
-  xl: 16px
+  sm: 0.85rem
+  md: 1.15rem
+  lg: 1.5rem
+  xl: 1.5rem
   full: 999px
 spacing:
   0: 0px
@@ -305,7 +305,9 @@ components:
 all-web-ui is a restrained, work-focused interface system for finance and admin
 surfaces. It should feel precise, durable, and easy to scan during repeated
 work. The default finance theme uses paper-white surfaces, deep ink text,
-subtle slate borders, compact status colors, and soft panel elevation.
+subtle slate borders, compact status colors, and soft panel elevation. Its
+material should feel like a dependable console surface: quiet paper, crisp
+rules, tabular data, and controls that hold their shape under repeated use.
 
 The admin black-and-white theme is stricter and denser. It uses near-black
 surfaces, white rules, and high-contrast foreground text for internal console
@@ -338,19 +340,39 @@ entry points. Components should continue to read semantic shadcn variables such
 as `--background`, `--foreground`, `--card`, `--popover`, `--border`, and
 `--ring` through the theme bridge instead of branching per consumer.
 
+## Runtime Parity Notes
+
+Use the YAML front matter for schema-supported, machine-readable tokens. Keep
+runtime-only behavior in this prose when the CSS contract is richer than the
+design.md schema. The current parity decisions are:
+
+| Area | Classification | Resolution |
+| --- | --- | --- |
+| Finance light colors | intentional divergence with note | YAML keeps lint-safe opaque semantic colors; CSS owns alpha fills, HSL bridge values, and status border roles. |
+| Radius tokens | update DESIGN YAML | `rounded.sm`, `rounded.md`, and `rounded.lg` mirror `--kui-radius-*`; `rounded.xl` aliases panel geometry for component catalog compatibility. |
+| Typography tracking | update CSS | Runtime typography uses `letter-spacing: 0` to match the YAML token contract. |
+| Shadows and metric gradients | update DESIGN prose only | Shadow and gradient values stay CSS runtime details documented under Elevation & Depth. |
+| Breakpoints | update DESIGN prose only | Component-specific responsive behavior stays in CSS and is summarized under Layout. |
+| Finance dark and admin BW overlays | intentional divergence with note | Theme overlays are selector-scoped CSS skins; the YAML catalog records shared semantic roles rather than every theme override. |
+
 ## Colors
 
-- **Primary (#0f172a):** Ink-like action and emphasis color for the finance
+- **Primary (hsl(222.2 47.4% 11.2%)):** Ink-like action and emphasis color for the finance
   theme.
-- **Foreground (#020817):** Main readable text on light surfaces.
-- **Muted Foreground (#64748b):** Captions, metadata, placeholders, and less
-  important controls.
+- **Foreground (hsl(222.2 84% 4.9%)):** Main readable text on light surfaces.
+- **Muted Foreground (hsl(215.4 16.3% 46.9%)):** Captions, metadata,
+  placeholders, and less important controls.
 - **Background and Surface (#ffffff):** Paper-white layout and card surfaces.
 - **Surface Soft (#f8fafc):** Quiet fills for inputs, ghost actions, soft
-  panels, and code-like chips.
-- **Border (#e2e8f0):** Default rule and input stroke.
+  panels, and code-like chips; CSS may render this as an alpha ink wash.
+- **Border (hsl(214.3 31.8% 91.4%)):** Default rule and input stroke.
+- **Status pairs:** Danger, success, warning, and info each have soft
+  background, border, and text roles in CSS; YAML records the same semantic
+  roles for agent use.
 - **Market Up (#b91c1c):** Korean finance convention for 상승 and gains.
 - **Market Down (#1d4ed8):** Korean finance convention for 하락 and losses.
+- **Market Flat:** Neutral unchanged or unavailable movement state is a
+  runtime CSS role, not a separate YAML component token.
 - **Admin Background (#050505):** Near-black admin console foundation.
 - **Admin Foreground (#f7f7f7):** High-contrast text for monochrome admin
   surfaces.
@@ -370,6 +392,9 @@ inside their owning component without overlapping adjacent controls.
 Headings should be confident but not editorial. Use compact heading sizes inside
 panels and dashboards. Reserve display-scale type for true first-screen
 experiences in consuming apps, not for package examples or internal docs.
+Typography utilities keep `letter-spacing: 0` across display, heading, label,
+caption, badge, and numeric classes so text does not tighten unpredictably
+across Korean/English mixed strings.
 
 ## Layout
 
@@ -388,11 +413,24 @@ tables, and toolbars so hover states, loading text, icons, and dynamic labels do
 not resize the surrounding layout. Mobile and narrow desktop views should keep
 primary actions reachable without depending on hover-only affordances.
 
+Component-level responsive behavior lives in CSS. The loading panel exposes the
+current package breakpoints: inline progress dots appear from 640px, loading
+steps become a two-column grid from 640px, and the same steps expand to four
+columns from 1280px. New primitives should document any additional package
+breakpoints here before consumers depend on them.
+
 ## Elevation & Depth
 
 Use borders first and shadows second. Finance panels may use a low, soft shadow
 for separation. Admin panels should stay flatter, using stronger borders and
 near-black surfaces before decorative depth.
+
+Runtime shadow values stay in CSS because they are richer than the portable
+YAML token families: `--kui-shadow-card`, `--kui-shadow-soft`, and
+`--kui-shadow-panel` define the base depth ramp. `MetricCard` is the only
+primitive that intentionally uses a surface gradient and highlight line for
+data emphasis; admin BW may also use a restrained panel gradient on dark
+surfaces. Do not promote these gradients into decorative page backgrounds.
 
 Avoid decorative gradient orbs, background blobs, and one-note palettes. The
 system should read as operational and durable, not atmospheric.
@@ -401,8 +439,11 @@ system should read as operational and durable, not atmospheric.
 
 Controls and panels use controlled radius values. Primitive controls should
 stay visually compatible with shadcn/Radix expectations while preserving the
-local `kui` class contract. Keep cards at 8 to 12px radius unless the existing
-component already uses a larger token for panel geometry.
+local `kui` class contract. The shipped `--kui-radius-*` runtime uses
+0.85rem, 1.15rem, and 1.5rem for small, medium, and large geometry.
+`rounded.xl` in the YAML catalog intentionally aliases the large panel radius
+so Stitch and other design.md consumers do not invent a separate extra-large
+curve.
 
 ## Components
 
@@ -494,6 +535,12 @@ they communicate open, close, focus, or swipe state, but avoid decorative motion
 that makes repeated admin or finance work harder. Consumers should be able to
 honor `prefers-reduced-motion` without component rewrites.
 
+The package runtime uses 160ms control transitions for border, background,
+color, filter, opacity, and input focus rings. Loading affordances are bounded:
+the spinner rotates over 0.9s and loading-panel dots pulse over 1.1s with short
+staggered delays. Additional motion should describe state change or progress,
+not atmosphere.
+
 ## Do's and Don'ts
 
 Do use `--kui-*` tokens and shadcn semantic variables when changing shared
@@ -504,6 +551,11 @@ primitive is added.
 Do keep consumer compatibility evidence grounded in actual dependency/import
 usage, not workspace membership alone. Do document any token-semantic change in
 this file and the CSS token files in the same change.
+
+Do treat getdesign.md and Stitch output as prompt/reference material. Before
+changing shared code, audit the YAML catalog against the shipped CSS runtime,
+classify each mismatch, and keep schema-unsafe runtime detail in prose. Do use
+the smallest package surface that solves the reusable primitive need.
 
 Do not hardcode component colors that bypass this design system. Do not add app
 routes, demo flows, or product-specific workflows to this package. Do not
