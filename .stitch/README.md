@@ -14,9 +14,10 @@ this package should consume its workflow shape, not vendor its source.
   screenshots.
 - `.stitch/component-reference-board.prompt.md` is the reusable prompt template
   for regenerating or refining the current component reference board.
-- `.stitch/metadata.json` records the current Stitch project, design-system
-  assets, final reference screens, and local artifact paths. Update it after
-  uploads, design-system creation/update, screen generation, or edits.
+- `.stitch/metadata.json` records the current Stitch project, MCP-listed
+  design-system assets, grouped remote screens, stale local asset references,
+  and local artifact paths. Update it after uploads, design-system
+  creation/update, screen generation, or edits.
 - `src/components/*`, `src/styles/*`, `src/index.ts`, `src/manifest.ts`, and
   `package.json` remain the package contract for consumers.
 - Do not add app pages, routing, or mock product flows to this package. Convert
@@ -59,13 +60,22 @@ board acceptance checklist.
 ## Metadata Discipline
 
 Keep `.stitch/metadata.json` as the repo-local pointer to remote Stitch state.
-When Stitch tools are unavailable on the current surface, do not guess or edit
-remote-state fields. Record the blocker in the work report and leave existing
-metadata intact.
+Schema v2 separates remote design systems, source-of-truth screens, component
+library boards, consumer references, workspace maps, stale local references, and
+repo-owned local artifacts. `designSystems.latestUpload` records the most recent
+repo-originated `DESIGN.md` upload/create result separately from any screen
+apply status. When Stitch tools are unavailable on the current surface, do not
+guess or edit remote-state fields. Record the blocker in the work report and
+leave existing metadata intact.
 
 After a Stitch design-system sync, verify project state before generation. A
 successful upload or update call alone is not enough evidence that the active
 project theme is current.
+
+If an older asset id is no longer returned by `stitch_list_design_systems`, keep
+it only under `designSystems.staleLocalReferences`. Do not keep stale ids as the
+current design system, even if a hidden or historical design-system instance
+still appears on the project canvas.
 
 ## design.md Validation
 

@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'bun:test';
@@ -50,6 +51,17 @@ function packageExportForComponent(componentKey: string) {
   };
 }
 
+type StitchScreenMetadata = {
+  id: string;
+  sourceScreen: string;
+  title: string;
+  deviceType: string;
+  width: string;
+  height: string;
+  htmlFileName: string;
+  screenshotFileName?: string;
+};
+
 function readDesignComponentKeys(designMd: string) {
   const frontMatterMatch = designMd.match(/^---\n([\s\S]*?)\n---/);
   expect(frontMatterMatch).not.toBeNull();
@@ -99,16 +111,69 @@ describe('all-web-ui exports', () => {
     expect(spacingCss).toContain('--kui-space-4: var(--space-4);');
   });
 
-  it('keeps Stitch reference metadata tied to local artifacts', () => {
+  it('keeps Stitch MCP metadata tied to remote lanes and local artifacts', () => {
     const metadata = JSON.parse(readFileSync(new URL('../.stitch/metadata.json', import.meta.url), 'utf8'));
     const prompt = readFileSync(new URL('../.stitch/component-reference-board.prompt.md', import.meta.url), 'utf8');
-    const referenceBoard = metadata.screens['component-reference-board'];
+    const designMd = readFileSync(new URL('../DESIGN.md', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
+    const localDesignMdSha256 = createHash('sha256').update(designMd).digest('hex');
+    const referenceBoard = metadata.localArtifacts.canonicalComponentReferenceBoard;
+    const staleAssetIds = metadata.designSystems.staleLocalReferences.map((entry: { assetId: string }) => entry.assetId);
+    const allScreenGroups = Object.values(metadata.screenGroups).flat() as StitchScreenMetadata[];
+    const serializedCurrentAndAlternates = JSON.stringify({
+      current: metadata.designSystems.current,
+      alternates: metadata.designSystems.alternates
+    });
 
-    expect(metadata.projectId).toBe('3340586322886510921');
-    expect(metadata.canonicalDesignSource).toBe('../DESIGN.md');
-    expect(metadata.compatibilityDesignSource).toBe('.stitch/DESIGN.md');
-    expect(metadata.designSystems.some((entry: { status?: string }) => entry.status === 'latest-known')).toBe(true);
-    expect(referenceBoard.status).toBe('final-reference');
+    expect(metadata.schemaVersion).toBe(2);
+    expect(metadata.project.id).toBe('3340586322886510921');
+    expect(metadata.project.canonicalDesignSource).toBe('../DESIGN.md');
+    expect(metadata.project.compatibilityDesignSource).toBe('.stitch/DESIGN.md');
+    expect(metadata.project.remoteSource.designSystems).toBe('stitch_list_design_systems');
+    expect(metadata.project.remoteSource.screens).toBe('stitch_list_screens');
+
+    expect(metadata.designSystems.current.status).toBe('remote-current');
+    expect(metadata.designSystems.current.displayName).toBe('all-web-ui');
+    expect(metadata.designSystems.current.assetName).toBe('assets/b710cd5d4e5c45ffa898c221f7bfb4e1');
+    expect(metadata.designSystems.current.assetId).toBe('b710cd5d4e5c45ffa898c221f7bfb4e1');
+    expect(metadata.designSystems.current.localDesignMdSha256).toBe(localDesignMdSha256);
+    expect(metadata.designSystems.current.matchesLocalDesignMd).toBe(false);
+    expect(metadata.designSystems.current.remoteDesignMdSha256).toBe('2cb350030b47db5ea585c5bdf627e8077e51b667639ff1fed62fa30e67d0407f');
+    expect(metadata.designSystems.current.remoteDesignMdSha256).not.toBe(localDesignMdSha256);
+    expect(metadata.designSystems.current.remoteDesignMdSha256Status).toContain('stitch_list_design_systems');
+    expect(metadata.designSystems.latestUpload.status).toBe('remote-uploaded');
+    expect(metadata.designSystems.latestUpload.assetName).toBe('assets/4ec2002f915a4324b9e5c96fce002e5f');
+    expect(metadata.designSystems.latestUpload.sourceScreen).toBe('projects/3340586322886510921/screens/1536177765000794144');
+    expect(metadata.designSystems.latestUpload.localDesignMdSha256).toBe(localDesignMdSha256);
+    expect(metadata.designSystems.latestUpload.remoteDesignMdSha256).toBe('55c66363378a7f0e576c80249d03ca5ce43cd2827333765314957c40c4ae367a');
+    expect(metadata.designSystems.latestUpload.matchesLocalDesignMd).toBe(false);
+
+    expect(staleAssetIds).toEqual([
+      '7fc8f56dd0184c9c8ccacd823fd7286c',
+      '348ee718b02b439b82ce6221b0b7a2cc',
+      'b0556649d1a94d698c1f9efcc44367a4'
+    ]);
+    for (const staleAssetId of staleAssetIds) {
+      expect(serializedCurrentAndAlternates).not.toContain(staleAssetId);
+    }
+
+    expect(metadata.screenGroups.sourceOfTruth.some((screen: StitchScreenMetadata) => screen.title === 'DESIGN.md')).toBe(true);
+    expect(metadata.screenGroups.sourceOfTruth.some((screen: StitchScreenMetadata) => screen.id === '1536177765000794144')).toBe(true);
+    expect(metadata.screenGroups.componentLibrary.some((screen: StitchScreenMetadata) => screen.id === referenceBoard.id)).toBe(true);
+    expect(metadata.screenGroups.consumerReferences.some((screen: StitchScreenMetadata) => screen.title.includes('Finance'))).toBe(true);
+    expect(metadata.screenGroups.workspaceMaps.some((screen: StitchScreenMetadata) => screen.title.includes('Workspace Map'))).toBe(true);
+
+    for (const screen of allScreenGroups) {
+      expect(screen.id).toBeTruthy();
+      expect(screen.sourceScreen).toContain(`/screens/${screen.id}`);
+      expect(screen.title).toBeTruthy();
+      expect(screen.deviceType).toBeTruthy();
+      expect(screen.width).toBeTruthy();
+      expect(screen.height).toBeTruthy();
+      expect(screen.htmlFileName).toContain('/files/');
+    }
+
+    expect(referenceBoard.status).toBe('canonical-local-reference');
+    expect(referenceBoard.id).toBe('d5193357b37444b3b631544bec61e8c3');
     expect(referenceBoard.localHtml).toContain(referenceBoard.id);
     expect(referenceBoard.localScreenshot).toContain(referenceBoard.id);
     expect(existsSync(new URL(`../${referenceBoard.localHtml}`, import.meta.url))).toBe(true);

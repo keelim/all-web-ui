@@ -1,38 +1,270 @@
 {
-  "schemaVersion": 1,
-  "projectId": "3340586322886510921",
-  "projectName": "projects/3340586322886510921",
-  "title": "all-web-ui",
-  "canonicalDesignSource": "../DESIGN.md",
-  "compatibilityDesignSource": ".stitch/DESIGN.md",
-  "designSystems": [
-    {
-      "assetId": "7fc8f56dd0184c9c8ccacd823fd7286c",
-      "sourceScreen": "projects/3340586322886510921/screens/14114691137860067637",
-      "source": "DESIGN.md upload followed by create_design_system_from_design_md",
-      "status": "latest-known"
-    },
-    {
-      "assetId": "348ee718b02b439b82ce6221b0b7a2cc",
-      "sourceScreen": "projects/3340586322886510921/screens/14114691137860067637",
-      "source": "earlier DESIGN.md sync",
-      "status": "historical"
-    },
-    {
-      "assetId": "b0556649d1a94d698c1f9efcc44367a4",
-      "source": "pre-existing design system before the May 2026 sync",
-      "status": "historical"
+  "schemaVersion": 2,
+  "project": {
+    "id": "3340586322886510921",
+    "name": "projects/3340586322886510921",
+    "title": "그룹 범용 표준화",
+    "repositoryTitle": "all-web-ui",
+    "checkedAt": "2026-06-03T16:13:45Z",
+    "canonicalDesignSource": "../DESIGN.md",
+    "compatibilityDesignSource": ".stitch/DESIGN.md",
+    "remoteSource": {
+      "designSystems": "stitch_list_design_systems",
+      "screens": "stitch_list_screens"
     }
-  ],
-  "screens": {
-    "component-reference-board": {
+  },
+  "designSystems": {
+    "current": {
+      "displayName": "all-web-ui",
+      "assetName": "assets/b710cd5d4e5c45ffa898c221f7bfb4e1",
+      "assetId": "b710cd5d4e5c45ffa898c221f7bfb4e1",
+      "version": "1",
+      "status": "remote-current",
+      "source": "stitch_list_design_systems",
+      "designMdSummary": "Remote MCP-listed all-web-ui design system generated from the shared finance/admin DESIGN.md contract.",
+      "matchesLocalDesignMd": false,
+      "localDesignMdSha256": "6a8e5fb9668ded57e6b1b0f4f096918067496053b0f21149102229939ce8758c",
+      "remoteDesignMdSha256": "2cb350030b47db5ea585c5bdf627e8077e51b667639ff1fed62fa30e67d0407f",
+      "remoteDesignMdSha256Status": "computed from stitch_list_design_systems theme.designMd with LF normalization; remote designMd was not written to the repo",
+      "remoteDesignMdComparison": "remote current all-web-ui designMd differs from local DESIGN.md"
+    },
+    "latestUpload": {
+      "displayName": "Precision Console",
+      "assetName": "assets/4ec2002f915a4324b9e5c96fce002e5f",
+      "assetId": "4ec2002f915a4324b9e5c96fce002e5f",
+      "version": "1",
+      "status": "remote-uploaded",
+      "source": "stitch_create_design_system_from_design_md",
+      "sourceScreen": "projects/3340586322886510921/screens/1536177765000794144",
+      "designMdSummary": "Created from the repo root DESIGN.md upload. Stitch parsed and normalized the uploaded markdown into a Precision Console design system.",
+      "matchesLocalDesignMd": false,
+      "localDesignMdSha256": "6a8e5fb9668ded57e6b1b0f4f096918067496053b0f21149102229939ce8758c",
+      "remoteDesignMdSha256": "55c66363378a7f0e576c80249d03ca5ce43cd2827333765314957c40c4ae367a",
+      "remoteDesignMdSha256Status": "computed from post-upload stitch_list_design_systems theme.designMd with LF normalization; Stitch normalized the uploaded designMd before storing it"
+    },
+    "alternates": [
+      {
+        "displayName": "Precision Work Surface",
+        "assetName": "assets/c44d2747ca1442dca82a04afa89c9d3c",
+        "assetId": "c44d2747ca1442dca82a04afa89c9d3c",
+        "version": "4",
+        "status": "remote-alternate",
+        "source": "stitch_list_design_systems",
+        "designMdSummary": "Alternate finance/admin design system with Inter/Public Sans typography and slate-blue material styling."
+      },
+      {
+        "displayName": "Keelim Web UI",
+        "assetName": "assets/e8e47c108ab94cf89d82970b8de728a8",
+        "assetId": "e8e47c108ab94cf89d82970b8de728a8",
+        "version": "2",
+        "status": "remote-alternate",
+        "source": "stitch_list_design_systems",
+        "designMdSummary": "Earlier Keelim Web UI design system using Plus Jakarta Sans and generic finance/admin styling."
+      }
+    ],
+    "staleLocalReferences": [
+      {
+        "assetName": "assets/7fc8f56dd0184c9c8ccacd823fd7286c",
+        "assetId": "7fc8f56dd0184c9c8ccacd823fd7286c",
+        "previousStatus": "latest-known",
+        "status": "stale-local-reference",
+        "reason": "Existing metadata marked this as latest-known, but Stitch MCP list_design_systems no longer returns it as a design system.",
+        "previousSourceScreen": "projects/3340586322886510921/screens/14114691137860067637"
+      },
+      {
+        "assetName": "assets/348ee718b02b439b82ce6221b0b7a2cc",
+        "assetId": "348ee718b02b439b82ce6221b0b7a2cc",
+        "previousStatus": "historical",
+        "status": "stale-local-reference",
+        "reason": "Existing metadata retained this earlier sync id, but Stitch MCP list_design_systems no longer returns it as a design system.",
+        "previousSourceScreen": "projects/3340586322886510921/screens/14114691137860067637"
+      },
+      {
+        "assetName": "assets/b0556649d1a94d698c1f9efcc44367a4",
+        "assetId": "b0556649d1a94d698c1f9efcc44367a4",
+        "previousStatus": "historical",
+        "status": "stale-local-reference",
+        "reason": "Existing metadata retained this pre-sync id, but Stitch MCP list_design_systems no longer returns it as a design system."
+      }
+    ]
+  },
+  "screenGroups": {
+    "sourceOfTruth": [
+      {
+        "id": "1536177765000794144",
+        "sourceScreen": "projects/3340586322886510921/screens/1536177765000794144",
+        "title": "DESIGN.md",
+        "deviceType": "UNKNOWN",
+        "width": "780",
+        "height": "1768",
+        "htmlFileName": "projects/3340586322886510921/files/1536177765000794479",
+        "uploadStatus": "uploaded-design-md",
+        "createdDesignSystem": "assets/4ec2002f915a4324b9e5c96fce002e5f"
+      },
+      {
+        "id": "826840166808776328",
+        "sourceScreen": "projects/3340586322886510921/screens/826840166808776328",
+        "title": "DESIGN.md",
+        "deviceType": "UNKNOWN",
+        "width": "780",
+        "height": "1768",
+        "htmlFileName": "projects/3340586322886510921/files/826840166808772673"
+      },
+      {
+        "id": "737acc8afba74b9596475523608f67cf",
+        "sourceScreen": "projects/3340586322886510921/screens/737acc8afba74b9596475523608f67cf",
+        "title": "DESIGN.md",
+        "deviceType": "UNKNOWN",
+        "width": "2560",
+        "height": "3596",
+        "htmlFileName": "projects/3340586322886510921/files/50dc86b1a29c47a49d3628513d735028",
+        "screenshotFileName": "projects/3340586322886510921/files/4bea2ad68e604f8498835a937df4a59d"
+      },
+      {
+        "id": "15200798096310979182",
+        "sourceScreen": "projects/3340586322886510921/screens/15200798096310979182",
+        "title": "DESIGN.md",
+        "deviceType": "UNKNOWN",
+        "width": "780",
+        "height": "1768",
+        "htmlFileName": "projects/3340586322886510921/files/15200798096310977415"
+      },
+      {
+        "id": "afa2f7cbfe6644588828429d98ab647a",
+        "sourceScreen": "projects/3340586322886510921/screens/afa2f7cbfe6644588828429d98ab647a",
+        "title": "Extracted text from https://keelim-vercel.vercel.app",
+        "deviceType": "UNKNOWN",
+        "width": "0",
+        "height": "0",
+        "htmlFileName": "projects/3340586322886510921/files/85c88d754c734232b2d78d15d26a7a63"
+      }
+    ],
+    "componentLibrary": [
+      {
+        "id": "03d84d9ec5a947728de922ca64f17f4d",
+        "sourceScreen": "projects/3340586322886510921/screens/03d84d9ec5a947728de922ca64f17f4d",
+        "title": "all-web-ui Component Reference Board",
+        "deviceType": "DESKTOP",
+        "width": "2560",
+        "height": "2398",
+        "htmlFileName": "projects/3340586322886510921/files/2bb262a9346f4de4a1a99c02d40564e6",
+        "screenshotFileName": "projects/3340586322886510921/files/023b8a6653f34cdabe45aef04405f92e"
+      },
+      {
+        "id": "d5193357b37444b3b631544bec61e8c3",
+        "sourceScreen": "projects/3340586322886510921/screens/d5193357b37444b3b631544bec61e8c3",
+        "title": "all-web-ui Component Reference Board (Refined)",
+        "deviceType": "DESKTOP",
+        "width": "2560",
+        "height": "3720",
+        "htmlFileName": "projects/3340586322886510921/files/17829059823941054497",
+        "screenshotFileName": "projects/3340586322886510921/files/16641239001743003590"
+      },
+      {
+        "id": "79225759afca42b4a87506d49a2a2613",
+        "sourceScreen": "projects/3340586322886510921/screens/79225759afca42b4a87506d49a2a2613",
+        "title": "확장 컴포넌트 라이브러리 (Advanced Material Set)",
+        "deviceType": "DESKTOP",
+        "width": "2560",
+        "height": "3006",
+        "htmlFileName": "projects/3340586322886510921/files/970a57336b4244069ac5a044ef7ea4a0",
+        "screenshotFileName": "projects/3340586322886510921/files/05308619f85044ba9c360a3802df9939"
+      },
+      {
+        "id": "ec6508dfb0294a4cb38069d49dd8e250",
+        "sourceScreen": "projects/3340586322886510921/screens/ec6508dfb0294a4cb38069d49dd8e250",
+        "title": "컴포넌트 라이브러리 쇼케이스",
+        "deviceType": "DESKTOP",
+        "width": "2560",
+        "height": "2962",
+        "htmlFileName": "projects/3340586322886510921/files/ce220dd4cbd94916875f3e2e6d53e56e",
+        "screenshotFileName": "projects/3340586322886510921/files/d00a14bf2a13421482fd62f9c83f8276"
+      },
+      {
+        "id": "e1f1687e6f4547b5ada196f1afb483e2",
+        "sourceScreen": "projects/3340586322886510921/screens/e1f1687e6f4547b5ada196f1afb483e2",
+        "title": "UI 컴포넌트 상호작용 상태 가이드",
+        "deviceType": "DESKTOP",
+        "width": "2560",
+        "height": "2048",
+        "htmlFileName": "projects/3340586322886510921/files/43eea56181544a45a115c5969993316d",
+        "screenshotFileName": "projects/3340586322886510921/files/e78491121d4a49139208baf1d938721f"
+      },
+      {
+        "id": "d4a7432267034ae292a446a12c33eb86",
+        "sourceScreen": "projects/3340586322886510921/screens/d4a7432267034ae292a446a12c33eb86",
+        "title": "통합 컴포넌트 라이브러리 (Web & Mobile)",
+        "deviceType": "DESKTOP",
+        "width": "2560",
+        "height": "4594",
+        "htmlFileName": "projects/3340586322886510921/files/c222ac11fa864dd3902f389605ea15fb",
+        "screenshotFileName": "projects/3340586322886510921/files/34c6f03402ed4fa59ad90dc6f387648e"
+      }
+    ],
+    "consumerReferences": [
+      {
+        "id": "18ec130b5e904971b0514fb5f1b47ed1",
+        "sourceScreen": "projects/3340586322886510921/screens/18ec130b5e904971b0514fb5f1b47ed1",
+        "title": "금융 도구 쇼케이스",
+        "deviceType": "DESKTOP",
+        "width": "2560",
+        "height": "6728",
+        "htmlFileName": "projects/3340586322886510921/files/bc50dbad5ed34cb589d368f0ceed38e6",
+        "screenshotFileName": "projects/3340586322886510921/files/061a28629806457bab505f735ed7a51a"
+      },
+      {
+        "id": "87b35da2636d42c0a5c2a7c83363ca05",
+        "sourceScreen": "projects/3340586322886510921/screens/87b35da2636d42c0a5c2a7c83363ca05",
+        "title": "투자 대시보드 (Finance)",
+        "deviceType": "DESKTOP",
+        "width": "2560",
+        "height": "2536",
+        "htmlFileName": "projects/3340586322886510921/files/1982cc917c164086a5eb98d631650898",
+        "screenshotFileName": "projects/3340586322886510921/files/ec7e34cafdcc4b288aa7d4365e8274f0"
+      },
+      {
+        "id": "d4858e2ff19744e4bd89abdcfe8ac8b4",
+        "sourceScreen": "projects/3340586322886510921/screens/d4858e2ff19744e4bd89abdcfe8ac8b4",
+        "title": "관리자 설정 (Admin BW)",
+        "deviceType": "DESKTOP",
+        "width": "2560",
+        "height": "2696",
+        "htmlFileName": "projects/3340586322886510921/files/899c3e649573400b9688610b2ce0f7d4",
+        "screenshotFileName": "projects/3340586322886510921/files/b27c711adfa14a26a369816f9da2ba5c"
+      },
+      {
+        "id": "4d8d2e91820b4177a7e080a987cd0951",
+        "sourceScreen": "projects/3340586322886510921/screens/4d8d2e91820b4177a7e080a987cd0951",
+        "title": "대출 계산기 상세",
+        "deviceType": "DESKTOP",
+        "width": "2560",
+        "height": "2318",
+        "htmlFileName": "projects/3340586322886510921/files/cc8b2d4608814bf88bf723b8d278e579",
+        "screenshotFileName": "projects/3340586322886510921/files/346bad7496d144daa0d4b1ee5c77af9b"
+      }
+    ],
+    "workspaceMaps": [
+      {
+        "id": "dc8eee51c8c644f4809d14772b851b2e",
+        "sourceScreen": "projects/3340586322886510921/screens/dc8eee51c8c644f4809d14772b851b2e",
+        "title": "Project Workspace Map (all-web-ui)",
+        "deviceType": "DESKTOP",
+        "width": "2560",
+        "height": "9190",
+        "htmlFileName": "projects/3340586322886510921/files/0a184b28ab574b198d7ef6d34141389c",
+        "screenshotFileName": "projects/3340586322886510921/files/702d247899d84f92b7be9a283b95d701"
+      }
+    ]
+  },
+  "localArtifacts": {
+    "canonicalComponentReferenceBoard": {
       "id": "d5193357b37444b3b631544bec61e8c3",
       "sourceScreen": "projects/3340586322886510921/screens/d5193357b37444b3b631544bec61e8c3",
-      "title": "all-web-ui Component Reference Board",
-      "deviceType": "DESKTOP",
+      "title": "all-web-ui Component Reference Board (Refined)",
+      "status": "canonical-local-reference",
+      "remoteGroup": "componentLibrary",
       "localHtml": ".stitch/designs/component-reference-board-d5193357b37444b3b631544bec61e8c3.html",
       "localScreenshot": ".stitch/designs/component-reference-board-d5193357b37444b3b631544bec61e8c3.png",
-      "status": "final-reference",
       "generationNotes": [
         "Prompt was constrained to layout, content, and structure for a desktop web component reference board.",
         "Final refined board includes the required finance/admin examples, compact table, loading state, navigation, overlays, and feedback sections.",
@@ -42,9 +274,10 @@
   },
   "syncNotes": [
     "Root DESIGN.md is canonical; .stitch/DESIGN.md is only a compatibility pointer.",
-    "Generated HTML and screenshots under .stitch/designs are reference artifacts, not package source.",
-    "After any Stitch upload, design-system update, screen generation, or edit, refresh this file with the project id, asset id, screen id, local artifact paths, and verification notes.",
-    "A successful Stitch design-system update call is not sufficient evidence by itself; verify the project/design system state before generating follow-up screens."
-  ],
-  "updatedAt": "2026-05-26T13:05:00Z"
+    "Stitch MCP design systems and screens are remote inventory records, not package source.",
+    "Generated HTML and screenshots under .stitch/designs are reference artifacts and should only become repo code after conversion into shared primitives, tokens, or docs.",
+    "A successful Stitch upload, design-system update, or apply call is not sufficient evidence that the active project theme is current; verify project-level designTheme separately.",
+    "Old local asset ids that are absent from stitch_list_design_systems belong only in designSystems.staleLocalReferences.",
+    "The latest DESIGN.md upload created assets/4ec2002f915a4324b9e5c96fce002e5f from source screen projects/3340586322886510921/screens/1536177765000794144; it has not been applied to consumer screens in this pass."
+  ]
 }
