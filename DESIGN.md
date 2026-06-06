@@ -185,6 +185,12 @@ components:
     typography: "{typography.numeric}"
     rounded: "{rounded.xl}"
     padding: 16px
+  onboarding:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.foreground}"
+    typography: "{typography.body}"
+    rounded: "{rounded.xl}"
+    padding: 24px
   panel:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.foreground}"
@@ -480,6 +486,11 @@ the bordered surface, `MetricValue` for the primary tabular figure, and
 `DataNumber` for inline numeric cells or labels that need consistent tabular
 alignment.
 
+Onboarding primitives provide reusable steps, tour, and highlight surfaces for
+first-run guidance in consuming apps. They remain opt-in package primitives and
+should describe workflow state without owning app routes, persistence, or
+external telemetry.
+
 ### Stitch Component Catalog
 
 Stitch should treat `src/manifest.ts` as the package component inventory and
@@ -507,6 +518,7 @@ or restyling screens:
 | Label | `@keelim/all-web-ui/label` | Accessible form label and compact descriptor. |
 | LoadingStatus | `@keelim/all-web-ui/loading-status` | Inline or panel loading feedback with optional steps. |
 | MetricCard | `@keelim/all-web-ui/metric-card` | Compact metric surface with tabular number helpers for finance/admin panels. |
+| Onboarding | `@keelim/all-web-ui/onboarding` | Steps, tour, and highlight primitives for first-run guidance surfaces. |
 | Panel | `@keelim/all-web-ui/panel` | Theme-aware grouped surface for dashboards and forms. |
 | Popover | `@keelim/all-web-ui/popover` | Lightweight floating surface for filters and controls. |
 | Progress | `@keelim/all-web-ui/progress` | Linear determinate progress with text nearby when meaning matters. |

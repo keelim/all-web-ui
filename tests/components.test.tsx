@@ -19,6 +19,9 @@ import {
   DataNumber,
   MetricCard,
   MetricValue,
+  OnboardingHighlight,
+  OnboardingStepList,
+  OnboardingTour,
   Panel,
   Sheet,
   SheetTrigger,
@@ -32,7 +35,13 @@ import {
   Tooltip,
   TooltipProvider,
   TooltipTrigger,
-  componentManifest
+  componentManifest,
+  createTelemetryEmitter,
+  noopTelemetrySink,
+  serializeTelemetryEvent,
+  telemetryEventVersion,
+  validateTelemetryEvent,
+  type TelemetryEvent
 } from '../src';
 
 function manifestNameToDesignKey(name: string) {
@@ -106,9 +115,115 @@ describe('all-web-ui exports', () => {
 
     expect(packageJson.exports['./spacing.css']).toBe('./dist/styles/spacing.css');
     expect(packageJson.exports['./metric-card'].import).toBe('./dist/components/metric-card.js');
+    expect(packageJson.exports['./onboarding'].import).toBe('./dist/components/onboarding.js');
+    expect(packageJson.exports['./telemetry'].import).toBe('./dist/telemetry.js');
     expect(packageJson.sideEffects).toContain('./dist/styles/spacing.css');
     expect(spacingCss).toContain('--space-4: 1rem;');
     expect(spacingCss).toContain('--kui-space-4: var(--space-4);');
+  });
+
+  it('validates and serializes opt-in telemetry events without a default sink', () => {
+    const event = {
+      type: 'onboarding.step.viewed',
+      payload: {
+        tourId: 'first-run',
+        stepId: 'profile',
+        stepIndex: 0
+      },
+      context: {
+        app: 'keelim-vercel',
+        surface: 'tool-home',
+        theme: 'finance'
+      }
+    } satisfies Omit<TelemetryEvent<'onboarding.step.viewed'>, 'version'>;
+    const validation = validateTelemetryEvent(event);
+    const emitted: TelemetryEvent[] = [];
+    const optOutEmitter = createTelemetryEmitter({
+      optIn: false,
+      sink: {
+        enabled: true,
+        emit: (payload) => emitted.push(payload)
+      }
+    });
+    const optInEmitter = createTelemetryEmitter({
+      optIn: true,
+      sink: {
+        enabled: true,
+        emit: (payload) => emitted.push(payload)
+      }
+    });
+    const invalidValidation = validateTelemetryEvent({
+      type: 'onboarding.step.viewed',
+      payload: {
+        tourId: 'first-run',
+        stepId: 'profile',
+        stepIndex: 'zero'
+      }
+    });
+
+    expect(validation.ok).toBe(true);
+    expect(JSON.parse(serializeTelemetryEvent(event))).toEqual({
+      ...event,
+      version: telemetryEventVersion
+    });
+    expect(noopTelemetrySink.enabled).toBe(false);
+    expect(optOutEmitter.emit(event)).toEqual({ emitted: false, reason: 'opt-out' });
+    expect(emitted).toEqual([]);
+    expect(optInEmitter.emit(event)).toEqual({ emitted: true });
+    expect(emitted[0]?.type).toBe('onboarding.step.viewed');
+    expect(invalidValidation.ok).toBe(false);
+  });
+
+  it('renders onboarding steps, tour, and highlight primitives across themes', () => {
+    const steps = [
+      {
+        id: 'profile',
+        title: 'Profile',
+        description: 'Confirm the workspace profile.'
+      },
+      {
+        id: 'interests',
+        title: 'Interests',
+        description: 'Pick the finance areas to prioritize.',
+        optional: true
+      }
+    ];
+    const financeHtml = renderToStaticMarkup(
+      <OnboardingTour
+        title="Start with the right tool"
+        description="A short guided path for finance workflows."
+        steps={steps}
+        activeStepId="profile"
+        theme="finance"
+        actions={<Button variant="secondary">Skip</Button>}
+      >
+        <OnboardingHighlight marker="1" tone="accent" title="Recommended first step">
+          Profile data shapes the default recommendations.
+        </OnboardingHighlight>
+      </OnboardingTour>
+    );
+    const adminHtml = renderToStaticMarkup(
+      <div className="admin-bw-theme">
+        <OnboardingStepList
+          orientation="horizontal"
+          steps={steps}
+          activeStepId="interests"
+          completedStepIds={['profile']}
+        />
+        <OnboardingHighlight tone="warning" title="Empty state">
+          Add a profile to unlock guided setup.
+        </OnboardingHighlight>
+      </div>
+    );
+
+    expect(financeHtml).toContain('kui-onboarding-tour--finance');
+    expect(financeHtml).toContain('data-onboarding-theme="finance"');
+    expect(financeHtml).toContain('data-step-state="active"');
+    expect(financeHtml).toContain('kui-onboarding-highlight--accent');
+    expect(adminHtml).toContain('admin-bw-theme');
+    expect(adminHtml).toContain('kui-onboarding-steps--horizontal');
+    expect(adminHtml).toContain('data-step-state="complete"');
+    expect(adminHtml).toContain('kui-onboarding-highlight--warning');
   });
 
   it('keeps Stitch MCP metadata tied to remote lanes and local artifacts', () => {

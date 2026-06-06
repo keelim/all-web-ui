@@ -23,7 +23,7 @@
       "source": "stitch_list_design_systems",
       "designMdSummary": "Remote MCP-listed all-web-ui design system generated from the shared finance/admin DESIGN.md contract.",
       "matchesLocalDesignMd": false,
-      "localDesignMdSha256": "6a8e5fb9668ded57e6b1b0f4f096918067496053b0f21149102229939ce8758c",
+      "localDesignMdSha256": "351c0dc971485faac35c231204a73d97c3179f917d92cfee6f19a3b599a5b256",
       "remoteDesignMdSha256": "2cb350030b47db5ea585c5bdf627e8077e51b667639ff1fed62fa30e67d0407f",
       "remoteDesignMdSha256Status": "computed from stitch_list_design_systems theme.designMd with LF normalization; remote designMd was not written to the repo",
       "remoteDesignMdComparison": "remote current all-web-ui designMd differs from local DESIGN.md"
@@ -38,7 +38,7 @@
       "sourceScreen": "projects/3340586322886510921/screens/1536177765000794144",
       "designMdSummary": "Created from the repo root DESIGN.md upload. Stitch parsed and normalized the uploaded markdown into a Precision Console design system.",
       "matchesLocalDesignMd": false,
-      "localDesignMdSha256": "6a8e5fb9668ded57e6b1b0f4f096918067496053b0f21149102229939ce8758c",
+      "localDesignMdSha256": "351c0dc971485faac35c231204a73d97c3179f917d92cfee6f19a3b599a5b256",
       "remoteDesignMdSha256": "55c66363378a7f0e576c80249d03ca5ce43cd2827333765314957c40c4ae367a",
       "remoteDesignMdSha256Status": "computed from post-upload stitch_list_design_systems theme.designMd with LF normalization; Stitch normalized the uploaded designMd before storing it"
     },

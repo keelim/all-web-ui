@@ -76,6 +76,11 @@
       "import": "./dist/components/metric-card.js",
       "default": "./dist/components/metric-card.js"
     },
+    "./onboarding": {
+      "types": "./dist/components/onboarding.d.ts",
+      "import": "./dist/components/onboarding.js",
+      "default": "./dist/components/onboarding.js"
+    },
     "./card": {
       "types": "./dist/components/card.d.ts",
       "import": "./dist/components/card.js",
@@ -210,6 +215,11 @@
       "types": "./dist/manifest.d.ts",
       "import": "./dist/manifest.js",
       "default": "./dist/manifest.js"
+    },
+    "./telemetry": {
+      "types": "./dist/telemetry.d.ts",
+      "import": "./dist/telemetry.js",
+      "default": "./dist/telemetry.js"
     }
   },
   "dependencies": {

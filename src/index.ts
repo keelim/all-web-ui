@@ -6,6 +6,16 @@ export { Badge, type BadgeProps } from './components/badge';
 export { LoadingStatus, type LoadingStatusProps } from './components/loading-status';
 export { EmptyState, type EmptyStateProps } from './components/empty-state';
 export {
+  OnboardingHighlight,
+  OnboardingStepList,
+  OnboardingTour,
+  type OnboardingHighlightProps,
+  type OnboardingStep,
+  type OnboardingStepListProps,
+  type OnboardingStepState,
+  type OnboardingTourProps
+} from './components/onboarding';
+export {
   DataNumber,
   MetricCard,
   MetricValue,
@@ -135,3 +145,21 @@ export {
   type ToastProps
 } from './components/toast';
 export { componentManifest, type ComponentLifecycle, type ComponentManifestEntry } from './manifest';
+export {
+  createTelemetryEmitter,
+  defineTelemetryEvent,
+  noopTelemetrySink,
+  serializeTelemetryEvent,
+  telemetryEventSchemas,
+  telemetryEventVersion,
+  validateTelemetryEvent,
+  type TelemetryContext,
+  type TelemetryEmitResult,
+  type TelemetryEvent,
+  type TelemetryEventInput,
+  type TelemetryEventType,
+  type TelemetryPayloadMap,
+  type TelemetrySink,
+  type TelemetryTheme,
+  type TelemetryValidationResult
+} from './telemetry';

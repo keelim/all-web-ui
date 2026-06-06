@@ -1,0 +1,8 @@
+{
+  "distDir": "dist",
+  "maxTotalBytes": 160000,
+  "maxJavaScriptBytes": 90000,
+  "maxCssBytes": 42000,
+  "maxDeclarationBytes": 45000,
+  "maxFileBytes": 26000
+}

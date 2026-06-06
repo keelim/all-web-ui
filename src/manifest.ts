@@ -27,6 +27,7 @@ export const componentManifest: ComponentManifestEntry[] = [
   { name: 'Label', exportPath: '@keelim/all-web-ui/label', lifecycle: 'stable' },
   { name: 'LoadingStatus', exportPath: '@keelim/all-web-ui/loading-status', lifecycle: 'stable' },
   { name: 'MetricCard', exportPath: '@keelim/all-web-ui/metric-card', lifecycle: 'stable' },
+  { name: 'Onboarding', exportPath: '@keelim/all-web-ui/onboarding', lifecycle: 'stable' },
   { name: 'Panel', exportPath: '@keelim/all-web-ui/panel', lifecycle: 'stable' },
   { name: 'Popover', exportPath: '@keelim/all-web-ui/popover', lifecycle: 'stable' },
   { name: 'Progress', exportPath: '@keelim/all-web-ui/progress', lifecycle: 'stable' },
