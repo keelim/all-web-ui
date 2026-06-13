@@ -27,6 +27,8 @@ import {
   Panel,
   Sheet,
   SheetTrigger,
+  sharedComponentStyleImports,
+  sharedComponentThemeScopes,
   Table,
   TableBody,
   TableCell,
@@ -109,6 +111,17 @@ describe('all-web-ui exports', () => {
     expect(renderToStaticMarkup(<Breadcrumb><BreadcrumbList><BreadcrumbItem>홈</BreadcrumbItem></BreadcrumbList></Breadcrumb>)).toContain('aria-label="breadcrumb"');
     expect(componentManifest.some((entry) => entry.exportPath === '@keelim/all-web-ui/button' && entry.lifecycle === 'stable')).toBe(true);
     expect(componentManifest.some((entry) => entry.exportPath === '@keelim/all-web-ui/metric-card' && entry.lifecycle === 'stable')).toBe(true);
+  });
+
+  it('exposes required style imports and optional theme scopes in the manifest', () => {
+    expect(sharedComponentStyleImports).toEqual(['@keelim/all-web-ui/styles.css']);
+    expect(sharedComponentThemeScopes.map((scope) => scope.name)).toEqual(['finance', 'finance-dark', 'admin-bw']);
+
+    for (const entry of componentManifest) {
+      expect(entry.styleImports).toContain('@keelim/all-web-ui/styles.css');
+      expect(entry.themeScopes.some((scope) => scope.styleImport === '@keelim/all-web-ui/themes/finance.css')).toBe(true);
+      expect(entry.themeScopes.some((scope) => scope.selectors.includes('.admin-bw-theme'))).toBe(true);
+    }
   });
 
   it('keeps component wrapper props on their intended DOM nodes', () => {

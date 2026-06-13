@@ -16,26 +16,43 @@ colors:
   accent-foreground: "hsl(210 40% 98%)"
   danger: "#b91c1c"
   danger-soft: "#fee2e2"
+  danger-border: "hsl(0 84.2% 80%)"
   success: "#166534"
   success-soft: "#dcfce7"
+  success-border: "hsl(142.1 70% 78%)"
   warning: "#92400e"
   warning-soft: "#fef3c7"
+  warning-border: "hsl(38 92% 70%)"
   info: "#1d4ed8"
   info-soft: "#dbeafe"
+  info-border: "hsl(214 85% 80%)"
   market-up: "#b91c1c"
   market-up-soft: "#fff1f2"
   market-down: "#1d4ed8"
   market-down-soft: "#eff6ff"
+  market-flat: "#475569"
+  market-flat-soft: "#f1f5f9"
   admin-background: "#050505"
   admin-surface: "#121212"
+  admin-surface-soft: "#1f1f1f"
+  admin-surface-strong: "#2a2a2a"
+  admin-border: "#4a4a4a"
   admin-foreground: "#f7f7f7"
   admin-muted: "#c0c0c0"
+  admin-accent: "#ffffff"
+  admin-accent-foreground: "#000000"
 typography:
   display-xl:
     fontFamily: Pretendard
     fontSize: 72px
     fontWeight: 700
     lineHeight: 1.05
+    letterSpacing: 0em
+  display-lg:
+    fontFamily: Pretendard
+    fontSize: 52px
+    fontWeight: 700
+    lineHeight: 1.08
     letterSpacing: 0em
   h1:
     fontFamily: Pretendard
@@ -48,6 +65,24 @@ typography:
     fontSize: 24px
     fontWeight: 600
     lineHeight: 1.2
+    letterSpacing: 0em
+  h3:
+    fontFamily: Pretendard
+    fontSize: 20px
+    fontWeight: 600
+    lineHeight: 1.25
+    letterSpacing: 0em
+  h4:
+    fontFamily: Pretendard
+    fontSize: 16px
+    fontWeight: 600
+    lineHeight: 1.3
+    letterSpacing: 0em
+  body-lg:
+    fontFamily: Pretendard
+    fontSize: 17px
+    fontWeight: 400
+    lineHeight: 1.65
     letterSpacing: 0em
   body:
     fontFamily: Pretendard
@@ -73,6 +108,12 @@ typography:
     fontWeight: 500
     lineHeight: 1.4
     letterSpacing: 0em
+  overline:
+    fontFamily: Pretendard
+    fontSize: 11px
+    fontWeight: 700
+    lineHeight: 1.25
+    letterSpacing: 0em
   numeric:
     fontFamily: JetBrains Mono
     fontSize: 15px
@@ -80,6 +121,19 @@ typography:
     lineHeight: 1.4
     letterSpacing: 0em
     fontFeature: "'tnum', 'zero'"
+  ticker:
+    fontFamily: JetBrains Mono
+    fontSize: 13px
+    fontWeight: 700
+    lineHeight: 1.25
+    letterSpacing: 0em
+    fontFeature: "'tnum', 'zero'"
+  code:
+    fontFamily: JetBrains Mono
+    fontSize: 13px
+    fontWeight: 500
+    lineHeight: 1.45
+    letterSpacing: 0em
 rounded:
   sm: 0.85rem
   md: 1.15rem
@@ -171,9 +225,6 @@ components:
   label:
     textColor: "{colors.foreground}"
     typography: "{typography.label}"
-  divider:
-    backgroundColor: "{colors.border}"
-    height: 1px
   loading-status:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.foreground}"
@@ -292,6 +343,12 @@ components:
     typography: "{typography.numeric}"
     rounded: "{rounded.full}"
     padding: 8px
+  market-flat-chip:
+    backgroundColor: "{colors.market-flat-soft}"
+    textColor: "{colors.market-flat}"
+    typography: "{typography.numeric}"
+    rounded: "{rounded.full}"
+    padding: 8px
   admin-shell:
     backgroundColor: "{colors.admin-background}"
     textColor: "{colors.admin-foreground}"
@@ -302,6 +359,25 @@ components:
     typography: "{typography.numeric}"
     rounded: "{rounded.md}"
     padding: 16px
+  admin-subtle-panel:
+    backgroundColor: "{colors.admin-surface-soft}"
+    textColor: "{colors.admin-muted}"
+    typography: "{typography.body-sm}"
+    rounded: "{rounded.md}"
+    padding: 16px
+  admin-selected-row:
+    backgroundColor: "{colors.admin-surface-strong}"
+    textColor: "{colors.admin-foreground}"
+    typography: "{typography.body-sm}"
+    rounded: "{rounded.sm}"
+    padding: 8px
+  admin-primary-button:
+    backgroundColor: "{colors.admin-accent}"
+    textColor: "{colors.admin-accent-foreground}"
+    typography: "{typography.label}"
+    rounded: "{rounded.md}"
+    padding: 12px
+    height: 44px
 ---
 
 # DESIGN.md
@@ -331,13 +407,13 @@ routes, product workflows, native mobile shells, or React Native primitives.
 
 Consumers should choose the smallest style surface that matches their use case:
 
-- Finance app surfaces import `all-web-ui/styles.css` plus
-  `all-web-ui/themes/finance.css`.
-- Admin console surfaces import `all-web-ui/styles.css` plus
-  `all-web-ui/themes/admin-bw.css`, then scope the console with
+- Finance app surfaces import `@keelim/all-web-ui/styles.css` plus
+  `@keelim/all-web-ui/themes/finance.css`.
+- Admin console surfaces import `@keelim/all-web-ui/styles.css` plus
+  `@keelim/all-web-ui/themes/admin-bw.css`, then scope the console with
   `.admin-bw-theme`, `.theme-admin-bw`, or `.kui-theme-admin-bw`.
-- Spacing-only consumers import `all-web-ui/spacing.css` without taking on a
-  color theme.
+- Spacing-only consumers import `@keelim/all-web-ui/spacing.css` without
+  taking on a color theme.
 
 Finance dark mode is selector-driven for Next/shadcn consumers. Preserve
 `.dark`, `[data-theme='dark']`, `.theme-dark`, `.kui-theme-dark`,
@@ -355,11 +431,57 @@ design.md schema. The current parity decisions are:
 | Area | Classification | Resolution |
 | --- | --- | --- |
 | Finance light colors | intentional divergence with note | YAML keeps lint-safe opaque semantic colors; CSS owns alpha fills, HSL bridge values, and status border roles. |
-| Radius tokens | update DESIGN YAML | `rounded.sm`, `rounded.md`, and `rounded.lg` mirror `--kui-radius-*`; `rounded.xl` aliases panel geometry for component catalog compatibility. |
+| Radius tokens | intentional semantic fallback | `rounded.sm`, `rounded.md`, and `rounded.lg` mirror `--kui-radius-*`; `rounded.full` stays a design semantic that components may render with `var(--kui-radius-full, 999px)` fallback rather than a required runtime token. |
 | Typography tracking | update CSS | Runtime typography uses `letter-spacing: 0` to match the YAML token contract. |
 | Shadows and metric gradients | update DESIGN prose only | Shadow and gradient values stay CSS runtime details documented under Elevation & Depth. |
 | Breakpoints | update DESIGN prose only | Component-specific responsive behavior stays in CSS and is summarized under Layout. |
 | Finance dark and admin BW overlays | intentional divergence with note | Theme overlays are selector-scoped CSS skins; the YAML catalog records shared semantic roles rather than every theme override. |
+
+### Runtime Token Tables
+
+The following tables are the exact runtime token roles exposed by the shipped
+CSS. Keep these prose tables synchronized when CSS changes add a token that the
+portable YAML front matter cannot express safely.
+
+| Shared surface role | CSS token | YAML token |
+| --- | --- | --- |
+| Background | `--kui-color-bg` | `colors.background` |
+| Surface | `--kui-color-surface` | `colors.surface` |
+| Soft surface wash | `--kui-color-surface-soft` | `colors.surface-soft` fallback; CSS may use alpha ink wash. |
+| Strong surface wash | `--kui-color-surface-strong` | `colors.surface-strong` fallback; CSS may use alpha ink wash. |
+| Border | `--kui-color-border` | `colors.border` |
+| Foreground text | `--kui-color-text` | `colors.foreground` |
+| Muted text | `--kui-color-muted` | `colors.muted-foreground` |
+| Accent fill | `--kui-color-accent` | `colors.accent` |
+| Accent ink | `--kui-color-accent-ink` | `colors.accent-foreground` |
+
+| Status role | Background token | Border token | Text token |
+| --- | --- | --- | --- |
+| Danger | `--kui-color-danger-bg` | `--kui-color-danger-border` | `--kui-color-danger-text` |
+| Success | `--kui-color-success-bg` | `--kui-color-success-border` | `--kui-color-success-text` |
+| Warning | `--kui-color-warning-bg` | `--kui-color-warning-border` | `--kui-color-warning-text` |
+| Info | `--kui-color-info-bg` | `--kui-color-info-border` | `--kui-color-info-text` |
+
+| Market role | Primary token | Soft token | Use |
+| --- | --- | --- | --- |
+| Up | `--kui-color-up` | `--kui-color-up-soft` | 상승, gains, positive deltas. |
+| Down | `--kui-color-down` | `--kui-color-down-soft` | 하락, losses, negative deltas. |
+| Flat | `--kui-color-flat` | use `--kui-color-surface-soft` unless a chip needs `colors.market-flat-soft` | Unchanged, paused, or unavailable movement. |
+
+| Admin BW role | CSS token |
+| --- | --- |
+| Background | `--kui-color-bg` |
+| Surface | `--kui-color-surface` |
+| Soft surface | `--kui-color-surface-soft` |
+| Strong surface | `--kui-color-surface-strong` |
+| Border | `--kui-color-border` |
+| Text | `--kui-color-text` |
+| Muted text | `--kui-color-muted` |
+| Accent fill | `--kui-color-accent` |
+| Accent ink | `--kui-color-accent-ink` |
+| Status roles | `--kui-color-*-bg`, `--kui-color-*-border`, and `--kui-color-*-text` |
+| Market roles | `--kui-color-up`, `--kui-color-down`, `--kui-color-flat`, and soft variants |
+| Panel depth | `--kui-shadow-panel`, `--kui-metric-card-bg`, `--kui-metric-card-highlight` |
 
 ## Colors
 
@@ -377,8 +499,9 @@ design.md schema. The current parity decisions are:
   roles for agent use.
 - **Market Up (#b91c1c):** Korean finance convention for 상승 and gains.
 - **Market Down (#1d4ed8):** Korean finance convention for 하락 and losses.
-- **Market Flat:** Neutral unchanged or unavailable movement state is a
-  runtime CSS role, not a separate YAML component token.
+- **Market Flat (#475569):** Neutral unchanged or unavailable movement state;
+  use `--kui-color-flat` for runtime text and combine it with a soft surface
+  fill when a chip needs a background.
 - **Admin Background (#050505):** Near-black admin console foundation.
 - **Admin Foreground (#f7f7f7):** High-contrast text for monochrome admin
   surfaces.
@@ -401,6 +524,13 @@ experiences in consuming apps, not for package examples or internal docs.
 Typography utilities keep `letter-spacing: 0` across display, heading, label,
 caption, badge, and numeric classes so text does not tighten unpredictably
 across Korean/English mixed strings.
+
+Runtime typography utilities include `type-display-xl`, `type-display-lg`,
+`type-h1`, `type-h2`, `type-h3`, `type-h4`, `type-body-lg`, `type-body`,
+`type-body-sm`, `type-caption`, `type-overline`, `type-ticker`, `type-code`,
+`kui-data-number`, and `kui-metric-value--sm/md/lg/xl`. Treat the YAML
+typography keys as the portable source for these families; component-specific
+sizes such as `MetricValue` variants remain runtime class contracts.
 
 ## Layout
 
@@ -450,6 +580,10 @@ local `kui` class contract. The shipped `--kui-radius-*` runtime uses
 `rounded.xl` in the YAML catalog intentionally aliases the large panel radius
 so Stitch and other design.md consumers do not invent a separate extra-large
 curve.
+`rounded.full` is a semantic pill/circle value. It may be rendered through
+`var(--kui-radius-full, 999px)` in component CSS, but consumers should not
+assume `--kui-radius-full` is a required theme token until the CSS runtime
+declares it.
 
 ## Components
 
@@ -476,7 +610,7 @@ illustrative or marketing-style visuals.
 
 Status alerts use semantic danger, warning, and info pairs from the YAML
 catalog. Market movement chips keep the Korean finance color convention explicit
-with separate up/down token pairs. Admin shell examples use the admin
+with separate up/down/flat token pairs. Admin shell examples use the admin
 background, surface, foreground, and muted text roles together so monochrome
 console references do not invent their own gray scale.
 
@@ -534,6 +668,13 @@ or restyling screens:
 | Textarea | `@keelim/all-web-ui/textarea` | Multi-line notes, prompts, and descriptions. |
 | Tooltip | `@keelim/all-web-ui/tooltip` | Short assistive label for compact controls. |
 | Toast | `@keelim/all-web-ui/toast` | Transient save, sync, and background-event feedback. |
+
+Variant examples in the YAML `components:` block, such as `button-accent`,
+`badge-success`, `alert-danger`, and `market-flat-chip`, are design variants of
+the stable primitives above. They are not package exports and should not be
+generated as standalone component files unless `src/manifest.ts` and
+`package.json` are updated first. Divider-like rules are border-token usage,
+not a shipped `Divider` primitive.
 
 ## Accessibility & Motion
 

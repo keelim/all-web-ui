@@ -145,7 +145,16 @@ export {
   type ToastActionElement,
   type ToastProps
 } from './components/toast';
-export { componentManifest, type ComponentLifecycle, type ComponentManifestEntry } from './manifest';
+export {
+  componentManifest,
+  sharedComponentStyleImports,
+  sharedComponentThemeScopes,
+  type ComponentLifecycle,
+  type ComponentManifestEntry,
+  type ComponentStyleImport,
+  type ComponentThemeScope,
+  type ComponentThemeStyleImport
+} from './manifest';
 export {
   createTelemetryEmitter,
   defineTelemetryEvent,
