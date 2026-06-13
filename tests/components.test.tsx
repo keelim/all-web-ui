@@ -7,9 +7,11 @@ import './dom-setup';
 import {
   Badge,
   badgeVariants,
+  Alert,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
+  BreadcrumbPage,
   BreadcrumbSeparator,
   Button,
   buttonVariants,
@@ -197,6 +199,26 @@ describe('all-web-ui exports', () => {
     expect(tableHtml).toContain('<table');
   });
 
+  it('renders static accessibility contracts for semantic wrapper primitives', () => {
+    const selectSource = readFileSync(new URL('../src/components/select.tsx', import.meta.url), 'utf8');
+    const dropdownSource = readFileSync(new URL('../src/components/dropdown-menu.tsx', import.meta.url), 'utf8');
+    const defaultAlertHtml = renderToStaticMarkup(<Alert>Saved</Alert>);
+    const destructiveAlertHtml = renderToStaticMarkup(<Alert variant="destructive">Failed</Alert>);
+    const breadcrumbPageHtml = renderToStaticMarkup(<BreadcrumbPage>Reports</BreadcrumbPage>);
+
+    expect(defaultAlertHtml).toContain('role="status"');
+    expect(destructiveAlertHtml).toContain('role="alert"');
+    expect(breadcrumbPageHtml).toContain('aria-current="page"');
+    expect(breadcrumbPageHtml).not.toContain('role="link"');
+    expect(breadcrumbPageHtml).not.toContain('aria-disabled');
+    expect(selectSource).toContain('ariaLabel = "Scroll options up"');
+    expect(selectSource).toContain('ariaLabel = "Scroll options down"');
+    expect(selectSource).toContain('focus:ring-2 focus:ring-ring focus:ring-offset-1');
+    expect(selectSource).toContain('aria-hidden="true" focusable="false"');
+    expect(dropdownSource).toContain('focus:ring-2 focus:ring-ring focus:ring-offset-1');
+    expect(dropdownSource).toContain('aria-hidden="true" focusable="false"');
+  });
+
   it('exposes shared spacing css as a package export', () => {
     const packageJson = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
     const spacingCss = readFileSync(new URL('../src/styles/spacing.css', import.meta.url), 'utf8');
@@ -378,10 +400,13 @@ describe('all-web-ui exports', () => {
     expect(financeHtml).toContain('kui-onboarding-tour--finance');
     expect(financeHtml).toContain('data-onboarding-theme="finance"');
     expect(financeHtml).toContain('data-step-state="active"');
+    expect(financeHtml).toContain('aria-current="step"');
+    expect(financeHtml).toContain('Current step');
     expect(financeHtml).toContain('kui-onboarding-highlight--accent');
     expect(adminHtml).toContain('admin-bw-theme');
     expect(adminHtml).toContain('kui-onboarding-steps--horizontal');
     expect(adminHtml).toContain('data-step-state="complete"');
+    expect(adminHtml).toContain('Completed step');
     expect(adminHtml).toContain('kui-onboarding-highlight--warning');
   });
 
@@ -471,6 +496,10 @@ describe('all-web-ui exports', () => {
     expect(buildScript).not.toContain("spawn('bunx'");
     expect(stylesCss).not.toContain('letter-spacing: -');
     expect(stylesCss).not.toContain('letter-spacing: 0.');
+    expect(stylesCss).toContain('.kui-button--ghost');
+    expect(stylesCss).toContain('color: var(--kui-color-text);');
+    expect(stylesCss).toContain('@media (prefers-reduced-motion: reduce)');
+    expect(stylesCss).toContain('animation: none;');
   });
 
   it('ships light and dark semantic theme tokens for shared primitives', () => {

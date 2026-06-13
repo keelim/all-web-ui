@@ -5,7 +5,9 @@ import * as SliderPrimitive from "@radix-ui/react-slider"
 
 import { cn } from "../lib/cn"
 
-export type SliderProps = React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
+export type SliderProps = React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> & {
+  thumbLabels?: string[]
+}
 
 function getSliderThumbCount(value?: number[], defaultValue?: number[]) {
   return Math.max(1, value?.length ?? defaultValue?.length ?? 1)
@@ -15,6 +17,7 @@ const Slider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
   SliderProps
 >(({ className, value, defaultValue, ...props }, ref) => {
+  const { thumbLabels, "aria-label": ariaLabel, "aria-labelledby": ariaLabelledBy, ...rootProps } = props
   const thumbCount = getSliderThumbCount(value, defaultValue)
 
   return (
@@ -26,7 +29,9 @@ const Slider = React.forwardRef<
       )}
       value={value}
       defaultValue={defaultValue}
-      {...props}
+      aria-label={ariaLabel}
+      aria-labelledby={ariaLabelledBy}
+      {...rootProps}
     >
       <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
         <SliderPrimitive.Range className="absolute h-full bg-primary" />
@@ -34,6 +39,8 @@ const Slider = React.forwardRef<
       {Array.from({ length: thumbCount }, (_, index) => (
         <SliderPrimitive.Thumb
           key={index}
+          aria-label={thumbLabels?.[index] ?? (thumbCount === 1 ? ariaLabel : undefined)}
+          aria-labelledby={thumbLabels?.[index] ? undefined : ariaLabelledBy}
           className="block h-5 w-5 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
         />
       ))}

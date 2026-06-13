@@ -32,7 +32,12 @@ export function OnboardingStepList({
       {steps.map((step, index) => {
         const state = resolveStepState(step, activeStepId, completedStepIds);
         return (
-          <li key={step.id} className="kui-onboarding-step" data-step-state={state}>
+          <li
+            key={step.id}
+            className="kui-onboarding-step"
+            data-step-state={state}
+            aria-current={state === 'active' ? 'step' : undefined}
+          >
             <span className="kui-onboarding-step__indicator" aria-hidden="true">
               {state === 'complete' ? 'OK' : index + 1}
             </span>
@@ -40,6 +45,7 @@ export function OnboardingStepList({
               <span className="kui-onboarding-step__title">
                 {step.title}
                 {step.optional ? <span className="kui-onboarding-step__optional">Optional</span> : null}
+                <span className="sr-only">{getStepStateLabel(state)}</span>
               </span>
               {step.description ? <span className="kui-onboarding-step__description">{step.description}</span> : null}
             </span>
@@ -129,4 +135,10 @@ function resolveStepState(
   if (completedStepIds.includes(step.id)) return 'complete';
   if (activeStepId === step.id) return 'active';
   return 'pending';
+}
+
+function getStepStateLabel(state: OnboardingStepState) {
+  if (state === 'active') return 'Current step';
+  if (state === 'complete') return 'Completed step';
+  return 'Pending step';
 }

@@ -45,18 +45,30 @@ export const sheetVariants = cva('fixed z-50 gap-4 bg-background p-6 shadow-lg t
 
 export interface SheetContentProps
   extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
-    VariantProps<typeof sheetVariants> {}
+    VariantProps<typeof sheetVariants> {
+  accessibleTitle?: React.ReactNode;
+  closeLabel?: string;
+}
 
 export const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Content>, SheetContentProps>(
-  function SheetContent({ side = 'right', className, children, ...props }, ref) {
+  function SheetContent({ side = 'right', className, children, accessibleTitle = 'Sheet', closeLabel = 'Close', ...props }, ref) {
+    const needsHiddenTitle =
+      !props['aria-label'] &&
+      !props['aria-labelledby'] &&
+      !hasAccessibleSheetChild(children, SheetTitle);
+
     return (
       <SheetPortal>
         <SheetOverlay />
         <SheetPrimitive.Content ref={ref} className={cn(sheetVariants({ side }), className)} {...props}>
+          {needsHiddenTitle ? <SheetTitle className="sr-only">{accessibleTitle}</SheetTitle> : null}
           {children}
-          <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
-            <X className="h-4 w-4" />
-            <span className="sr-only">Close</span>
+          <SheetPrimitive.Close
+            aria-label={closeLabel}
+            className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
+          >
+            <X aria-hidden="true" focusable="false" className="h-4 w-4" />
+            <span className="sr-only">{closeLabel}</span>
           </SheetPrimitive.Close>
         </SheetPrimitive.Content>
       </SheetPortal>
@@ -85,3 +97,13 @@ export const SheetDescription = React.forwardRef<
 >(function SheetDescription({ className, ...props }, ref) {
   return <SheetPrimitive.Description ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />;
 });
+
+function hasAccessibleSheetChild(children: React.ReactNode, target: React.ElementType): boolean {
+  return React.Children.toArray(children).some((child) => {
+    if (!React.isValidElement<{ children?: React.ReactNode }>(child)) {
+      return false;
+    }
+
+    return child.type === target || hasAccessibleSheetChild(child.props.children, target);
+  });
+}

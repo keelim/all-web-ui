@@ -39,7 +39,7 @@ export const BreadcrumbLink = React.forwardRef<
 
 export const BreadcrumbPage = React.forwardRef<HTMLSpanElement, React.ComponentPropsWithoutRef<'span'>>(
   function BreadcrumbPage({ className, ...props }, ref) {
-    return <span ref={ref} role="link" aria-disabled="true" aria-current="page" className={cn('font-normal text-foreground', className)} {...props} />;
+    return <span ref={ref} aria-current="page" className={cn('font-normal text-foreground', className)} {...props} />;
   }
 );
 

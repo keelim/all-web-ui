@@ -275,6 +275,24 @@ describe('all-web-ui DOM interaction contracts', () => {
     await waitFor(() => expect(screen.queryByRole('alertdialog')).toBeNull());
   });
 
+  it('provides AlertDialog fallback title and description when visible copy is omitted', async () => {
+    render(
+      <AlertDialog>
+        <AlertDialogTrigger>Archive report</AlertDialogTrigger>
+        <AlertDialogContent accessibleTitle="Archive report?" accessibleDescription="Confirm before archiving this report.">
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: /archive report/i }));
+    const dialog = await screen.findByRole('alertdialog', { name: /archive report\?/i });
+    expect(dialog.getAttribute('aria-describedby')).toBeTruthy();
+    expect(screen.getByText('Confirm before archiving this report.').className).toContain('sr-only');
+  });
+
   it('shows Avatar fallback when the image cannot load', async () => {
     render(
       <Avatar>
@@ -362,6 +380,22 @@ describe('all-web-ui DOM interaction contracts', () => {
     fireEvent.click(screen.getByRole('button', { name: /close/i }));
     await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
     expect(document.activeElement).toBe(trigger);
+
+    cleanup();
+    render(
+      <Dialog>
+        <DialogTrigger>Open fallback dialog</DialogTrigger>
+        <DialogContent accessibleTitle="Fallback profile dialog" closeLabel="Dismiss profile dialog">
+          <DialogDescription>Fallback dialog description.</DialogDescription>
+        </DialogContent>
+      </Dialog>
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: /open fallback dialog/i }));
+    const fallbackDialog = await screen.findByRole('dialog', { name: /fallback profile dialog/i });
+    expect(fallbackDialog).toBeTruthy();
+    expect(screen.getByText('Fallback profile dialog').className).toContain('sr-only');
+    expect(screen.getByRole('button', { name: /dismiss profile dialog/i })).toBeTruthy();
   });
 
   it('forwards refs through heading, polymorphic, and table wrapper primitives', () => {
@@ -571,8 +605,16 @@ describe('all-web-ui DOM interaction contracts', () => {
     expect(slider.getAttribute('aria-valuenow')).toBe('100');
 
     cleanup();
-    render(<Slider aria-label="Allocation range" max={100} min={0} value={[20, 80]} />);
-    expect(screen.getAllByRole('slider')).toHaveLength(2);
+    render(
+      <Slider
+        max={100}
+        min={0}
+        thumbLabels={['Minimum allocation', 'Maximum allocation']}
+        value={[20, 80]}
+      />
+    );
+    expect(screen.getByRole('slider', { name: /minimum allocation/i })).toBeTruthy();
+    expect(screen.getByRole('slider', { name: /maximum allocation/i })).toBeTruthy();
   });
 
   it('toggles custom Switch from click and keyboard while respecting disabled', async () => {
@@ -652,6 +694,20 @@ describe('all-web-ui DOM interaction contracts', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /dismiss sync failed/i }));
     await waitFor(() => expect(screen.queryByRole('listitem')).toBeNull());
+
+    cleanup();
+    render(
+      <ToastProvider>
+        <Toast open variant="destructive">
+          <ToastTitle>Saved</ToastTitle>
+          <ToastClose />
+        </Toast>
+        <ToastViewport />
+      </ToastProvider>
+    );
+    const defaultClose = screen.getByRole('button', { name: /dismiss notification/i });
+    expect(defaultClose.className).toContain('text-destructive-foreground');
+    expect(defaultClose.querySelector('svg')?.getAttribute('aria-hidden')).toBe('true');
   });
 
   it('opens DropdownMenu and selects enabled items while exposing disabled state', async () => {
@@ -784,6 +840,21 @@ describe('all-web-ui DOM interaction contracts', () => {
       const dialog = await screen.findByRole('dialog', { name: new RegExp(`${side} panel`, 'i') });
       expect(dialog.className).toContain(side === 'top' ? 'top-0' : 'bottom-0');
     }
+
+    cleanup();
+    render(
+      <Sheet>
+        <SheetTrigger>Open fallback sheet</SheetTrigger>
+        <SheetContent accessibleTitle="Fallback sheet" closeLabel="Dismiss sheet">
+          <SheetDescription>Fallback sheet description.</SheetDescription>
+        </SheetContent>
+      </Sheet>
+    );
+    fireEvent.click(screen.getByRole('button', { name: /open fallback sheet/i }));
+    const fallbackSheet = await screen.findByRole('dialog', { name: /fallback sheet/i });
+    expect(fallbackSheet).toBeTruthy();
+    expect(screen.getByText('Fallback sheet').className).toContain('sr-only');
+    expect(screen.getByRole('button', { name: /dismiss sheet/i })).toBeTruthy();
   });
 
   it('moves Tabs selection by click and ArrowRight while skipping disabled tabs', async () => {

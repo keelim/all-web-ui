@@ -429,7 +429,7 @@
 .kui-button--ghost {
   border-color: transparent;
   background: var(--kui-color-surface-soft);
-  color: var(--kui-color-muted);
+  color: var(--kui-color-text);
 }
 
 .kui-button--ghost:hover:not(:disabled) {
@@ -579,7 +579,7 @@
 .kui-badge--muted,
 .kui-badge--default {
   background: var(--kui-color-surface-soft);
-  color: var(--kui-color-muted);
+  color: var(--kui-color-text);
 }
 
 .kui-badge--accent {
@@ -653,7 +653,7 @@
 
 .kui-loading-panel--muted {
   background: var(--kui-color-surface-soft);
-  color: var(--kui-color-muted);
+  color: var(--kui-color-text);
 }
 
 .kui-loading-panel__header {
@@ -729,7 +729,7 @@
   border: 1px dashed var(--kui-color-border);
   background: var(--kui-color-surface-soft);
   padding: 1.25rem;
-  color: var(--kui-color-muted);
+  color: var(--kui-color-text);
 }
 
 .kui-empty-state__title {
@@ -755,6 +755,18 @@
 @keyframes kui-pulse {
   0%, 100% { transform: scale(0.92); opacity: 0.45; }
   50% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kui-spinner,
+  .kui-loading-panel__dots span {
+    animation: none;
+  }
+
+  .kui-loading-panel__dots span {
+    transform: none;
+    opacity: 1;
+  }
 }
 
 @media (min-width: 640px) {

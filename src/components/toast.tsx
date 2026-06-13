@@ -73,17 +73,18 @@ ToastAction.displayName = ToastPrimitives.Action.displayName
 const ToastClose = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Close>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Close>
->(({ className, ...props }, ref) => (
+>(({ className, "aria-label": ariaLabel = "Dismiss notification", ...props }, ref) => (
   <ToastPrimitives.Close
     ref={ref}
+    aria-label={ariaLabel}
     className={cn(
-      "absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-hidden focus:ring-2 group-hover:opacity-100 group-[.destructive]:text-red-300 hover:group-[.destructive]:text-red-50 focus:group-[.destructive]:ring-red-400 focus:group-[.destructive]:ring-offset-red-600",
+      "absolute right-2 top-2 rounded-md p-1 text-foreground/60 opacity-100 transition-opacity hover:text-foreground focus:outline-hidden focus:ring-2 focus:ring-ring group-[.destructive]:text-destructive-foreground hover:group-[.destructive]:text-destructive-foreground focus:group-[.destructive]:ring-destructive-foreground focus:group-[.destructive]:ring-offset-destructive",
       className
     )}
     toast-close=""
     {...props}
   >
-    <X className="h-4 w-4" />
+    <X aria-hidden="true" focusable="false" className="h-4 w-4" />
   </ToastPrimitives.Close>
 ))
 ToastClose.displayName = ToastPrimitives.Close.displayName
