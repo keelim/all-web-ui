@@ -68,7 +68,7 @@ bun run build
 
 This emits a `dist/` directory with JS, type declarations, and theme CSS for the `@keelim/all-web-ui` GitHub Packages release.
 
-`bun install` also runs the package `prepare` hook so the local workspace workflow can regenerate `dist/` before app consumers resolve package exports.
+`bun run build` validates the generated package exports, copied CSS assets, declaration files, dependency classifications, and relative ESM specifiers. Before publishing, run `bun run package:smoke` and `bun run pack:verify`; local `npm publish` is guarded by `prepublishOnly`.
 
 Consumers should install the exact published version from `https://npm.pkg.github.com` and import scoped package exports such as `@keelim/all-web-ui/button`.
 

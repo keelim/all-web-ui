@@ -13,8 +13,10 @@
   },
   "scripts": {
     "build": "bun run ./scripts/build.mjs",
-    "prepare": "bun run build",
-    "prepack": "bun run build",
+    "package:verify": "bun run ./scripts/verify-package.mjs dist",
+    "package:smoke": "bun run ./scripts/verify-package.mjs smoke",
+    "pack:verify": "bun run ./scripts/verify-package.mjs pack",
+    "prepublishOnly": "bun run typecheck && bun test && bun run build && bun run package:smoke && bun run pack:verify",
     "design:lint": "bun x @google/design.md lint DESIGN.md",
     "typecheck": "tsc --noEmit",
     "test": "bun test"
@@ -26,10 +28,7 @@
     "dist"
   ],
   "sideEffects": [
-    "./dist/styles/spacing.css",
-    "./dist/styles/styles.css",
-    "./dist/styles/themes/admin-bw.css",
-    "./dist/styles/themes/finance.css"
+    "./dist/**/*.css"
   ],
   "exports": {
     ".": {
@@ -249,8 +248,8 @@
     "tailwind-merge": "3.4.1"
   },
   "peerDependencies": {
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@testing-library/react": "16.3.2",

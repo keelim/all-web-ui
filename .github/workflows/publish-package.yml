@@ -6,6 +6,10 @@ on:
     types:
       - published
 
+concurrency:
+  group: publish-package-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -32,6 +36,14 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      - name: Verify release version
+        run: bun run ./scripts/verify-package.mjs release-version
+
+      - name: Verify package version is unpublished
+        run: bun run ./scripts/verify-package.mjs publish-version
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Typecheck
         run: bun run typecheck
 
@@ -41,7 +53,13 @@ jobs:
       - name: Build
         run: bun run build
 
+      - name: Consumer smoke test
+        run: bun run package:smoke
+
+      - name: Verify npm pack contents
+        run: bun run pack:verify
+
       - name: Publish
-        run: npm publish
+        run: npm publish --ignore-scripts
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -118,7 +118,7 @@ describe('all-web-ui exports', () => {
     expect(packageJson.exports['./metric-card'].import).toBe('./dist/components/metric-card.js');
     expect(packageJson.exports['./onboarding'].import).toBe('./dist/components/onboarding.js');
     expect(packageJson.exports['./telemetry'].import).toBe('./dist/telemetry.js');
-    expect(packageJson.sideEffects).toContain('./dist/styles/spacing.css');
+    expect(packageJson.sideEffects).toEqual(['./dist/**/*.css']);
     expect(spacingCss).toContain('--space-4: 1rem;');
     expect(spacingCss).toContain('--kui-space-4: var(--space-4);');
   });
@@ -305,6 +305,10 @@ describe('all-web-ui exports', () => {
     const stylesCss = readFileSync(new URL('../src/styles/styles.css', import.meta.url), 'utf8');
 
     expect(packageJson.scripts['design:lint']).toBe('bun x @google/design.md lint DESIGN.md');
+    expect(packageJson.scripts.prepublishOnly).toContain('bun run package:smoke');
+    expect(packageJson.scripts.prepublishOnly).toContain('bun run pack:verify');
+    expect(packageJson.peerDependencies.react).toBe('^19.0.0');
+    expect(packageJson.peerDependencies['react-dom']).toBe('^19.0.0');
     expect(buildScript).toContain("node_modules', '.bin'");
     expect(buildScript).not.toContain("spawn('bunx'");
     expect(stylesCss).not.toContain('letter-spacing: -');
@@ -316,8 +320,8 @@ describe('all-web-ui exports', () => {
     const adminCss = readFileSync(new URL('../src/styles/themes/admin-bw.css', import.meta.url), 'utf8');
     const packageJson = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
 
-    expect(packageJson.sideEffects).toContain('./dist/styles/themes/finance.css');
-    expect(packageJson.sideEffects).toContain('./dist/styles/themes/admin-bw.css');
+    expect(packageJson.exports['./themes/finance.css']).toBe('./dist/styles/themes/finance.css');
+    expect(packageJson.exports['./themes/admin-bw.css']).toBe('./dist/styles/themes/admin-bw.css');
     expect(financeCss).toContain("[data-theme='dark']");
     expect(financeCss).toContain('--kui-color-bg: hsl(222.2 84% 4.9%);');
     expect(financeCss).toContain('--background: 222.2 84% 4.9%;');

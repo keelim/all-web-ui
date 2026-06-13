@@ -1,7 +1,8 @@
-import { cp, mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
+import { cp, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { dirname, extname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
+import { verifyPackageDist } from './verify-package.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(here, '..');
@@ -28,32 +29,13 @@ await new Promise((resolvePromise, rejectPromise) => {
   child.on('error', rejectPromise);
 });
 
-await mkdir(resolve(distDir, 'styles', 'themes'), { recursive: true });
-await cp(resolve(repoRoot, 'src', 'styles', 'spacing.css'), resolve(distDir, 'styles', 'spacing.css'));
-await cp(resolve(repoRoot, 'src', 'styles', 'styles.css'), resolve(distDir, 'styles', 'styles.css'));
-await cp(resolve(repoRoot, 'src', 'styles', 'themes', 'admin-bw.css'), resolve(distDir, 'styles', 'themes', 'admin-bw.css'));
-await cp(resolve(repoRoot, 'src', 'styles', 'themes', 'finance.css'), resolve(distDir, 'styles', 'themes', 'finance.css'));
+await cp(resolve(repoRoot, 'src', 'styles'), resolve(distDir, 'styles'), { recursive: true });
 
 await rewriteRelativeJsSpecifiers(distDir);
+await verifyPackageDist();
 
 async function removeDistDir() {
-  await new Promise((resolvePromise, rejectPromise) => {
-    const child = spawn('/bin/rm', ['-rf', distDir], {
-      cwd: repoRoot,
-      stdio: 'inherit'
-    });
-
-    child.on('exit', (code) => {
-      if (code === 0) {
-        resolvePromise();
-        return;
-      }
-
-      rejectPromise(new Error(`dist cleanup failed with exit code ${code ?? 'unknown'}`));
-    });
-
-    child.on('error', rejectPromise);
-  });
+  await rm(distDir, { recursive: true, force: true });
 }
 
 async function rewriteRelativeJsSpecifiers(directory) {
@@ -67,24 +49,31 @@ async function rewriteRelativeJsSpecifiers(directory) {
       continue;
     }
 
-    if (!entry.isFile() || extname(entry.name) !== '.js') {
+    if (!entry.isFile() || (!entry.name.endsWith('.js') && !entry.name.endsWith('.d.ts'))) {
       continue;
     }
 
     const original = await readFile(entryPath, 'utf8');
-    const rewritten = original.replace(
-      /((?:import|export)\s[^'"]*?from\s*['"])(\.\.?\/[^'"]+)(['"])/g,
-      (_, prefix, specifier, suffix) => {
-        if (extname(specifier)) {
-          return `${prefix}${specifier}${suffix}`;
-        }
-
-        return `${prefix}${specifier}.js${suffix}`;
-      }
-    );
+    const rewritten = original
+      .replace(
+        /((?:import|export)\s[^'"]*?from\s*['"])(\.\.?\/[^'"]+)(['"])/g,
+        (_, prefix, specifier, suffix) => `${prefix}${withJsExtension(specifier)}${suffix}`
+      )
+      .replace(
+        /(\bimport\s*['"])(\.\.?\/[^'"]+)(['"])/g,
+        (_, prefix, specifier, suffix) => `${prefix}${withJsExtension(specifier)}${suffix}`
+      );
 
     if (rewritten !== original) {
       await writeFile(entryPath, rewritten);
     }
   }
+}
+
+function withJsExtension(specifier) {
+  if (extname(specifier)) {
+    return specifier;
+  }
+
+  return `${specifier}.js`;
 }
