@@ -5,13 +5,15 @@ import * as SliderPrimitive from "@radix-ui/react-slider"
 
 import { cn } from "../lib/cn"
 
+export type SliderProps = React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
+
 function getSliderThumbCount(value?: number[], defaultValue?: number[]) {
   return Math.max(1, value?.length ?? defaultValue?.length ?? 1)
 }
 
 const Slider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
+  SliderProps
 >(({ className, value, defaultValue, ...props }, ref) => {
   const thumbCount = getSliderThumbCount(value, defaultValue)
 

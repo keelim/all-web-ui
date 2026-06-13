@@ -7,9 +7,14 @@ import { cn } from '../lib/cn';
 
 export const Tabs = TabsPrimitive.Root;
 
+export type TabsProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.Root>;
+export type TabsListProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>;
+export type TabsTriggerProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>;
+export type TabsContentProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>;
+
 export const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
+  TabsListProps
 >(function TabsList({ className, ...props }, ref) {
   return (
     <TabsPrimitive.List
@@ -22,7 +27,7 @@ export const TabsList = React.forwardRef<
 
 export const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
+  TabsTriggerProps
 >(function TabsTrigger({ className, ...props }, ref) {
   return (
     <TabsPrimitive.Trigger
@@ -35,7 +40,7 @@ export const TabsTrigger = React.forwardRef<
 
 export const TabsContent = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
+  TabsContentProps
 >(function TabsContent({ className, ...props }, ref) {
   return (
     <TabsPrimitive.Content

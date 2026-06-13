@@ -9,11 +9,17 @@ export const TooltipProvider = TooltipPrimitive.Provider;
 export const Tooltip = TooltipPrimitive.Root;
 export const TooltipTrigger = TooltipPrimitive.Trigger;
 
+export type TooltipProviderProps = React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Provider>;
+export type TooltipProps = React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Root>;
+export type TooltipTriggerProps = React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Trigger>;
+export type TooltipPortalProps = React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Portal>;
+export type TooltipContentProps = React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content> & {
+  portalProps?: TooltipPortalProps;
+};
+
 export const TooltipContent = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content> & {
-    portalProps?: React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Portal>;
-  }
+  TooltipContentProps
 >(function TooltipContent({ className, sideOffset = 4, portalProps, ...props }, ref) {
   return (
     <TooltipPrimitive.Portal {...portalProps}>

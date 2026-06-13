@@ -9,11 +9,16 @@ const HoverCard = HoverCardPrimitive.Root;
 
 const HoverCardTrigger = HoverCardPrimitive.Trigger;
 
+export type HoverCardProps = React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Root>;
+export type HoverCardTriggerProps = React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Trigger>;
+export type HoverCardPortalProps = React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Portal>;
+export type HoverCardContentProps = React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content> & {
+  portalProps?: HoverCardPortalProps;
+};
+
 const HoverCardContent = React.forwardRef<
   React.ElementRef<typeof HoverCardPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content> & {
-    portalProps?: React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Portal>;
-  }
+  HoverCardContentProps
 >(({ className, align = 'center', sideOffset = 4, portalProps, ...props }, ref) => (
   <HoverCardPrimitive.Portal {...portalProps}>
     <HoverCardPrimitive.Content

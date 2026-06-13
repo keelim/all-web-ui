@@ -6,6 +6,9 @@ import { Circle } from 'lucide-react';
 
 import { cn } from '../lib/cn';
 
+export type RadioGroupProps = React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>;
+export type RadioGroupItemProps = React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>;
+
 function moveRadioSelection(event: React.KeyboardEvent<HTMLElement>) {
   if (!['ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowUp'].includes(event.key)) return;
 
@@ -26,7 +29,7 @@ function moveRadioSelection(event: React.KeyboardEvent<HTMLElement>) {
 
 const RadioGroup = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
+  RadioGroupProps
 >(({ className, onKeyDown, ...props }, ref) => {
   return (
     <RadioGroupPrimitive.Root
@@ -44,7 +47,7 @@ RadioGroup.displayName = RadioGroupPrimitive.Root.displayName;
 
 const RadioGroupItem = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
+  RadioGroupItemProps
 >(({ className, onKeyDown, ...props }, ref) => {
   return (
     <RadioGroupPrimitive.Item

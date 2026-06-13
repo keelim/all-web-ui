@@ -2,13 +2,13 @@
 
 /* ==========================================================================
    Finance theme — light, ink-on-paper, default surface for keelim-vercel.
-   Same values as the :root block in styles.css; declared under the explicit
-   .theme-finance / .kui-theme-finance classes so pages that nest themes
-   (e.g. a dark section inside a light shell) can scope explicitly.
+   Same values as the :root block in styles.css, but scoped to explicit
+   finance selectors so importing this theme file does not rewrite global
+   defaults for other design systems.
    ========================================================================== */
-:root,
 .theme-finance,
-.kui-theme-finance {
+.kui-theme-finance,
+[data-kui-theme='finance'] {
   --kui-color-bg: #ffffff;
   --kui-color-surface: #ffffff;
   --kui-color-surface-soft: rgb(15 23 42 / 0.04);
@@ -91,12 +91,10 @@
   --ring: 222.2 84% 4.9%;
 }
 
-.dark,
-[data-theme='dark'],
-.theme-dark,
-.kui-theme-dark,
 .theme-finance.dark,
-.kui-theme-finance.dark {
+.kui-theme-finance.dark,
+[data-kui-theme='finance'].dark,
+[data-kui-theme='finance'][data-theme='dark'] {
   color-scheme: dark;
   color: var(--kui-color-text);
   background: var(--kui-color-bg);

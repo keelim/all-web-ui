@@ -1,8 +1,8 @@
-export { Button, type ButtonProps } from './components/button';
-export { Calendar, CalendarDayButton } from './components/calendar';
+export { Button, buttonVariants, type ButtonProps } from './components/button';
+export { Calendar, CalendarDayButton, type CalendarDayButtonProps, type CalendarProps } from './components/calendar';
 export { Input, type InputProps } from './components/input';
 export { Panel, type PanelProps } from './components/panel';
-export { Badge, type BadgeProps } from './components/badge';
+export { Badge, badgeVariants, type BadgeProps } from './components/badge';
 export { LoadingStatus, type LoadingStatusProps } from './components/loading-status';
 export { EmptyState, type EmptyStateProps } from './components/empty-state';
 export {
@@ -42,8 +42,27 @@ export {
   TableRow,
   type TableProps
 } from './components/table';
-export { Tabs, TabsContent, TabsList, TabsTrigger } from './components/tabs';
-export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './components/tooltip';
+export {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  type TabsContentProps,
+  type TabsListProps,
+  type TabsProps,
+  type TabsTriggerProps
+} from './components/tabs';
+export {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+  type TooltipContentProps,
+  type TooltipPortalProps,
+  type TooltipProps,
+  type TooltipProviderProps,
+  type TooltipTriggerProps
+} from './components/tooltip';
 export {
   Sheet,
   SheetClose,
@@ -54,7 +73,18 @@ export {
   SheetOverlay,
   SheetPortal,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
+  sheetVariants,
+  type SheetCloseProps,
+  type SheetContentProps,
+  type SheetDescriptionProps,
+  type SheetFooterProps,
+  type SheetHeaderProps,
+  type SheetOverlayProps,
+  type SheetPortalProps,
+  type SheetProps,
+  type SheetTitleProps,
+  type SheetTriggerProps
 } from './components/sheet';
 export {
   DropdownMenu,
@@ -71,7 +101,22 @@ export {
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
+  type DropdownMenuCheckboxItemProps,
+  type DropdownMenuContentProps,
+  type DropdownMenuGroupProps,
+  type DropdownMenuItemProps,
+  type DropdownMenuLabelProps,
+  type DropdownMenuPortalProps,
+  type DropdownMenuProps,
+  type DropdownMenuRadioGroupProps,
+  type DropdownMenuRadioItemProps,
+  type DropdownMenuSeparatorProps,
+  type DropdownMenuShortcutProps,
+  type DropdownMenuSubContentProps,
+  type DropdownMenuSubProps,
+  type DropdownMenuSubTriggerProps,
+  type DropdownMenuTriggerProps
 } from './components/dropdown-menu';
 export {
   Breadcrumb,
@@ -82,7 +127,16 @@ export {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from './components/breadcrumb';
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './components/accordion';
+export {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  type AccordionContentProps,
+  type AccordionItemProps,
+  type AccordionProps,
+  type AccordionTriggerProps
+} from './components/accordion';
 export { Alert, AlertDescription, AlertTitle, alertVariants, type AlertProps } from './components/alert';
 export {
   AlertDialog,
@@ -95,10 +149,28 @@ export {
   AlertDialogOverlay,
   AlertDialogPortal,
   AlertDialogTitle,
-  AlertDialogTrigger
+  AlertDialogTrigger,
+  type AlertDialogActionProps,
+  type AlertDialogCancelProps,
+  type AlertDialogContentProps,
+  type AlertDialogDescriptionProps,
+  type AlertDialogFooterProps,
+  type AlertDialogHeaderProps,
+  type AlertDialogOverlayProps,
+  type AlertDialogPortalProps,
+  type AlertDialogProps,
+  type AlertDialogTitleProps,
+  type AlertDialogTriggerProps
 } from './components/alert-dialog';
-export { Avatar, AvatarFallback, AvatarImage } from './components/avatar';
-export { Checkbox } from './components/checkbox';
+export {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  type AvatarFallbackProps,
+  type AvatarImageProps,
+  type AvatarProps
+} from './components/avatar';
+export { Checkbox, type CheckboxProps } from './components/checkbox';
 export {
   Dialog,
   DialogClose,
@@ -109,14 +181,41 @@ export {
   DialogOverlay,
   DialogPortal,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
+  type DialogCloseProps,
+  type DialogContentProps,
+  type DialogDescriptionProps,
+  type DialogFooterProps,
+  type DialogHeaderProps,
+  type DialogOverlayProps,
+  type DialogPortalProps,
+  type DialogProps,
+  type DialogTitleProps,
+  type DialogTriggerProps
 } from './components/dialog';
-export { HoverCard, HoverCardContent, HoverCardTrigger } from './components/hover-card';
-export { Label } from './components/label';
-export { Popover, PopoverContent, PopoverTrigger } from './components/popover';
-export { Progress } from './components/progress';
-export { RadioGroup, RadioGroupItem } from './components/radio-group';
-export { ScrollArea, ScrollBar } from './components/scroll-area';
+export {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+  type HoverCardContentProps,
+  type HoverCardPortalProps,
+  type HoverCardProps,
+  type HoverCardTriggerProps
+} from './components/hover-card';
+export { Label, type LabelProps } from './components/label';
+export {
+  Popover,
+  PopoverAnchor,
+  PopoverContent,
+  PopoverTrigger,
+  type PopoverAnchorProps,
+  type PopoverContentProps,
+  type PopoverProps,
+  type PopoverTriggerProps
+} from './components/popover';
+export { Progress, type ProgressProps } from './components/progress';
+export { RadioGroup, RadioGroupItem, type RadioGroupItemProps, type RadioGroupProps } from './components/radio-group';
+export { ScrollArea, ScrollBar, type ScrollAreaProps, type ScrollBarProps } from './components/scroll-area';
 export {
   Select,
   SelectContent,
@@ -127,10 +226,20 @@ export {
   SelectScrollUpButton,
   SelectSeparator,
   SelectTrigger,
-  SelectValue
+  SelectValue,
+  type SelectContentProps,
+  type SelectGroupProps,
+  type SelectItemProps,
+  type SelectLabelProps,
+  type SelectProps,
+  type SelectScrollDownButtonProps,
+  type SelectScrollUpButtonProps,
+  type SelectSeparatorProps,
+  type SelectTriggerProps,
+  type SelectValueProps
 } from './components/select';
 export { Skeleton } from './components/skeleton';
-export { Slider } from './components/slider';
+export { Slider, type SliderProps } from './components/slider';
 export { Switch, type SwitchProps } from './components/switch';
 export { Textarea, type TextareaProps } from './components/textarea';
 export {
@@ -164,12 +273,17 @@ export {
   telemetryEventVersion,
   validateTelemetryEvent,
   type TelemetryContext,
+  type TelemetryEmitFailureReason,
   type TelemetryEmitResult,
+  type TelemetryEmitterOptions,
   type TelemetryEvent,
   type TelemetryEventInput,
+  type TelemetryEventSchemaMap,
   type TelemetryEventType,
+  type TelemetryPayloadFor,
   type TelemetryPayloadMap,
   type TelemetrySink,
   type TelemetryTheme,
+  type TelemetryValidationOptions,
   type TelemetryValidationResult
 } from './telemetry';

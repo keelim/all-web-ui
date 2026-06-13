@@ -45,6 +45,7 @@ Shared UI primitives and theme tokens for the keelim web apps.
 - `@keelim/all-web-ui/toast`
 - `@keelim/all-web-ui/manifest`
 - `@keelim/all-web-ui/telemetry`
+- `@keelim/all-web-ui/theme-contract`
 
 ## Install
 
@@ -94,20 +95,21 @@ export function PortfolioSummary() {
 ```
 
 `styles.css` provides the component layer and the default finance light tokens.
-Import `themes/finance.css` when a consumer uses `next-themes` class or
-`data-theme` dark mode; it maps these selectors to the same semantic shadcn
-variables used by the shared primitives:
+Import `themes/finance.css` when a consumer scopes finance light or dark mode
+outside the global `styles.css` default; it maps these selectors to the same
+semantic shadcn variables used by the shared primitives:
 
 | Consumer strategy | Supported selector |
 | --- | --- |
-| `next-themes` class strategy | `.dark` |
-| `next-themes` data strategy | `[data-theme='dark']` |
-| Package-scoped dark shell | `.theme-dark`, `.kui-theme-dark` |
-| Finance shell with dark state | `.theme-finance.dark`, `.kui-theme-finance.dark` |
+| Finance class strategy | `.theme-finance`, `.kui-theme-finance` |
+| Finance data strategy | `[data-kui-theme='finance']` |
+| Finance shell with class dark state | `.theme-finance.dark`, `.kui-theme-finance.dark`, `[data-kui-theme='finance'].dark` |
+| Finance shell with data dark state | `[data-kui-theme='finance'][data-theme='dark']` |
 
 Admin surfaces should import `themes/admin-bw.css` and wrap the relevant area in
-`.admin-bw-theme`, `.theme-admin-bw`, or `.kui-theme-admin-bw`. Spacing-only
-consumers can import `@keelim/all-web-ui/spacing.css` without taking on a color theme.
+`.admin-bw-theme`, `.theme-admin-bw`, `.kui-theme-admin-bw`, or
+`[data-kui-theme='admin-bw']`. Spacing-only consumers can import
+`@keelim/all-web-ui/spacing.css` without taking on a color theme.
 
 ```tsx
 import '@keelim/all-web-ui/styles.css';
@@ -169,10 +171,12 @@ exports, manifest entries, and focused tests. See `.stitch/README.md` and
 
 `@keelim/all-web-ui` owns the shared shadcn-compatible primitive layer for the web apps. Downstream `components/ui/*` files in consumer repos should be temporary re-export shims or app-specific composites, not independent generic primitive implementations.
 
-The `componentManifest` export records lifecycle status, component export paths,
-required style imports, and optional theme scopes for shared primitives. New
-primitive exports should be added to `src/index.ts`, `package.json`, and the
-manifest before consumer migration. `bun test` includes manifest/package export
-parity checks; a missing package export, missing component source file, or
-manifest entry that is absent from `DESIGN.md` is expected to fail before
-release.
+The frozen `componentManifest` export records lifecycle status, component export
+paths, required style imports, and optional theme scopes for shared primitives.
+The `theme-contract` subpath owns the canonical theme ids, selectors, and
+required `--kui-*`/shadcn bridge token list used by both telemetry context and
+manifest metadata. New primitive exports should be added to `src/index.ts`,
+`package.json`, and the manifest before consumer migration. `bun test` includes
+manifest/package export parity checks; a missing package export, missing
+component source file, or manifest entry that is absent from `DESIGN.md` is
+expected to fail before release.

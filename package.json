@@ -219,6 +219,11 @@
       "types": "./dist/telemetry.d.ts",
       "import": "./dist/telemetry.js",
       "default": "./dist/telemetry.js"
+    },
+    "./theme-contract": {
+      "types": "./dist/theme-contract.d.ts",
+      "import": "./dist/theme-contract.js",
+      "default": "./dist/theme-contract.js"
     }
   },
   "dependencies": {

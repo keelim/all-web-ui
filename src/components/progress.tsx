@@ -5,6 +5,8 @@ import * as ProgressPrimitive from "@radix-ui/react-progress"
 
 import { cn } from "../lib/cn"
 
+export type ProgressProps = React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>
+
 function normalizeProgressValue(value: number | null | undefined) {
   if (value == null || !Number.isFinite(value)) {
     return null
@@ -15,7 +17,7 @@ function normalizeProgressValue(value: number | null | undefined) {
 
 const Progress = React.forwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>
+  ProgressProps
 >(({ className, value, ...props }, ref) => {
   const normalizedValue = normalizeProgressValue(value)
   const indicatorValue = normalizedValue ?? 0

@@ -416,11 +416,15 @@ Consumers should choose the smallest style surface that matches their use case:
   taking on a color theme.
 
 Finance dark mode is selector-driven for Next/shadcn consumers. Preserve
-`.dark`, `[data-theme='dark']`, `.theme-dark`, `.kui-theme-dark`,
-`.theme-finance.dark`, and `.kui-theme-finance.dark` as equivalent dark-mode
-entry points. Components should continue to read semantic shadcn variables such
-as `--background`, `--foreground`, `--card`, `--popover`, `--border`, and
-`--ring` through the theme bridge instead of branching per consumer.
+`.theme-finance.dark`, `.kui-theme-finance.dark`,
+`[data-kui-theme='finance'].dark`, and
+`[data-kui-theme='finance'][data-theme='dark']` as the scoped dark-mode entry
+points. Generic `.dark`, `[data-theme='dark']`, `.theme-dark`, and
+`.kui-theme-dark` belong to the base app shell or consumer design system, not
+the package finance theme file. Components should continue to read semantic
+shadcn variables such as `--background`, `--foreground`, `--card`,
+`--popover`, `--border`, and `--ring` through the theme bridge instead of
+branching per consumer.
 
 ## Runtime Parity Notes
 

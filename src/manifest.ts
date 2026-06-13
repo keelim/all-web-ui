@@ -1,3 +1,5 @@
+import { kuiThemeSelectors, type KuiThemeScopeName } from './theme-contract';
+
 export type ComponentLifecycle = 'stable' | 'deprecated' | 'removed';
 
 export type ComponentStyleImport = '@keelim/all-web-ui/styles.css';
@@ -7,7 +9,7 @@ export type ComponentThemeStyleImport =
   | '@keelim/all-web-ui/themes/admin-bw.css';
 
 export type ComponentThemeScope = {
-  name: 'finance' | 'finance-dark' | 'admin-bw';
+  name: KuiThemeScopeName;
   styleImport: ComponentThemeStyleImport;
   selectors: readonly string[];
   required: boolean;
@@ -29,24 +31,24 @@ export const sharedComponentThemeScopes = [
   {
     name: 'finance',
     styleImport: '@keelim/all-web-ui/themes/finance.css',
-    selectors: ['.theme-finance', '.kui-theme-finance'],
+    selectors: kuiThemeSelectors.finance,
     required: false
   },
   {
     name: 'finance-dark',
     styleImport: '@keelim/all-web-ui/themes/finance.css',
-    selectors: ['.dark', "[data-theme='dark']", '.theme-dark', '.kui-theme-dark', '.theme-finance.dark', '.kui-theme-finance.dark'],
+    selectors: kuiThemeSelectors['finance-dark'],
     required: false
   },
   {
     name: 'admin-bw',
     styleImport: '@keelim/all-web-ui/themes/admin-bw.css',
-    selectors: ['.admin-bw-theme', '.theme-admin-bw', '.kui-theme-admin-bw'],
+    selectors: kuiThemeSelectors['admin-bw'],
     required: false
   }
 ] as const satisfies readonly ComponentThemeScope[];
 
-export const componentManifest: ComponentManifestEntry[] = [
+const componentManifestEntries = [
   { name: 'Accordion', exportPath: '@keelim/all-web-ui/accordion', lifecycle: 'stable', styleImports: sharedComponentStyleImports, themeScopes: sharedComponentThemeScopes },
   { name: 'Alert', exportPath: '@keelim/all-web-ui/alert', lifecycle: 'stable', styleImports: sharedComponentStyleImports, themeScopes: sharedComponentThemeScopes },
   { name: 'AlertDialog', exportPath: '@keelim/all-web-ui/alert-dialog', lifecycle: 'stable', styleImports: sharedComponentStyleImports, themeScopes: sharedComponentThemeScopes },
@@ -81,4 +83,8 @@ export const componentManifest: ComponentManifestEntry[] = [
   { name: 'Textarea', exportPath: '@keelim/all-web-ui/textarea', lifecycle: 'stable', styleImports: sharedComponentStyleImports, themeScopes: sharedComponentThemeScopes },
   { name: 'Tooltip', exportPath: '@keelim/all-web-ui/tooltip', lifecycle: 'stable', styleImports: sharedComponentStyleImports, themeScopes: sharedComponentThemeScopes },
   { name: 'Toast', exportPath: '@keelim/all-web-ui/toast', lifecycle: 'stable', styleImports: sharedComponentStyleImports, themeScopes: sharedComponentThemeScopes }
-];
+] as const satisfies readonly ComponentManifestEntry[];
+
+export const componentManifest = Object.freeze(
+  componentManifestEntries.map((entry) => Object.freeze(entry))
+) as readonly ComponentManifestEntry[];

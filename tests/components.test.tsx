@@ -6,11 +6,13 @@ import './dom-setup';
 
 import {
   Badge,
+  badgeVariants,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
   BreadcrumbSeparator,
   Button,
+  buttonVariants,
   Card,
   CardContent,
   DropdownMenu,
@@ -26,6 +28,7 @@ import {
   OnboardingTour,
   Panel,
   Sheet,
+  sheetVariants,
   SheetTrigger,
   sharedComponentStyleImports,
   sharedComponentThemeScopes,
@@ -39,14 +42,29 @@ import {
   Tooltip,
   TooltipProvider,
   TooltipTrigger,
+  PopoverAnchor,
   componentManifest,
   createTelemetryEmitter,
   noopTelemetrySink,
   serializeTelemetryEvent,
   telemetryEventVersion,
   validateTelemetryEvent,
-  type TelemetryEvent
+  type CalendarDayButtonProps,
+  type CalendarProps,
+  type DialogContentProps,
+  type PopoverContentProps,
+  type SelectTriggerProps,
+  type SheetContentProps,
+  type TabsTriggerProps,
+  type TelemetryEvent,
+  type TooltipContentProps
 } from '../src';
+import { createTelemetrySchema } from '../src/telemetry';
+import {
+  kuiThemeSelectors,
+  requiredThemeTokenNames,
+  themeTokenContract
+} from '../src/theme-contract';
 
 function manifestNameToDesignKey(name: string) {
   return name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
@@ -87,6 +105,17 @@ function readDesignComponentKeys(designMd: string) {
   return new Set([...componentsBlock.matchAll(/^  ([a-z0-9-]+):$/gm)].map((match) => match[1]));
 }
 
+type PublicWrapperPropAliases = [
+  CalendarProps,
+  CalendarDayButtonProps,
+  DialogContentProps,
+  PopoverContentProps,
+  SelectTriggerProps,
+  SheetContentProps,
+  TabsTriggerProps,
+  TooltipContentProps
+];
+
 describe('all-web-ui exports', () => {
   it('renders shared primitives with stable class contracts', () => {
     expect(renderToStaticMarkup(<Button variant="primary">저장</Button>)).toContain('kui-button--primary');
@@ -102,6 +131,8 @@ describe('all-web-ui exports', () => {
   });
 
   it('exports shadcn-compatible primitives and manifest entries', () => {
+    const publicWrapperPropAliases: PublicWrapperPropAliases | null = null;
+
     expect(renderToStaticMarkup(<Card><CardContent>카드</CardContent></Card>)).toContain('kui-panel');
     expect(renderToStaticMarkup(<Table><TableBody><TableRow><TableCell>셀</TableCell></TableRow></TableBody></Table>)).toContain('<table');
     expect(renderToStaticMarkup(<Tabs defaultValue="a"><TabsList><TabsTrigger value="a">A</TabsTrigger></TabsList></Tabs>)).toContain('role="tablist"');
@@ -111,11 +142,21 @@ describe('all-web-ui exports', () => {
     expect(renderToStaticMarkup(<Breadcrumb><BreadcrumbList><BreadcrumbItem>홈</BreadcrumbItem></BreadcrumbList></Breadcrumb>)).toContain('aria-label="breadcrumb"');
     expect(componentManifest.some((entry) => entry.exportPath === '@keelim/all-web-ui/button' && entry.lifecycle === 'stable')).toBe(true);
     expect(componentManifest.some((entry) => entry.exportPath === '@keelim/all-web-ui/metric-card' && entry.lifecycle === 'stable')).toBe(true);
+    expect(publicWrapperPropAliases).toBeNull();
+    expect(buttonVariants({ variant: 'primary' })).toContain('kui-button--primary');
+    expect(badgeVariants({ tone: 'success' })).toContain('kui-badge--success');
+    expect(sheetVariants({ side: 'left' })).toContain('left-0');
+    expect(PopoverAnchor).toBeTruthy();
   });
 
   it('exposes required style imports and optional theme scopes in the manifest', () => {
     expect(sharedComponentStyleImports).toEqual(['@keelim/all-web-ui/styles.css']);
     expect(sharedComponentThemeScopes.map((scope) => scope.name)).toEqual(['finance', 'finance-dark', 'admin-bw']);
+    expect(sharedComponentThemeScopes[0].selectors).toEqual(kuiThemeSelectors.finance);
+    expect(sharedComponentThemeScopes[1].selectors).toEqual(kuiThemeSelectors['finance-dark']);
+    expect(sharedComponentThemeScopes[2].selectors).toEqual(kuiThemeSelectors['admin-bw']);
+    expect(Object.isFrozen(componentManifest)).toBe(true);
+    expect(Object.isFrozen(componentManifest[0])).toBe(true);
 
     for (const entry of componentManifest) {
       expect(entry.styleImports).toContain('@keelim/all-web-ui/styles.css');
@@ -164,12 +205,13 @@ describe('all-web-ui exports', () => {
     expect(packageJson.exports['./metric-card'].import).toBe('./dist/components/metric-card.js');
     expect(packageJson.exports['./onboarding'].import).toBe('./dist/components/onboarding.js');
     expect(packageJson.exports['./telemetry'].import).toBe('./dist/telemetry.js');
+    expect(packageJson.exports['./theme-contract'].import).toBe('./dist/theme-contract.js');
     expect(packageJson.sideEffects).toEqual(['./dist/**/*.css']);
     expect(spacingCss).toContain('--space-4: 1rem;');
     expect(spacingCss).toContain('--kui-space-4: var(--space-4);');
   });
 
-  it('validates and serializes opt-in telemetry events without a default sink', () => {
+  it('validates and serializes opt-in telemetry events without a default sink', async () => {
     const event = {
       type: 'onboarding.step.viewed',
       payload: {
@@ -184,7 +226,8 @@ describe('all-web-ui exports', () => {
       }
     } satisfies Omit<TelemetryEvent<'onboarding.step.viewed'>, 'version'>;
     const validation = validateTelemetryEvent(event);
-    const emitted: TelemetryEvent[] = [];
+    const emitted: TelemetryEvent<string>[] = [];
+    let runtimeTelemetryEnabled = true;
     const optOutEmitter = createTelemetryEmitter({
       optIn: false,
       sink: {
@@ -199,12 +242,54 @@ describe('all-web-ui exports', () => {
         emit: (payload) => emitted.push(payload)
       }
     });
+    const runtimeOptOutEmitter = createTelemetryEmitter({
+      isEnabled: () => runtimeTelemetryEnabled,
+      sink: {
+        enabled: true,
+        emit: (payload) => emitted.push(payload)
+      }
+    });
     const invalidValidation = validateTelemetryEvent({
       type: 'onboarding.step.viewed',
       payload: {
         tourId: 'first-run',
         stepId: 'profile',
         stepIndex: 'zero'
+      }
+    });
+    const unknownPayloadValidation = validateTelemetryEvent({
+      type: 'tool.entry',
+      payload: {
+        toolId: 'portfolio',
+        source: 'toolbar',
+        email: 'private@example.com'
+      },
+      context: {
+        app: 'keelim-vercel',
+        accountId: 'acct_123'
+      }
+    });
+    const asyncFailureEmitter = createTelemetryEmitter({
+      optIn: true,
+      sink: {
+        enabled: true,
+        emit: async () => {
+          throw new Error('network unavailable');
+        }
+      }
+    });
+    const appTelemetrySchemas = createTelemetrySchema({
+      'app.panel.opened': {
+        required: { panelId: 'string' },
+        optional: { latencyMs: 'number' }
+      }
+    });
+    const appTelemetryEmitter = createTelemetryEmitter({
+      optIn: true,
+      schemas: appTelemetrySchemas,
+      sink: {
+        enabled: true,
+        emit: (payload) => emitted.push(payload)
       }
     });
 
@@ -219,6 +304,33 @@ describe('all-web-ui exports', () => {
     expect(optInEmitter.emit(event)).toEqual({ emitted: true });
     expect(emitted[0]?.type).toBe('onboarding.step.viewed');
     expect(invalidValidation.ok).toBe(false);
+    expect(optInEmitter.emit({
+      type: 'onboarding.step.viewed',
+      payload: {
+        tourId: 'first-run',
+        stepId: 'profile',
+        stepIndex: 'zero'
+      }
+    })).toMatchObject({ emitted: false, reason: 'invalid-event' });
+    expect(unknownPayloadValidation).toMatchObject({
+      ok: false,
+      errors: expect.arrayContaining([
+        'tool.entry.payload.email is not supported',
+        'context.accountId is not supported'
+      ])
+    });
+    expect(runtimeOptOutEmitter.emit(event)).toEqual({ emitted: true });
+    runtimeTelemetryEnabled = false;
+    expect(runtimeOptOutEmitter.emit(event)).toEqual({ emitted: false, reason: 'opt-out' });
+    expect(await asyncFailureEmitter.emit(event)).toMatchObject({ emitted: false, reason: 'sink-error' });
+    expect(appTelemetryEmitter.emit({
+      type: 'app.panel.opened',
+      payload: {
+        panelId: 'ops-agenda',
+        latencyMs: 42
+      }
+    })).toEqual({ emitted: true });
+    expect(emitted.at(-1)?.type).toBe('app.panel.opened');
   });
 
   it('renders onboarding steps, tour, and highlight primitives across themes', () => {
@@ -368,14 +480,26 @@ describe('all-web-ui exports', () => {
 
     expect(packageJson.exports['./themes/finance.css']).toBe('./dist/styles/themes/finance.css');
     expect(packageJson.exports['./themes/admin-bw.css']).toBe('./dist/styles/themes/admin-bw.css');
-    expect(financeCss).toContain("[data-theme='dark']");
+    expect(themeTokenContract.required).toBe(requiredThemeTokenNames);
+    expect(financeCss).toContain("[data-kui-theme='finance']");
+    expect(financeCss).toContain("[data-kui-theme='finance'][data-theme='dark']");
+    expect(financeCss).not.toMatch(/^:root,/m);
+    expect(financeCss).not.toMatch(/^\.dark,/m);
     expect(financeCss).toContain('--kui-color-bg: hsl(222.2 84% 4.9%);');
     expect(financeCss).toContain('--background: 222.2 84% 4.9%;');
     expect(financeCss).toContain('--popover: 222.2 84% 5.8%;');
     expect(adminCss).toContain('.admin-bw-theme');
+    expect(adminCss).toContain("[data-kui-theme='admin-bw']");
+    expect(adminCss).toContain('--kui-radius-md: 0.5rem;');
+    expect(adminCss).toContain("--font-sans: 'Pretendard'");
     expect(adminCss).toContain('--background: 0 0% 2%;');
     expect(adminCss).toContain('--popover: 0 0% 7%;');
     expect(adminCss).toContain('--ring: 0 0% 97%;');
+
+    for (const tokenName of requiredThemeTokenNames) {
+      expect(financeCss).toContain(tokenName);
+      expect(adminCss).toContain(tokenName);
+    }
   });
 
   it('renders panel loading markup with progress steps', () => {
