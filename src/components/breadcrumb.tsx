@@ -4,11 +4,17 @@ import { ChevronRight, MoreHorizontal } from 'lucide-react';
 
 import { cn } from '../lib/cn';
 
+const BreadcrumbSeparatorContext = React.createContext<React.ReactNode | undefined>(undefined);
+
 export const Breadcrumb = React.forwardRef<
   HTMLElement,
   React.ComponentPropsWithoutRef<'nav'> & { separator?: React.ReactNode }
->(function Breadcrumb({ ...props }, ref) {
-  return <nav ref={ref} aria-label="breadcrumb" {...props} />;
+>(function Breadcrumb({ separator, ...props }, ref) {
+  return (
+    <BreadcrumbSeparatorContext.Provider value={separator}>
+      <nav ref={ref} aria-label="breadcrumb" {...props} />
+    </BreadcrumbSeparatorContext.Provider>
+  );
 });
 
 export const BreadcrumbList = React.forwardRef<HTMLOListElement, React.ComponentPropsWithoutRef<'ol'>>(
@@ -38,9 +44,11 @@ export const BreadcrumbPage = React.forwardRef<HTMLSpanElement, React.ComponentP
 );
 
 export function BreadcrumbSeparator({ children, className, ...props }: React.ComponentProps<'li'>) {
+  const separator = React.useContext(BreadcrumbSeparatorContext);
+
   return (
     <li role="presentation" aria-hidden="true" className={cn('[&>svg]:size-3.5', className)} {...props}>
-      {children ?? <ChevronRight />}
+      {children !== undefined ? children : separator !== undefined ? separator : <ChevronRight />}
     </li>
   );
 }

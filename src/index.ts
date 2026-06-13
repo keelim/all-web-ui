@@ -39,7 +39,8 @@ export {
   TableFooter,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
+  type TableProps
 } from './components/table';
 export { Tabs, TabsContent, TabsList, TabsTrigger } from './components/tabs';
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './components/tooltip';
@@ -130,7 +131,7 @@ export {
 } from './components/select';
 export { Skeleton } from './components/skeleton';
 export { Slider } from './components/slider';
-export { Switch } from './components/switch';
+export { Switch, type SwitchProps } from './components/switch';
 export { Textarea, type TextareaProps } from './components/textarea';
 export {
   Toast,

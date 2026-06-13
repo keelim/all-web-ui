@@ -2,9 +2,8 @@ import * as React from 'react';
 
 import { cn } from '../lib/cn';
 
-export type LoadingStatusProps = {
+export type LoadingStatusProps = React.HTMLAttributes<HTMLDivElement> & {
   label: string;
-  className?: string;
   spinnerClassName?: string;
   caption?: string;
   steps?: readonly string[];
@@ -12,6 +11,18 @@ export type LoadingStatusProps = {
   variant?: 'inline' | 'panel';
   tone?: 'default' | 'accent' | 'muted';
 };
+
+function clampActiveStep(activeStep: number, stepCount: number) {
+  if (stepCount <= 0) {
+    return -1;
+  }
+
+  if (!Number.isFinite(activeStep)) {
+    return 0;
+  }
+
+  return Math.min(stepCount - 1, Math.max(0, Math.trunc(activeStep)));
+}
 
 export function LoadingStatus({
   label,
@@ -21,11 +32,21 @@ export function LoadingStatus({
   steps,
   activeStep = 0,
   variant = 'inline',
-  tone = 'default'
+  tone = 'default',
+  'aria-live': ariaLive = 'polite',
+  ...props
 }: LoadingStatusProps) {
+  const normalizedActiveStep = clampActiveStep(activeStep, steps?.length ?? 0);
+
   if (variant === 'panel') {
     return (
-      <div role="status" aria-live="polite" data-loading-variant="panel" className={cn('kui-loading-panel', `kui-loading-panel--${tone}`, className)}>
+      <div
+        {...props}
+        role="status"
+        aria-live={ariaLive}
+        data-loading-variant="panel"
+        className={cn('kui-loading-panel', `kui-loading-panel--${tone}`, className)}
+      >
         <div className="kui-loading-panel__header">
           <span aria-hidden="true" className={cn('kui-spinner', spinnerClassName)} />
           <div className="kui-loading-panel__copy">
@@ -41,7 +62,7 @@ export function LoadingStatus({
         {steps?.length ? (
           <ol className="kui-loading-panel__steps">
             {steps.map((step, index) => {
-              const isDone = index <= activeStep;
+              const isDone = index <= normalizedActiveStep;
               return (
                 <li key={step} className={cn('kui-loading-panel__step', isDone && 'is-active')}>
                   {step}
@@ -55,7 +76,13 @@ export function LoadingStatus({
   }
 
   return (
-    <div role="status" aria-live="polite" data-loading-variant="inline" className={cn('kui-loading-inline', className)}>
+    <div
+      {...props}
+      role="status"
+      aria-live={ariaLive}
+      data-loading-variant="inline"
+      className={cn('kui-loading-inline', className)}
+    >
       <span aria-hidden="true" className={cn('kui-spinner', spinnerClassName)} />
       <span>{label}</span>
     </div>

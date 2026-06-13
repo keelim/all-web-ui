@@ -9,6 +9,7 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
+  BreadcrumbSeparator,
   Button,
   Card,
   CardContent,
@@ -108,6 +109,38 @@ describe('all-web-ui exports', () => {
     expect(renderToStaticMarkup(<Breadcrumb><BreadcrumbList><BreadcrumbItem>홈</BreadcrumbItem></BreadcrumbList></Breadcrumb>)).toContain('aria-label="breadcrumb"');
     expect(componentManifest.some((entry) => entry.exportPath === '@keelim/all-web-ui/button' && entry.lifecycle === 'stable')).toBe(true);
     expect(componentManifest.some((entry) => entry.exportPath === '@keelim/all-web-ui/metric-card' && entry.lifecycle === 'stable')).toBe(true);
+  });
+
+  it('keeps component wrapper props on their intended DOM nodes', () => {
+    const breadcrumbHtml = renderToStaticMarkup(
+      <Breadcrumb separator={<span data-separator="slash">/</span>} data-testid="trail">
+        <BreadcrumbList>
+          <BreadcrumbItem>홈</BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>리포트</BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    );
+    const tableHtml = renderToStaticMarkup(
+      <Table
+        containerClassName="scroll-region"
+        containerProps={{ role: 'region', 'aria-label': 'Positions', 'data-testid': 'positions-region' }}
+      >
+        <TableBody>
+          <TableRow>
+            <TableCell>셀</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    );
+
+    expect(breadcrumbHtml).toContain('data-testid="trail"');
+    expect(breadcrumbHtml).toContain('data-separator="slash"');
+    expect(breadcrumbHtml.match(/<nav[^>]*\sseparator=/)).toBeNull();
+    expect(tableHtml).toContain('role="region"');
+    expect(tableHtml).toContain('aria-label="Positions"');
+    expect(tableHtml).toContain('scroll-region');
+    expect(tableHtml).toContain('<table');
   });
 
   it('exposes shared spacing css as a package export', () => {
@@ -346,6 +379,23 @@ describe('all-web-ui exports', () => {
     expect(html).toContain('data-loading-variant="panel"');
     expect(html).toContain('kui-loading-panel__step is-active');
     expect(html).toContain('진행 상황 확인');
+  });
+
+  it('passes LoadingStatus root attributes and clamps progress steps', () => {
+    const html = renderToStaticMarkup(
+      <LoadingStatus
+        aria-describedby="sync-caption"
+        data-testid="sync-status"
+        label="동기화 중"
+        variant="panel"
+        steps={['준비', '처리', '완료']}
+        activeStep={-10}
+      />
+    );
+
+    expect(html).toContain('aria-describedby="sync-caption"');
+    expect(html).toContain('data-testid="sync-status"');
+    expect((html.match(/is-active/g) ?? []).length).toBe(1);
   });
 
   it('keeps the Stitch DESIGN.md component catalog aligned with stable exports', () => {

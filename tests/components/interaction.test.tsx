@@ -8,6 +8,7 @@ const {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
+  Alert,
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -17,11 +18,15 @@ const {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
+  AlertTitle,
   Avatar,
   AvatarFallback,
   AvatarImage,
   Calendar,
+  Card,
+  CardTitle,
   Checkbox,
+  DataNumber,
   Dialog,
   DialogContent,
   DialogDescription,
@@ -40,6 +45,9 @@ const {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
+  MetricCard,
+  MetricValue,
+  Panel,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -58,6 +66,10 @@ const {
   SheetTrigger,
   Slider,
   Switch,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
   Tabs,
   TabsContent,
   TabsList,
@@ -352,8 +364,57 @@ describe('all-web-ui DOM interaction contracts', () => {
     expect(document.activeElement).toBe(trigger);
   });
 
-  it('opens HoverCard from hover and keyboard focus, then closes on unhover and blur', async () => {
+  it('forwards refs through heading, polymorphic, and table wrapper primitives', () => {
+    const alertTitleRef = React.createRef<HTMLHeadingElement>();
+    const cardTitleRef = React.createRef<HTMLHeadingElement>();
+    const panelRef = React.createRef<HTMLElement>();
+    const metricCardRef = React.createRef<HTMLElement>();
+    const metricValueRef = React.createRef<HTMLElement>();
+    const dataNumberRef = React.createRef<HTMLElement>();
+    const tableRef = React.createRef<HTMLTableElement>();
+    const tableContainerRef = React.createRef<HTMLDivElement>();
+
     render(
+      <>
+        <Alert>
+          <AlertTitle ref={alertTitleRef}>System alert</AlertTitle>
+        </Alert>
+        <Card>
+          <CardTitle ref={cardTitleRef}>Revenue card</CardTitle>
+        </Card>
+        <Panel ref={panelRef} as="section">
+          Panel body
+        </Panel>
+        <MetricCard ref={metricCardRef} as="article">
+          <MetricValue ref={metricValueRef}>12%</MetricValue>
+          <DataNumber ref={dataNumberRef}>42</DataNumber>
+        </MetricCard>
+        <Table
+          ref={tableRef}
+          containerRef={tableContainerRef}
+          containerProps={{ 'data-testid': 'table-shell' }}
+        >
+          <TableBody>
+            <TableRow>
+              <TableCell>셀</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </>
+    );
+
+    expect(alertTitleRef.current?.tagName).toBe('H5');
+    expect(cardTitleRef.current?.tagName).toBe('H3');
+    expect(panelRef.current?.tagName).toBe('SECTION');
+    expect(metricCardRef.current?.tagName).toBe('ARTICLE');
+    expect(metricValueRef.current?.tagName).toBe('STRONG');
+    expect(dataNumberRef.current?.tagName).toBe('SPAN');
+    expect(tableRef.current?.tagName).toBe('TABLE');
+    expect(tableContainerRef.current).toBe(screen.getByTestId('table-shell'));
+  });
+
+  it('opens HoverCard from hover and keyboard focus, then closes on unhover and blur', async () => {
+    const { container } = render(
       <HoverCard openDelay={0} closeDelay={0}>
         <HoverCardTrigger asChild>
           <button type="button">Revenue owner</button>
@@ -367,6 +428,7 @@ describe('all-web-ui DOM interaction contracts', () => {
     fireEvent.mouseEnter(trigger);
     const content = (await screen.findByText(/shared revenue reporting/i)).closest('[data-state]') as HTMLElement;
     expect(content.getAttribute('data-state')).toBe('open');
+    expect(container.contains(content)).toBe(false);
     fireEvent.pointerLeave(trigger, { pointerType: 'mouse' });
     fireEvent.mouseLeave(trigger);
     await waitFor(() => expect(content.getAttribute('data-state')).toBe('closed'));
@@ -421,6 +483,14 @@ describe('all-web-ui DOM interaction contracts', () => {
     rerender(<Progress aria-label="Sync progress" value={100} />);
     expect(progress.getAttribute('aria-valuenow')).toBe('100');
     expect(progress.querySelector('[style*="translateX(-0%)"]')).toBeTruthy();
+
+    rerender(<Progress aria-label="Sync progress" value={150} />);
+    expect(progress.getAttribute('aria-valuenow')).toBe('100');
+    expect(progress.querySelector('[style*="translateX(-0%)"]')).toBeTruthy();
+
+    rerender(<Progress aria-label="Sync progress" value={-20} />);
+    expect(progress.getAttribute('aria-valuenow')).toBe('0');
+    expect(progress.querySelector('[style*="translateX(-100%)"]')).toBeTruthy();
   });
 
   it('moves RadioGroup selection with arrow keys and Space', async () => {
@@ -499,6 +569,10 @@ describe('all-web-ui DOM interaction contracts', () => {
 
     fireEvent.keyDown(slider, { key: 'End' });
     expect(slider.getAttribute('aria-valuenow')).toBe('100');
+
+    cleanup();
+    render(<Slider aria-label="Allocation range" max={100} min={0} value={[20, 80]} />);
+    expect(screen.getAllByRole('slider')).toHaveLength(2);
   });
 
   it('toggles custom Switch from click and keyboard while respecting disabled', async () => {
@@ -526,6 +600,39 @@ describe('all-web-ui DOM interaction contracts', () => {
 
     fireEvent.click(disabled);
     expect(disabledChange).not.toHaveBeenCalled();
+
+    const composedClick = mock();
+    const composedChange = mock();
+    cleanup();
+    render(
+      <Switch
+        aria-label="Click composition"
+        defaultChecked={false}
+        onClick={composedClick}
+        onCheckedChange={composedChange}
+      />
+    );
+
+    const composed = screen.getByRole('switch', { name: /click composition/i });
+    fireEvent.click(composed);
+    expect(composedClick).toHaveBeenCalledTimes(1);
+    expect(composedChange).toHaveBeenLastCalledWith(true);
+    expect(composed.getAttribute('aria-checked')).toBe('true');
+
+    const preventedChange = mock();
+    cleanup();
+    render(
+      <Switch
+        aria-label="Prevented switch"
+        onClick={(event) => event.preventDefault()}
+        onCheckedChange={preventedChange}
+      />
+    );
+
+    const prevented = screen.getByRole('switch', { name: /prevented switch/i });
+    fireEvent.click(prevented);
+    expect(preventedChange).not.toHaveBeenCalled();
+    expect(prevented.getAttribute('aria-checked')).toBe('false');
   });
 
   it('renders Toast action, close, destructive variant, and viewport position contract', async () => {
@@ -713,7 +820,7 @@ describe('all-web-ui DOM interaction contracts', () => {
   });
 
   it('opens Tooltip from hover and focus with aria-describedby linkage', async () => {
-    render(
+    const { container } = render(
       <TooltipProvider delayDuration={0}>
         <Tooltip>
           <TooltipTrigger>Margin</TooltipTrigger>
@@ -727,6 +834,7 @@ describe('all-web-ui DOM interaction contracts', () => {
     fireEvent.mouseMove(trigger);
     const tooltip = await screen.findByRole('tooltip');
     expect(tooltip.textContent).toContain('Net revenue after costs.');
+    expect(container.contains(tooltip)).toBe(false);
     await waitFor(() => expect(trigger.getAttribute('aria-describedby')).toBe(tooltip.id));
 
     fireEvent.pointerLeave(trigger, { pointerType: 'mouse' });
