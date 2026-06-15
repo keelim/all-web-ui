@@ -22,6 +22,13 @@ The project is prepared for `google-labs-code/stitch-skills` through
   workflow references, not vendored source.
 - Convert Stitch output into durable package primitives only when the result
   belongs in this shared library.
+- Keep `.stitch/component-reference-board.prompt.md` reference-only. Do not put
+  color tokens, font tokens, hex/HSL values, or theme instructions there; encode
+  durable token semantics in root `DESIGN.md` and CSS token files.
+- When mutating or verifying a remote Stitch design system, treat
+  `get_project.designTheme.designMd` parity with root `DESIGN.md` as the success
+  criterion. Do not mark `.stitch/metadata.json` as synced just because
+  create/upload/apply calls succeeded.
 
 ## Package Contract
 
@@ -42,6 +49,24 @@ together so agent prompts and package styles do not drift.
 Any change to `DESIGN.md` must include a fresh `bun run design:lint` result
 before the work is called complete. Do not treat design.md lint as optional for
 design-token, Stitch, or visual-identity edits.
+
+For public API, theme, telemetry, build, or publishing contract changes, inspect
+the coupled contract layers together: `src/index.ts`, `package.json` exports,
+`src/manifest.ts`, theme CSS entries, `src/telemetry.ts`, `scripts/build.mjs`,
+and `.github/workflows/publish-package.yml`. If one layer changes, update or
+explicitly clear the related layers so package consumers do not get drift.
+
+## Research Exports
+
+When producing `all-web-ui` improvement or research artifacts from the
+`keelim-maestro` root, keep the analyzed source of truth in this child repo and
+write root-owned artifacts under
+`/Users/keelim/Desktop/keelim-maestro/docs/research/...`. Do not place root
+research exports in this package unless the user explicitly asks.
+
+For evidence-only exports, validate item count/schema, URL bans, duplicate
+intent, actual file-path existence, and line-number ranges before calling the
+saved artifact complete.
 
 ## Verification
 
