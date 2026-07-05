@@ -1,6 +1,6 @@
 # all-web-ui
 
-Shared UI primitives and theme tokens for the keelim web apps.
+Shared UI primitives and theme tokens for keelim web apps.
 
 ## Exports
 
@@ -47,7 +47,14 @@ Shared UI primitives and theme tokens for the keelim web apps.
 - `@keelim/all-web-ui/telemetry`
 - `@keelim/all-web-ui/theme-contract`
 
-## Install
+## Consumer Quick Start
+
+This follows the same shape as the Astryx getting-started flow: install the
+package, add global theme CSS, import the first component from a subpath, then
+use the package manifest as the local component reference. Do not add
+`@astryxdesign/*` packages for the default consumer rollout.
+
+### Install
 
 `@keelim/all-web-ui` is published to GitHub Packages. Consumer repos need an
 npm token that can read the `@keelim` scope and an `.npmrc` registry mapping:
@@ -57,23 +64,75 @@ npm token that can read the `@keelim` scope and an `.npmrc` registry mapping:
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
-Install the exact released version expected by the consumer lockfile:
+Install the exact released version expected by the current consumer lockfiles:
 
 ```bash
 bun add @keelim/all-web-ui@0.1.4
 ```
 
-The package expects React and React DOM `^19.0.0` as peer dependencies. If a
+The package expects React and React DOM `^19.0.0` peer dependencies. If a
 consumer sees duplicate React, invalid hook call, or Radix primitive runtime
-errors after install, check the app lockfile for React 19 alignment before
+errors after install, check React 19 alignment in the app lockfile before
 debugging component code.
 
-## Usage
+Current consumer mapping:
+
+| Consumer | Package | Global CSS | Theme CSS |
+| --- | --- | --- | --- |
+| `keelim-vercel` | `@keelim/all-web-ui@0.1.4` | `@keelim/all-web-ui/styles.css` | `@keelim/all-web-ui/themes/finance.css` |
+| `rich/web` | `@keelim/all-web-ui@0.1.4` | `@keelim/all-web-ui/styles.css` | `@keelim/all-web-ui/themes/admin-bw.css` |
+
+### Add Theme CSS
+
+Import shared component CSS once in the app shell, then import the theme CSS
+that matches the surface.
 
 ```tsx
+// keelim-vercel/app/layout.tsx
 import '@keelim/all-web-ui/styles.css';
 import '@keelim/all-web-ui/themes/finance.css';
-import { Button, Input, MetricCard, MetricValue, Panel } from '@keelim/all-web-ui';
+```
+
+```tsx
+// rich/web/src/app/layout.tsx
+import '@keelim/all-web-ui/styles.css';
+import '@keelim/all-web-ui/themes/admin-bw.css';
+```
+
+`styles.css` provides the component layer and default finance light tokens.
+Import `themes/finance.css` when a consumer scopes finance light or dark mode
+outside the global `styles.css` default; it maps selectors to the same semantic
+shadcn variables used by shared primitives:
+
+| Consumer strategy | Supported selector |
+| --- | --- |
+| Finance class strategy | `.theme-finance`, `.kui-theme-finance` |
+| Finance data strategy | `[data-kui-theme='finance']` |
+| Finance shell class dark state | `.theme-finance.dark`, `.kui-theme-finance.dark`, `[data-kui-theme='finance'].dark` |
+| Finance shell data dark state | `[data-kui-theme='finance'][data-theme='dark']` |
+
+Admin surfaces import `themes/admin-bw.css` and wrap the relevant area in
+`.admin-bw-theme`, `.theme-admin-bw`, `.kui-theme-admin-bw`, or
+`[data-kui-theme='admin-bw']`. Spacing-only consumers can import
+`@keelim/all-web-ui/spacing.css` without taking on color theme.
+
+Keep theme wrapper classes on the smallest app shell that needs the theme.
+Nested consumer apps should import shared component CSS once, then scope each
+optional theme wrapper around its own surface.
+
+### Add The First Component
+
+Consumer app code should use shared primitives through allowed app boundaries:
+the root layout, `components/shared/**`, `lib/ui-adapters/**`, or
+`components/ui/*` re-export shims. Keep generic `components/ui/*` files as
+temporary shims around `@keelim/all-web-ui/*`, not independent Radix/shadcn
+forks.
+
+```tsx
+import { Button } from '@keelim/all-web-ui/button';
+import { Input } from '@keelim/all-web-ui/input';
+import { MetricCard, MetricValue } from '@keelim/all-web-ui/metric-card';
+import { Panel } from '@keelim/all-web-ui/panel';
 
 export function PortfolioSummary() {
   return (
@@ -94,27 +153,9 @@ export function PortfolioSummary() {
 }
 ```
 
-`styles.css` provides the component layer and the default finance light tokens.
-Import `themes/finance.css` when a consumer scopes finance light or dark mode
-outside the global `styles.css` default; it maps these selectors to the same
-semantic shadcn variables used by the shared primitives:
-
-| Consumer strategy | Supported selector |
-| --- | --- |
-| Finance class strategy | `.theme-finance`, `.kui-theme-finance` |
-| Finance data strategy | `[data-kui-theme='finance']` |
-| Finance shell with class dark state | `.theme-finance.dark`, `.kui-theme-finance.dark`, `[data-kui-theme='finance'].dark` |
-| Finance shell with data dark state | `[data-kui-theme='finance'][data-theme='dark']` |
-
-Admin surfaces should import `themes/admin-bw.css` and wrap the relevant area in
-`.admin-bw-theme`, `.theme-admin-bw`, `.kui-theme-admin-bw`, or
-`[data-kui-theme='admin-bw']`. Spacing-only consumers can import
-`@keelim/all-web-ui/spacing.css` without taking on a color theme.
-
 ```tsx
-import '@keelim/all-web-ui/styles.css';
-import '@keelim/all-web-ui/themes/admin-bw.css';
-import { Button, Panel } from '@keelim/all-web-ui';
+import { Button } from '@keelim/all-web-ui/button';
+import { Panel } from '@keelim/all-web-ui/panel';
 
 export function AdminConsoleShell() {
   return (
@@ -127,9 +168,20 @@ export function AdminConsoleShell() {
 }
 ```
 
-Keep the finance and admin wrapper classes on the smallest app shell that needs
-the theme. Nested consumer apps should import the shared component CSS once,
-then scope each optional theme wrapper around its own surface.
+### Explore The Manifest
+
+Astryx uses its CLI as the component and token reference. In this package, use
+`@keelim/all-web-ui/manifest` and `@keelim/all-web-ui/theme-contract` for the
+same local contract surface. `componentManifest` records component lifecycle,
+export paths, required style imports, and optional theme scopes. The
+`theme-contract` subpath records canonical theme ids, selectors, and required
+`--kui-*`/shadcn bridge tokens.
+
+Add a direct Astryx pilot only when that is explicitly requested. Keep it in a
+removable sandbox, install `@astryxdesign/core`,
+`@astryxdesign/theme-neutral`, and `@astryxdesign/cli` there, and smoke-test
+only Astryx `Button`/`VStack` before deciding whether anything belongs in this
+shared package.
 
 ## Verification
 
@@ -139,23 +191,28 @@ bun test
 bun run build
 ```
 
-This emits a `dist/` directory with JS, type declarations, and theme CSS for the `@keelim/all-web-ui` GitHub Packages release.
+This emits a `dist/` directory with JS, type declarations, and theme CSS for
+the `@keelim/all-web-ui` GitHub Packages release.
 
-`bun run build` validates the generated package exports, copied CSS assets,
+`bun run build` validates generated package exports, copied CSS assets,
 declaration files, dependency classifications, and relative ESM specifiers.
 Run `bun run design:lint` whenever `DESIGN.md`, theme tokens, or Stitch-facing
 design contracts change. Before publishing, run `bun run package:smoke` and
 `bun run pack:verify`; local `npm publish` is guarded by `prepublishOnly`.
 
-Consumers should install the exact published version from `https://npm.pkg.github.com` and import scoped package exports such as `@keelim/all-web-ui/button`.
+Consumers should install the exact published version from
+`https://npm.pkg.github.com` and import scoped package exports such as
+`@keelim/all-web-ui/button`.
 
-## Stitch workflow
+## Stitch Workflow
 
-This repo is prepared to use the
+This repo is prepared to use
 [`google-labs-code/stitch-skills`](https://github.com/google-labs-code/stitch-skills)
-workflow without vendoring the upstream skills. Root `DESIGN.md` follows the
+without vendoring upstream skills.
+
+Root `DESIGN.md` follows the
 [`google-labs-code/design.md`](https://github.com/google-labs-code/design.md)
-concept: YAML front matter for machine-readable tokens plus ordered markdown
+concept: YAML front matter machine-readable tokens plus ordered markdown
 sections for design rationale.
 
 Use `DESIGN.md` as the design-system source for Stitch prompts and
@@ -169,14 +226,19 @@ exports, manifest entries, and focused tests. See `.stitch/README.md` and
 
 ## Ownership
 
-`@keelim/all-web-ui` owns the shared shadcn-compatible primitive layer for the web apps. Downstream `components/ui/*` files in consumer repos should be temporary re-export shims or app-specific composites, not independent generic primitive implementations.
+`@keelim/all-web-ui` owns the shared shadcn-compatible primitive layer for web
+apps. Downstream `components/ui/*` files in consumer repos should be temporary
+re-export shims or app-specific composites, not independent generic primitive
+implementations.
 
-The frozen `componentManifest` export records lifecycle status, component export
-paths, required style imports, and optional theme scopes for shared primitives.
-The `theme-contract` subpath owns the canonical theme ids, selectors, and
-required `--kui-*`/shadcn bridge token list used by both telemetry context and
-manifest metadata. New primitive exports should be added to `src/index.ts`,
-`package.json`, and the manifest before consumer migration. `bun test` includes
-manifest/package export parity checks; a missing package export, missing
-component source file, or manifest entry that is absent from `DESIGN.md` is
-expected to fail before release.
+The frozen `componentManifest` export records lifecycle status, component
+export paths, required style imports, and optional theme scopes for shared
+primitives. The `theme-contract` subpath owns the canonical theme ids,
+selectors, and required `--kui-*`/shadcn bridge token list used by both
+telemetry context and manifest metadata.
+
+New primitive exports should be added to `src/index.ts`, `package.json`, and
+`src/manifest.ts` before consumer migration. `bun test` includes
+manifest/package export parity checks; missing package export, missing
+component source file, or manifest entry absent from `DESIGN.md` is expected to
+fail before release.
