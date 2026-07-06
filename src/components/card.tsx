@@ -1,12 +1,20 @@
 import * as React from 'react';
 
+import { Card as AstryxCard } from '@astryxdesign/core/Card';
 import { cn } from '../lib/cn';
 
 export const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(function Card(
   { className, ...props },
   ref
 ) {
-  return <div ref={ref} className={cn('kui-panel kui-panel--default kui-panel--padded', className)} {...props} />;
+  return (
+    <AstryxCard
+      ref={ref}
+      padding={0}
+      className={cn('kui-panel kui-panel--default kui-panel--padded', className)}
+      {...(props as Omit<React.ComponentProps<typeof AstryxCard>, 'padding' | 'className'>)}
+    />
+  );
 });
 
 export const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(function CardHeader(

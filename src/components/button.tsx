@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { Slot } from '@radix-ui/react-slot';
+import { Button as AstryxButton } from '@astryxdesign/core/Button';
 import { cva, type VariantProps } from 'class-variance-authority';
-
 import { cn } from '../lib/cn';
 
 export const buttonVariants = cva('kui-button', {
@@ -36,12 +35,105 @@ export interface ButtonProps
   asChild?: boolean;
 }
 
+type AstryxButtonVariant = React.ComponentProps<typeof AstryxButton>['variant'];
+type AstryxButtonSize = React.ComponentProps<typeof AstryxButton>['size'];
+
+function toAstryxVariant(variant: ButtonProps['variant']): AstryxButtonVariant {
+  if (variant === 'secondary' || variant === 'outline') {
+    return 'secondary';
+  }
+
+  if (variant === 'ghost' || variant === 'link') {
+    return 'ghost';
+  }
+
+  if (variant === 'danger' || variant === 'destructive') {
+    return 'destructive';
+  }
+
+  return 'primary';
+}
+
+function toAstryxSize(size: ButtonProps['size']): AstryxButtonSize {
+  if (size === 'sm' || size === 'icon') {
+    return 'sm';
+  }
+
+  if (size === 'lg') {
+    return 'lg';
+  }
+
+  return 'md';
+}
+
+function getButtonLabel({
+  ariaLabel,
+  children,
+  title
+}: {
+  ariaLabel: ButtonProps['aria-label'];
+  children: ButtonProps['children'];
+  title: ButtonProps['title'];
+}) {
+  if (typeof ariaLabel === 'string' && ariaLabel.trim().length > 0) {
+    return ariaLabel;
+  }
+
+  if (typeof children === 'string' || typeof children === 'number') {
+    return String(children);
+  }
+
+  if (typeof title === 'string' && title.trim().length > 0) {
+    return title;
+  }
+
+  return 'Button';
+}
+
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-  { asChild = false, className, variant, size, type = 'button', ...props },
+  {
+    asChild = false,
+    className,
+    variant,
+    size,
+    type = 'button',
+    children,
+    disabled,
+    title,
+    'aria-label': ariaLabel,
+    ...props
+  },
   ref
 ) {
-  const Component = asChild ? Slot : 'button';
-  const componentProps = asChild ? props : { type, ...props };
+  const classNames = cn(buttonVariants({ variant, size }), className);
 
-  return <Component ref={ref} className={cn(buttonVariants({ variant, size }), className)} {...componentProps} />;
+  if (asChild) {
+    if (!React.isValidElement(children)) {
+      return null;
+    }
+
+    return React.cloneElement(children, {
+      ref,
+      className: cn((children.props as { className?: string }).className, classNames),
+      title,
+      'aria-label': ariaLabel,
+      ...props,
+    } as Partial<React.HTMLAttributes<HTMLElement>>);
+  }
+
+  return (
+    <AstryxButton
+      ref={ref}
+      type={type}
+      label={getButtonLabel({ ariaLabel, children, title })}
+      variant={toAstryxVariant(variant)}
+      size={toAstryxSize(size)}
+      isDisabled={disabled}
+      className={classNames}
+      aria-label={ariaLabel}
+      {...props}
+    >
+      {children}
+    </AstryxButton>
+  );
 });

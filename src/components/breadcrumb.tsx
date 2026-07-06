@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Slot } from '@radix-ui/react-slot';
 import { ChevronRight, MoreHorizontal } from 'lucide-react';
 
 import { cn } from '../lib/cn';
@@ -19,7 +18,13 @@ export const Breadcrumb = React.forwardRef<
 
 export const BreadcrumbList = React.forwardRef<HTMLOListElement, React.ComponentPropsWithoutRef<'ol'>>(
   function BreadcrumbList({ className, ...props }, ref) {
-    return <ol ref={ref} className={cn('flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5', className)} {...props} />;
+    return (
+      <ol
+        ref={ref}
+        className={cn('flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5', className)}
+        {...props}
+      />
+    );
   }
 );
 
@@ -32,9 +37,20 @@ export const BreadcrumbItem = React.forwardRef<HTMLLIElement, React.ComponentPro
 export const BreadcrumbLink = React.forwardRef<
   HTMLAnchorElement,
   React.ComponentPropsWithoutRef<'a'> & { asChild?: boolean }
->(function BreadcrumbLink({ asChild, className, ...props }, ref) {
-  const Component = asChild ? Slot : 'a';
-  return <Component ref={ref} className={cn('transition-colors hover:text-foreground', className)} {...props} />;
+>(function BreadcrumbLink({ asChild, className, children, ...props }, ref) {
+  if (asChild && React.isValidElement(children)) {
+    return React.cloneElement(children, {
+      ref,
+      className: cn((children.props as { className?: string }).className, 'transition-colors hover:text-foreground', className),
+      ...props,
+    } as Partial<React.HTMLAttributes<HTMLElement>>);
+  }
+
+  return (
+    <a ref={ref} className={cn('transition-colors hover:text-foreground', className)} {...props}>
+      {children}
+    </a>
+  );
 });
 
 export const BreadcrumbPage = React.forwardRef<HTMLSpanElement, React.ComponentPropsWithoutRef<'span'>>(

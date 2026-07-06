@@ -1,44 +1,43 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import * as ProgressPrimitive from "@radix-ui/react-progress"
+import * as React from "react";
+import { ProgressBar as AstryxProgressBar } from "@astryxdesign/core/ProgressBar";
 
-import { cn } from "../lib/cn"
+import { cn } from "../lib/cn";
 
-export type ProgressProps = React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>
+export type ProgressProps = React.HTMLAttributes<HTMLDivElement> & {
+  value?: number | null;
+  max?: number;
+  "aria-label"?: string;
+  isIndeterminate?: boolean;
+};
 
-function normalizeProgressValue(value: number | null | undefined) {
+function normalizeProgressValue(value: number | null | undefined, max: number) {
   if (value == null || !Number.isFinite(value)) {
-    return null
+    return undefined;
   }
 
-  return Math.min(100, Math.max(0, value))
+  return Math.min(max, Math.max(0, value));
 }
 
-const Progress = React.forwardRef<
-  React.ElementRef<typeof ProgressPrimitive.Root>,
-  ProgressProps
->(({ className, value, ...props }, ref) => {
-  const normalizedValue = normalizeProgressValue(value)
-  const indicatorValue = normalizedValue ?? 0
-
-  return (
-    <ProgressPrimitive.Root
-      ref={ref}
-      className={cn(
-        "relative h-4 w-full overflow-hidden rounded-full bg-secondary",
-        className
-      )}
-      value={normalizedValue}
-      {...props}
-    >
-      <ProgressPrimitive.Indicator
-        className="h-full w-full flex-1 bg-primary transition-all"
-        style={{ transform: `translateX(-${100 - indicatorValue}%)` }}
+const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
+  ({ className, value, max = 100, "aria-label": ariaLabel, ...props }, ref) => {
+    return (
+      <AstryxProgressBar
+        ref={ref}
+        label={ariaLabel ?? "Progress"}
+        isLabelHidden
+        value={normalizeProgressValue(value, max)}
+        max={max}
+        className={cn(
+          "relative h-4 w-full overflow-hidden rounded-full bg-secondary",
+          className
+        )}
+        {...props}
       />
-    </ProgressPrimitive.Root>
-  )
-})
-Progress.displayName = ProgressPrimitive.Root.displayName
+    );
+  }
+);
+Progress.displayName = "Progress";
 
-export { Progress }
+export { Progress };

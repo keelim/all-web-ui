@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { EmptyState as AstryxEmptyState } from '@astryxdesign/core/EmptyState';
 
 import { cn } from '../lib/cn';
 
@@ -9,9 +10,11 @@ export type EmptyStateProps = React.HTMLAttributes<HTMLDivElement> & {
 
 export function EmptyState({ className, title, description, ...props }: EmptyStateProps) {
   return (
-    <div className={cn('kui-empty-state', className)} {...props}>
-      {title ? <p className="kui-empty-state__title">{title}</p> : null}
-      <p className="kui-empty-state__description">{description}</p>
-    </div>
+    <AstryxEmptyState
+      title={title ?? description}
+      description={title ? description : undefined}
+      className={cn('kui-empty-state', className)}
+      {...(props as Omit<React.ComponentProps<typeof AstryxEmptyState>, 'title' | 'description' | 'className'>)}
+    />
   );
 }

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Spinner as AstryxSpinner } from '@astryxdesign/core/Spinner';
 
 import { cn } from '../lib/cn';
 
@@ -48,7 +49,7 @@ export function LoadingStatus({
         className={cn('kui-loading-panel', `kui-loading-panel--${tone}`, className)}
       >
         <div className="kui-loading-panel__header">
-          <span aria-hidden="true" className={cn('kui-spinner', spinnerClassName)} />
+          <AstryxSpinner aria-hidden="true" className={cn('kui-spinner', spinnerClassName)} />
           <div className="kui-loading-panel__copy">
             <p className="kui-loading-panel__label">{label}</p>
             {caption ? <p className="kui-loading-panel__caption">{caption}</p> : null}
@@ -83,7 +84,7 @@ export function LoadingStatus({
       data-loading-variant="inline"
       className={cn('kui-loading-inline', className)}
     >
-      <span aria-hidden="true" className={cn('kui-spinner', spinnerClassName)} />
+      <AstryxSpinner aria-hidden="true" className={cn('kui-spinner', spinnerClassName)} />
       <span>{label}</span>
     </div>
   );

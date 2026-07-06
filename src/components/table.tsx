@@ -1,4 +1,13 @@
 import * as React from 'react';
+import {
+  Table as AstryxTable,
+  TableBody as AstryxTableBody,
+  TableCell as AstryxTableCell,
+  TableFooter as AstryxTableFooter,
+  TableHeader as AstryxTableHeader,
+  TableHeaderCell as AstryxTableHeaderCell,
+  TableRow as AstryxTableRow
+} from '@astryxdesign/core/Table';
 
 import { cn } from '../lib/cn';
 
@@ -20,44 +29,84 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(function Tab
       className={cn('relative w-full overflow-auto', containerClassName, containerPropsClassName)}
       {...restContainerProps}
     >
-      <table ref={ref} className={cn('w-full caption-bottom text-sm', className)} {...props} />
+        <AstryxTable
+          ref={ref}
+          className={cn('w-full caption-bottom text-sm', className)}
+          {...(props as React.ComponentProps<typeof AstryxTable>)}
+        />
     </div>
   );
 });
 
 export const TableHeader = React.forwardRef<HTMLTableSectionElement, React.ComponentPropsWithoutRef<'thead'>>(
   function TableHeader({ className, ...props }, ref) {
-    return <thead ref={ref} className={cn('[&_tr]:border-b', className)} {...props} />;
+    return (
+      <AstryxTableHeader
+        ref={ref}
+        className={cn('[&_tr]:border-b', className)}
+        {...(props as React.ComponentProps<typeof AstryxTableHeader>)}
+      />
+    );
   }
 );
 
 export const TableBody = React.forwardRef<HTMLTableSectionElement, React.ComponentPropsWithoutRef<'tbody'>>(
   function TableBody({ className, ...props }, ref) {
-    return <tbody ref={ref} className={cn('[&_tr:last-child]:border-0', className)} {...props} />;
+    return (
+      <AstryxTableBody
+        ref={ref}
+        className={cn('[&_tr:last-child]:border-0', className)}
+        {...(props as React.ComponentProps<typeof AstryxTableBody>)}
+      />
+    );
   }
 );
 
 export const TableFooter = React.forwardRef<HTMLTableSectionElement, React.ComponentPropsWithoutRef<'tfoot'>>(
   function TableFooter({ className, ...props }, ref) {
-    return <tfoot ref={ref} className={cn('border-t bg-muted/50 font-medium [&>tr]:last:border-b-0', className)} {...props} />;
+    return (
+      <AstryxTableFooter
+        ref={ref}
+        className={cn('border-t bg-muted/50 font-medium [&>tr]:last:border-b-0', className)}
+        {...(props as React.ComponentProps<typeof AstryxTableFooter>)}
+      />
+    );
   }
 );
 
 export const TableRow = React.forwardRef<HTMLTableRowElement, React.ComponentPropsWithoutRef<'tr'>>(
   function TableRow({ className, ...props }, ref) {
-    return <tr ref={ref} className={cn('border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted', className)} {...props} />;
+    return (
+      <AstryxTableRow
+        ref={ref}
+        className={cn('border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted', className)}
+        {...(props as React.ComponentProps<typeof AstryxTableRow>)}
+      />
+    );
   }
 );
 
 export const TableHead = React.forwardRef<HTMLTableCellElement, React.ComponentPropsWithoutRef<'th'>>(
   function TableHead({ className, ...props }, ref) {
-    return <th ref={ref} className={cn('h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0', className)} {...props} />;
+    return (
+      <AstryxTableHeaderCell
+        ref={ref}
+        className={cn('h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0', className)}
+        {...(props as React.ComponentProps<typeof AstryxTableHeaderCell>)}
+      />
+    );
   }
 );
 
 export const TableCell = React.forwardRef<HTMLTableCellElement, React.ComponentPropsWithoutRef<'td'>>(
   function TableCell({ className, ...props }, ref) {
-    return <td ref={ref} className={cn('p-4 align-middle [&:has([role=checkbox])]:pr-0', className)} {...props} />;
+    return (
+      <AstryxTableCell
+        ref={ref}
+        className={cn('p-4 align-middle [&:has([role=checkbox])]:pr-0', className)}
+        {...(props as React.ComponentProps<typeof AstryxTableCell>)}
+      />
+    );
   }
 );
 

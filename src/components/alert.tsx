@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Banner as AstryxBanner } from '@astryxdesign/core/Banner';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '../lib/cn';
@@ -21,12 +22,13 @@ const alertVariants = cva(
 
 export type AlertProps = React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>;
 
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(({ className, variant, role, ...props }, ref) => (
-  <div
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(({ className, variant, children, ...props }, ref) => (
+  <AstryxBanner
     ref={ref}
-    role={role ?? (variant === 'destructive' ? 'alert' : 'status')}
+    status={variant === 'destructive' ? 'error' : 'info'}
+    title={children ?? ''}
     className={cn(alertVariants({ variant }), className)}
-    {...props}
+    {...(props as Omit<React.ComponentProps<typeof AstryxBanner>, 'status' | 'title' | 'className'>)}
   />
 ));
 Alert.displayName = 'Alert';

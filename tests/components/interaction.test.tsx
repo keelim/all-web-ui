@@ -503,28 +503,29 @@ describe('all-web-ui DOM interaction contracts', () => {
     await waitFor(() => expect(screen.queryByText(/saved filter controls/i)).toBeNull());
   });
 
-  it('renders Progress aria values and indicator transforms for boundaries', () => {
+  it('renders Progress aria values and fill widths for boundaries', () => {
     const { rerender } = render(<Progress aria-label="Sync progress" value={0} />);
 
     const progress = screen.getByRole('progressbar', { name: /sync progress/i });
+    const fill = () => progress.querySelector('.astryx-progressbar-fill') as HTMLElement;
     expect(progress.getAttribute('aria-valuenow')).toBe('0');
-    expect(progress.querySelector('[style*="translateX(-100%)"]')).toBeTruthy();
+    expect(fill().style.width).toBe('0%');
 
     rerender(<Progress aria-label="Sync progress" value={45} />);
     expect(progress.getAttribute('aria-valuenow')).toBe('45');
-    expect(progress.querySelector('[style*="translateX(-55%)"]')).toBeTruthy();
+    expect(fill().style.width).toBe('45%');
 
     rerender(<Progress aria-label="Sync progress" value={100} />);
     expect(progress.getAttribute('aria-valuenow')).toBe('100');
-    expect(progress.querySelector('[style*="translateX(-0%)"]')).toBeTruthy();
+    expect(fill().style.width).toBe('100%');
 
     rerender(<Progress aria-label="Sync progress" value={150} />);
     expect(progress.getAttribute('aria-valuenow')).toBe('100');
-    expect(progress.querySelector('[style*="translateX(-0%)"]')).toBeTruthy();
+    expect(fill().style.width).toBe('100%');
 
     rerender(<Progress aria-label="Sync progress" value={-20} />);
     expect(progress.getAttribute('aria-valuenow')).toBe('0');
-    expect(progress.querySelector('[style*="translateX(-100%)"]')).toBeTruthy();
+    expect(fill().style.width).toBe('0%');
   });
 
   it('moves RadioGroup selection with arrow keys and Space', async () => {

@@ -70,7 +70,7 @@
   --font-display: 'Pretendard', 'Pretendard Variable', ui-sans-serif, system-ui, sans-serif;
   --font-numeric: 'JetBrains Mono', 'SF Mono', ui-monospace, 'Roboto Mono', monospace;
 
-  /* shadcn HSL bridge — keeps semantic Tailwind classes dark inside admin BW. */
+  /* Semantic HSL bridge — keeps Tailwind classes dark inside admin BW. */
   --background: 0 0% 2%;
   --foreground: 0 0% 97%;
   --card: 0 0% 7%;

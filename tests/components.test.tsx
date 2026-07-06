@@ -21,7 +21,13 @@ import {
   DropdownMenuTrigger,
   EmptyState,
   Input,
+  Textarea,
+  Avatar,
+  AvatarFallback,
+  RadioGroup,
+  RadioGroupItem,
   LoadingStatus,
+  Label,
   DataNumber,
   MetricCard,
   MetricValue,
@@ -30,6 +36,7 @@ import {
   OnboardingTour,
   Panel,
   Sheet,
+  Skeleton,
   sheetVariants,
   SheetTrigger,
   sharedComponentStyleImports,
@@ -120,19 +127,56 @@ type PublicWrapperPropAliases = [
 
 describe('all-web-ui exports', () => {
   it('renders shared primitives with stable class contracts', () => {
-    expect(renderToStaticMarkup(<Button variant="primary">저장</Button>)).toContain('kui-button--primary');
+    const primaryButtonHtml = renderToStaticMarkup(<Button variant="primary">저장</Button>);
+    const asChildButtonHtml = renderToStaticMarkup(
+      <Button asChild variant="primary">
+        <a href="/reports">리포트</a>
+      </Button>
+    );
+    const badgeHtml = renderToStaticMarkup(<Badge tone="accent">강조</Badge>);
+    const emptyStateHtml = renderToStaticMarkup(<EmptyState description="비어 있음" />);
+    const panelHtml = renderToStaticMarkup(<Panel>내용</Panel>);
+    const cardHtml = renderToStaticMarkup(<Card><CardContent>카드</CardContent></Card>);
+    const skeletonHtml = renderToStaticMarkup(<Skeleton />);
+    const alertHtml = renderToStaticMarkup(<Alert>Saved</Alert>);
+    const inputHtml = renderToStaticMarkup(<Input placeholder="입력" />);
+    const textareaHtml = renderToStaticMarkup(<Textarea placeholder="메모" />);
+    const avatarHtml = renderToStaticMarkup(<Avatar><AvatarFallback>KL</AvatarFallback></Avatar>);
+    const radioHtml = renderToStaticMarkup(
+      <RadioGroup defaultValue="daily" aria-label="Digest cadence">
+        <RadioGroupItem value="daily" aria-label="Daily" />
+      </RadioGroup>
+    );
+
+    expect(primaryButtonHtml).toContain('kui-button--primary');
+    expect(primaryButtonHtml).toContain('astryx-button');
+    expect(asChildButtonHtml).toContain('<a');
+    expect(asChildButtonHtml).toContain('kui-button--primary');
+    expect(asChildButtonHtml).not.toContain('astryx-button');
     expect(renderToStaticMarkup(<Button variant="default">저장</Button>)).toContain('kui-button--primary');
-    expect(renderToStaticMarkup(<Input placeholder="입력" />)).toContain('kui-input');
+    expect(inputHtml).toContain('kui-input');
+    expect(inputHtml).toContain('astryx-text-input');
+    expect(textareaHtml).toContain('astryx-textarea');
+    expect(avatarHtml).toContain('astryx-avatar');
+    expect(radioHtml).toContain('astryx-radio-list');
     expect(renderToStaticMarkup(<Panel as="section">내용</Panel>)).toContain('kui-panel--elevated');
+    expect(panelHtml).toContain('kui-panel--elevated');
+    expect(panelHtml).toContain('astryx-card');
+    expect(cardHtml).toContain('kui-panel');
+    expect(cardHtml).toContain('astryx-card');
+    expect(skeletonHtml).toContain('astryx-skeleton');
+    expect(alertHtml).toContain('astryx-banner');
     expect(renderToStaticMarkup(<MetricCard><MetricValue>12.4%</MetricValue></MetricCard>)).toContain('kui-metric-card--padding-md');
     expect(renderToStaticMarkup(<MetricValue size="xl">1,204</MetricValue>)).toContain('kui-metric-value--xl');
     expect(renderToStaticMarkup(<DataNumber>3.1415</DataNumber>)).toContain('kui-data-number');
-    expect(renderToStaticMarkup(<Badge tone="accent">강조</Badge>)).toContain('kui-badge--accent');
+    expect(badgeHtml).toContain('kui-badge--accent');
+    expect(badgeHtml).toContain('astryx-badge');
     expect(renderToStaticMarkup(<Badge variant="secondary">보조</Badge>)).toContain('kui-badge--muted');
-    expect(renderToStaticMarkup(<EmptyState description="비어 있음" />)).toContain('kui-empty-state');
+    expect(emptyStateHtml).toContain('kui-empty-state');
+    expect(emptyStateHtml).toContain('astryx-empty-state');
   });
 
-  it('exports shadcn-compatible primitives and manifest entries', () => {
+  it('exports package-compatible primitives and manifest entries', () => {
     const publicWrapperPropAliases: PublicWrapperPropAliases | null = null;
 
     expect(renderToStaticMarkup(<Card><CardContent>카드</CardContent></Card>)).toContain('kui-panel');
@@ -192,12 +236,26 @@ describe('all-web-ui exports', () => {
 
     expect(breadcrumbHtml).toContain('data-testid="trail"');
     expect(breadcrumbHtml).toContain('data-separator="slash"');
-    expect(breadcrumbHtml.match(/<nav[^>]*\sseparator=/)).toBeNull();
-    expect(tableHtml).toContain('role="region"');
-    expect(tableHtml).toContain('aria-label="Positions"');
-    expect(tableHtml).toContain('scroll-region');
-    expect(tableHtml).toContain('<table');
-  });
+  expect(breadcrumbHtml.match(/<nav[^>]*\sseparator=/)).toBeNull();
+  expect(tableHtml).toContain('role="region"');
+  expect(tableHtml).toContain('aria-label="Positions"');
+  expect(tableHtml).toContain('scroll-region');
+  expect(tableHtml).toContain('<table');
+  expect(tableHtml).toContain('astryx-table');
+
+  const astryxLabelHtml = renderToStaticMarkup(<Label htmlFor="account-name">Account</Label>);
+  const fallbackLabelHtml = renderToStaticMarkup(
+    <Label htmlFor="account-name" className="custom-label" data-testid="custom-label">
+      Account
+    </Label>
+  );
+
+  expect(astryxLabelHtml).toContain('astryx-field-label');
+  expect(astryxLabelHtml).toContain('for="account-name"');
+  expect(fallbackLabelHtml).toContain('custom-label');
+  expect(fallbackLabelHtml).toContain('data-testid="custom-label"');
+  expect(fallbackLabelHtml).not.toContain('astryx-field-label');
+});
 
   it('renders static accessibility contracts for semantic wrapper primitives', () => {
     const selectSource = readFileSync(new URL('../src/components/select.tsx', import.meta.url), 'utf8');
@@ -543,6 +601,7 @@ describe('all-web-ui exports', () => {
     );
 
     expect(html).toContain('data-loading-variant="panel"');
+    expect(html).toContain('astryx-spinner');
     expect(html).toContain('kui-loading-panel__step is-active');
     expect(html).toContain('진행 상황 확인');
   });

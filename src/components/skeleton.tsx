@@ -1,3 +1,4 @@
+import { Skeleton as AstryxSkeleton } from "@astryxdesign/core/Skeleton"
 import { cn } from "../lib/cn"
 
 function Skeleton({
@@ -5,9 +6,9 @@ function Skeleton({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div
+    <AstryxSkeleton
       className={cn("animate-pulse rounded-md bg-muted", className)}
-      {...props}
+      {...(props as Omit<React.ComponentProps<typeof AstryxSkeleton>, "className">)}
     />
   )
 }

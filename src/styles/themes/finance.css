@@ -66,8 +66,8 @@
   --font-numeric: 'JetBrains Mono', 'SF Mono', ui-monospace, 'Roboto Mono', monospace;
 
 
-  /* shadcn HSL bridge — mirrors keelim-vercel/app/globals.css so downstream
-     Tailwind + shadcn components inherit the same tokens. */
+  /* Semantic HSL bridge — mirrors keelim-vercel/app/globals.css so downstream
+     Tailwind components inherit the same tokens. */
   --background: 0 0% 100%;
   --foreground: 222.2 84% 4.9%;
   --card: 0 0% 100%;
@@ -145,7 +145,7 @@
   --kui-shadow-soft: 0 12px 32px rgb(0 0 0 / 0.3);
   --kui-shadow-panel: 0 16px 40px rgb(0 0 0 / 0.42);
 
-  /* shadcn HSL bridge for next-themes class/data dark mode. */
+  /* Semantic HSL bridge for next-themes class/data dark mode. */
   --background: 222.2 84% 4.9%;
   --foreground: 210 40% 98%;
   --card: 222.2 84% 5.8%;
