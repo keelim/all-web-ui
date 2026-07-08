@@ -5,7 +5,7 @@
     "name": "projects/3340586322886510921",
     "title": "그룹 범용 표준화",
     "repositoryTitle": "all-web-ui",
-    "checkedAt": "2026-06-03T16:13:45Z",
+    "checkedAt": "2026-07-06T06:41:18Z",
     "canonicalDesignSource": "../DESIGN.md",
     "compatibilityDesignSource": ".stitch/DESIGN.md",
     "remoteSource": {
@@ -18,29 +18,33 @@
       "displayName": "all-web-ui",
       "assetName": "assets/b710cd5d4e5c45ffa898c221f7bfb4e1",
       "assetId": "b710cd5d4e5c45ffa898c221f7bfb4e1",
-      "version": "1",
-      "status": "remote-current",
-      "source": "stitch_list_design_systems",
-      "designMdSummary": "Remote MCP-listed all-web-ui design system generated from the shared finance/admin DESIGN.md contract.",
-      "matchesLocalDesignMd": false,
-      "localDesignMdSha256": "e19b3981c77ab0f0af1be78e87d7677261290b72553fb22d8afdf0e35f9e28be",
-      "remoteDesignMdSha256": "2cb350030b47db5ea585c5bdf627e8077e51b667639ff1fed62fa30e67d0407f",
-      "remoteDesignMdSha256Status": "computed from stitch_list_design_systems theme.designMd with LF normalization; remote designMd was not written to the repo",
-      "remoteDesignMdComparison": "remote current all-web-ui designMd differs from local DESIGN.md"
+      "version": "2",
+      "status": "remote-current-updated",
+      "source": "stitch_update_design_system + stitch_apply_design_system",
+      "designMdSummary": "Current all-web-ui design system asset updated from root DESIGN.md after Astryx runtime bridge documentation sync.",
+      "matchesLocalDesignMd": true,
+      "localDesignMdSha256": "58a27e90a59a2be382836ae83bdd28ae725c94ea72596e6fdf175df8bd01b0d5",
+      "remoteDesignMdSha256": "58a27e90a59a2be382836ae83bdd28ae725c94ea72596e6fdf175df8bd01b0d5",
+      "remoteDesignMdSha256Status": "computed from stitch_update_design_system response designSystem.theme.designMd with LF normalization; list_design_systems shows asset version 2",
+      "remoteDesignMdComparison": "current design system asset matches local DESIGN.md; get_project.designTheme still reports older project default designMd",
+      "projectDesignMdSha256": "dbd4240f195c84f02cc19351e4d4e659c78f82f53353ab48258dd130b784532d",
+      "projectMatchesLocalDesignMd": false,
+      "projectDesignMdSha256Status": "computed from stitch_get_project designTheme.designMd after update/apply; MCP exposes no update_project tool to change this default theme"
     },
     "latestUpload": {
-      "displayName": "Precision Console",
-      "assetName": "assets/4ec2002f915a4324b9e5c96fce002e5f",
-      "assetId": "4ec2002f915a4324b9e5c96fce002e5f",
+      "displayName": "all-web-ui Astryx runtime sync upload",
+      "assetName": "assets/e819f84cbef04d4f83a72a439854bc3a",
+      "assetId": "e819f84cbef04d4f83a72a439854bc3a",
       "version": "1",
-      "status": "remote-uploaded",
-      "source": "stitch_create_design_system_from_design_md",
-      "sourceScreen": "projects/3340586322886510921/screens/1536177765000794144",
-      "designMdSummary": "Created from the repo root DESIGN.md upload. Stitch parsed and normalized the uploaded markdown into a Precision Console design system.",
+      "status": "remote-created-from-upload",
+      "source": "stitch_upload_design_md + stitch_create_design_system_from_design_md",
+      "sourceScreen": "projects/3340586322886510921/screens/4888807428283837831",
+      "appliedSessionId": "18395048367323164223",
+      "appliedGeneratedScreen": "projects/3340586322886510921/screens/2e6b1ae043c84eda9d3fd786431f5e52",
       "matchesLocalDesignMd": false,
-      "localDesignMdSha256": "e19b3981c77ab0f0af1be78e87d7677261290b72553fb22d8afdf0e35f9e28be",
-      "remoteDesignMdSha256": "55c66363378a7f0e576c80249d03ca5ce43cd2827333765314957c40c4ae367a",
-      "remoteDesignMdSha256Status": "computed from post-upload stitch_list_design_systems theme.designMd with LF normalization; Stitch normalized the uploaded designMd before storing it"
+      "localDesignMdSha256": "58a27e90a59a2be382836ae83bdd28ae725c94ea72596e6fdf175df8bd01b0d5",
+      "remoteDesignMdSha256Status": "created from uploaded root DESIGN.md; Stitch get_screen/list_design_systems do not expose the created asset designMd for independent SHA verification",
+      "remoteDesignMdComparison": "created asset is present in stitch_list_design_systems, but project-level designTheme remains older"
     },
     "alternates": [
       {
@@ -278,6 +282,7 @@
     "Generated HTML and screenshots under .stitch/designs are reference artifacts and should only become repo code after conversion into shared primitives, tokens, or docs.",
     "A successful Stitch upload, design-system update, or apply call is not sufficient evidence that the active project theme is current; verify project-level designTheme separately.",
     "Old local asset ids that are absent from stitch_list_design_systems belong only in designSystems.staleLocalReferences.",
-    "The latest DESIGN.md upload created assets/4ec2002f915a4324b9e5c96fce002e5f from source screen projects/3340586322886510921/screens/1536177765000794144; it has not been applied to consumer screens in this pass."
+    "2026-07-06 Astryx runtime sync: root DESIGN.md uploaded as projects/3340586322886510921/screens/4888807428283837831 and created assets/e819f84cbef04d4f83a72a439854bc3a.",
+    "2026-07-06 current all-web-ui design system asset assets/b710cd5d4e5c45ffa898c221f7bfb4e1 updated to local DESIGN.md SHA 58a27e90a59a2be382836ae83bdd28ae725c94ea72596e6fdf175df8bd01b0d5 and applied to the uploaded DESIGN.md screen; get_project.designTheme still reports SHA dbd4240f195c84f02cc19351e4d4e659c78f82f53353ab48258dd130b784532d because Stitch MCP exposes no project-default theme update tool."
   ]
 }

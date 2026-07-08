@@ -1,7 +1,9 @@
 import * as React from 'react';
-
+import { Text as AstryxText } from '@astryxdesign/core/Text';
 import { cn } from '../lib/cn';
 import type { PolymorphicComponent, PolymorphicProps, PolymorphicRef } from '../lib/polymorphic';
+
+const AstryxTextRuntime = AstryxText as unknown as React.ElementType;
 
 type MetricCardOwnProps = {
   padding?: 'none' | 'sm' | 'md' | 'lg';
@@ -9,12 +11,10 @@ type MetricCardOwnProps = {
 
 export type MetricCardProps<T extends React.ElementType = 'section'> = PolymorphicProps<T, MetricCardOwnProps>;
 
-function MetricCardInner<T extends React.ElementType = 'section'>({
-  as,
-  padding = 'md',
-  className,
-  ...props
-}: MetricCardProps<T>, ref: PolymorphicRef<T>) {
+function MetricCardInner<T extends React.ElementType = 'section'>(
+  { as, padding = 'md', className, ...props }: MetricCardProps<T>,
+  ref: PolymorphicRef<T>
+) {
   const Component = as ?? 'section';
 
   return (
@@ -32,18 +32,18 @@ type MetricValueOwnProps = {
 
 export type MetricValueProps<T extends React.ElementType = 'strong'> = PolymorphicProps<T, MetricValueOwnProps>;
 
-function MetricValueInner<T extends React.ElementType = 'strong'>({
-  as,
-  size = 'lg',
-  className,
-  ...props
-}: MetricValueProps<T>, ref: PolymorphicRef<T>) {
+function MetricValueInner<T extends React.ElementType = 'strong'>(
+  { as, size = 'lg', className, ...props }: MetricValueProps<T>,
+  ref: PolymorphicRef<T>
+) {
   const Component = as ?? 'strong';
 
   return (
-    <Component
+    <AstryxTextRuntime
       ref={ref as React.ComponentPropsWithRef<T>['ref']}
+      as={Component}
       className={cn('kui-metric-value', `kui-metric-value--${size}`, className)}
+      hasTabularNumbers
       {...props}
     />
   );
@@ -59,7 +59,15 @@ function DataNumberInner<T extends React.ElementType = 'span'>(
 ) {
   const Component = as ?? 'span';
 
-  return <Component ref={ref as React.ComponentPropsWithRef<T>['ref']} className={cn('kui-data-number', className)} {...props} />;
+  return (
+    <AstryxTextRuntime
+      ref={ref as React.ComponentPropsWithRef<T>['ref']}
+      as={Component}
+      className={cn('kui-data-number', className)}
+      hasTabularNumbers
+      {...props}
+    />
+  );
 }
 
 const MetricCardRoot = React.forwardRef(MetricCardInner as React.ForwardRefRenderFunction<unknown, MetricCardProps>);

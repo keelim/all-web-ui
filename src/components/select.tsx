@@ -1,9 +1,12 @@
 "use client"
 
 import * as React from "react"
+import { Text as AstryxText } from "@astryxdesign/core/Text"
 import { Check, ChevronDown, ChevronUp } from "lucide-react"
 
 import { cn } from "../lib/cn"
+
+const AstryxTextRuntime = AstryxText as unknown as React.ElementType
 
 type SelectContextValue = {
   disabled?: boolean
@@ -132,9 +135,9 @@ const SelectValue = React.forwardRef<HTMLSpanElement, SelectValueProps>(
     const { selectedLabel, value } = useSelectContext("SelectValue")
 
     return (
-      <span ref={ref} {...props}>
-        {selectedLabel ?? value ?? placeholder}
-      </span>
+    <AstryxTextRuntime ref={ref} as="span" {...props}>
+      {selectedLabel ?? value ?? placeholder}
+    </AstryxTextRuntime>
     )
   }
 )
@@ -157,13 +160,13 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
           "flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background data-placeholder:text-muted-foreground focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
           className
         )}
-        onClick={(event) => {
+      onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
           onClick?.(event)
           if (!event.defaultPrevented && !isDisabled) {
             context.setOpen(!context.open)
           }
         }}
-        onKeyDown={(event) => {
+      onKeyDown={(event: React.KeyboardEvent<HTMLButtonElement>) => {
           onKeyDown?.(event)
           if (event.defaultPrevented || isDisabled) {
             return
@@ -257,7 +260,12 @@ SelectContent.displayName = "SelectContent"
 
 const SelectLabel = React.forwardRef<HTMLDivElement, SelectLabelProps>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("py-1.5 pl-8 pr-2 text-sm font-semibold", className)} {...props} />
+    <AstryxTextRuntime
+      ref={ref}
+      as="div"
+      className={cn("py-1.5 pl-8 pr-2 text-sm font-semibold", className)}
+      {...props}
+    />
   )
 )
 SelectLabel.displayName = "SelectLabel"
@@ -284,9 +292,10 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
     }
 
     return (
-      <div
-        ref={ref}
-        role="option"
+    <AstryxTextRuntime
+      ref={ref}
+      as="div"
+      role="option"
         aria-disabled={disabled ? "true" : undefined}
         aria-selected={isSelected}
         tabIndex={disabled ? undefined : -1}
@@ -296,13 +305,13 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
           className
         )}
         data-disabled={disabled ? "" : undefined}
-        onClick={(event) => {
+      onClick={(event: React.MouseEvent<HTMLDivElement>) => {
           onClick?.(event)
           if (!event.defaultPrevented) {
             commitSelection(event.nativeEvent)
           }
         }}
-        onKeyDown={(event) => {
+      onKeyDown={(event: React.KeyboardEvent<HTMLDivElement>) => {
           onKeyDown?.(event)
           if (event.defaultPrevented) {
             return
@@ -319,7 +328,7 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
           {isSelected ? <Check aria-hidden="true" focusable="false" className="h-4 w-4" /> : null}
         </span>
         {children ?? label}
-      </div>
+    </AstryxTextRuntime>
     )
   }
 )

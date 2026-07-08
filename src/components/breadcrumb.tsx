@@ -1,7 +1,12 @@
 import * as React from 'react';
+import { Link as AstryxLink } from '@astryxdesign/core/Link';
+import { Text as AstryxText } from '@astryxdesign/core/Text';
 import { ChevronRight, MoreHorizontal } from 'lucide-react';
 
 import { cn } from '../lib/cn';
+
+const AstryxLinkRuntime = AstryxLink as unknown as React.ElementType;
+const AstryxTextRuntime = AstryxText as unknown as React.ElementType;
 
 const BreadcrumbSeparatorContext = React.createContext<React.ReactNode | undefined>(undefined);
 
@@ -46,6 +51,18 @@ export const BreadcrumbLink = React.forwardRef<
     } as Partial<React.HTMLAttributes<HTMLElement>>);
   }
 
+  if (props.href) {
+    return (
+      <AstryxLinkRuntime
+        ref={ref}
+        className={cn('transition-colors hover:text-foreground', className)}
+        {...props}
+      >
+        {children}
+      </AstryxLinkRuntime>
+    );
+  }
+
   return (
     <a ref={ref} className={cn('transition-colors hover:text-foreground', className)} {...props}>
       {children}
@@ -55,7 +72,15 @@ export const BreadcrumbLink = React.forwardRef<
 
 export const BreadcrumbPage = React.forwardRef<HTMLSpanElement, React.ComponentPropsWithoutRef<'span'>>(
   function BreadcrumbPage({ className, ...props }, ref) {
-    return <span ref={ref} aria-current="page" className={cn('font-normal text-foreground', className)} {...props} />;
+    return (
+      <AstryxTextRuntime
+        ref={ref}
+        as="span"
+        aria-current="page"
+        className={cn('font-normal text-foreground', className)}
+        {...props}
+      />
+    );
   }
 );
 

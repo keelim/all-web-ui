@@ -1,9 +1,12 @@
 "use client"
 
 import * as React from "react"
+import { Text as AstryxText } from "@astryxdesign/core/Text"
 
 import { cn } from "../lib/cn"
-import { buttonVariants } from "./button"
+import { Button, buttonVariants } from "./button"
+
+const AstryxTextRuntime = AstryxText as unknown as React.ElementType
 
 type AlertDialogContextValue = {
   descriptionId: string
@@ -247,7 +250,13 @@ const AlertDialogTitle = React.forwardRef<HTMLHeadingElement, AlertDialogTitlePr
     const context = React.useContext(AlertDialogContext)
 
     return (
-      <h2 ref={ref} id={id ?? context?.titleId} className={cn("text-lg font-semibold", className)} {...props} />
+      <AstryxTextRuntime
+        ref={ref}
+        as="h2"
+        id={id ?? context?.titleId}
+        className={cn("text-lg font-semibold", className)}
+        {...props}
+      />
     )
   }
 )
@@ -260,8 +269,9 @@ const AlertDialogDescription = React.forwardRef<
   const context = React.useContext(AlertDialogContext)
 
   return (
-    <p
+    <AstryxTextRuntime
       ref={ref}
+      as="p"
       id={id ?? context?.descriptionId}
       className={cn("text-sm text-muted-foreground", className)}
       {...props}
@@ -273,31 +283,29 @@ AlertDialogDescription.displayName = "AlertDialogDescription"
 const AlertDialogAction = React.forwardRef<HTMLButtonElement, AlertDialogActionProps>(
   ({ asChild, className, children, onClick, type = "button", ...props }, ref) => {
     const context = useAlertDialogContext("AlertDialogAction")
-    const actionProps = {
-      className: cn(buttonVariants(), className),
-      onClick: (event: React.MouseEvent<HTMLButtonElement>) => {
+    const actionClassName = cn(buttonVariants(), className)
+    const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         onClick?.(event)
         if (!event.defaultPrevented) {
           context.setOpen(false)
         }
-      },
-    }
+      }
 
     if (asChild) {
       const child = React.Children.only(children) as React.ReactElement<{ className?: string }>
 
       return React.cloneElement(child as React.ReactElement<any>, {
         ...props,
-        ...actionProps,
-        className: cn(actionProps.className, child.props.className),
+        className: cn(actionClassName, child.props.className),
+        onClick: handleActionClick,
         ref,
       } as any)
     }
 
     return (
-      <button ref={ref} type={type} {...props} {...actionProps}>
+      <Button ref={ref} type={type} className={className} onClick={handleActionClick} {...props}>
         {children}
-      </button>
+      </Button>
     )
   }
 )
@@ -306,32 +314,38 @@ AlertDialogAction.displayName = "AlertDialogAction"
 const AlertDialogCancel = React.forwardRef<HTMLButtonElement, AlertDialogCancelProps>(
   ({ asChild, className, children, onClick, type = "button", ...props }, ref) => {
     const context = useAlertDialogContext("AlertDialogCancel")
-    const cancelProps = {
-      className: cn(buttonVariants({ variant: "outline" }), "mt-2 sm:mt-0", className),
-      "data-alert-dialog-cancel": "",
-      onClick: (event: React.MouseEvent<HTMLButtonElement>) => {
+    const cancelClassName = cn(buttonVariants({ variant: "outline" }), "mt-2 sm:mt-0", className)
+    const handleCancelClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         onClick?.(event)
         if (!event.defaultPrevented) {
           context.setOpen(false)
         }
-      },
-    }
+      }
 
     if (asChild) {
       const child = React.Children.only(children) as React.ReactElement<{ className?: string }>
 
       return React.cloneElement(child as React.ReactElement<any>, {
         ...props,
-        ...cancelProps,
-        className: cn(cancelProps.className, child.props.className),
+        "data-alert-dialog-cancel": "",
+        className: cn(cancelClassName, child.props.className),
+        onClick: handleCancelClick,
         ref,
       } as any)
     }
 
     return (
-      <button ref={ref} type={type} {...props} {...cancelProps}>
+      <Button
+        ref={ref}
+        type={type}
+        variant="outline"
+        className={cn("mt-2 sm:mt-0", className)}
+        data-alert-dialog-cancel=""
+        onClick={handleCancelClick}
+        {...props}
+      >
         {children}
-      </button>
+      </Button>
     )
   }
 )

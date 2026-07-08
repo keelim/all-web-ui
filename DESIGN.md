@@ -414,6 +414,9 @@ Consumers should choose the smallest style surface that matches their use case:
   `.admin-bw-theme`, `.theme-admin-bw`, or `.kui-theme-admin-bw`.
 - Spacing-only consumers import `@keelim/all-web-ui/spacing.css` without
   taking on a color theme.
+- Full package style consumers receive Astryx reset, core, and neutral theme
+  CSS through `@keelim/all-web-ui/styles.css`; apps should not import
+  `@astryxdesign/*` directly.
 
 Finance dark mode is selector-driven for Next/shadcn consumers. Preserve
 `.theme-finance.dark`, `.kui-theme-finance.dark`,
@@ -437,6 +440,7 @@ design.md schema. The current parity decisions are:
 | Finance light colors | intentional divergence with note | YAML keeps lint-safe opaque semantic colors; CSS owns alpha fills, HSL bridge values, and status border roles. |
 | Radius tokens | intentional semantic fallback | `rounded.sm`, `rounded.md`, and `rounded.lg` mirror `--kui-radius-*`; `rounded.full` stays a design semantic that components may render with `var(--kui-radius-full, 999px)` fallback rather than a required runtime token. |
 | Typography tracking | update CSS | Runtime typography uses `letter-spacing: 0` to match the YAML token contract. |
+| Astryx runtime bridge | update DESIGN prose only | `styles.css` imports Astryx reset, core, and neutral theme CSS before package spacing and theme layers. Default `Button` rendering delegates to Astryx while preserving `kui-button*` classes; `asChild` keeps the local Slot-compatible path. |
 | Shadows and metric gradients | update DESIGN prose only | Shadow and gradient values stay CSS runtime details documented under Elevation & Depth. |
 | Breakpoints | update DESIGN prose only | Component-specific responsive behavior stays in CSS and is summarized under Layout. |
 | Finance dark and admin BW overlays | intentional divergence with note | Theme overlays are selector-scoped CSS skins; the YAML catalog records shared semantic roles rather than every theme override. |
@@ -595,6 +599,10 @@ Buttons use 44px-ish minimum height, strong focus affordance, and the semantic
 variant classes already exported by `src/components/button.tsx`. Primary
 buttons use the ink action color with light text; secondary buttons stay quiet
 with border treatment; ghost buttons sit on a soft surface wash.
+The default button path uses Astryx runtime markup as an implementation
+detail while `kui-button`, variant, and size classes remain the public
+styling contract. `asChild` remains the local Slot-compatible path for
+adapter shims and link-style composition.
 
 Controls must support keyboard navigation, pointer interaction, and touch
 interaction through the existing Radix/shadcn primitive behavior. Keep

@@ -8,17 +8,26 @@ import {
   Badge,
   badgeVariants,
   Alert,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
   Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
+BreadcrumbItem,
+BreadcrumbList,
+BreadcrumbLink,
+BreadcrumbPage,
   BreadcrumbSeparator,
   Button,
   buttonVariants,
-  Card,
-  CardContent,
-  DropdownMenu,
-  DropdownMenuTrigger,
+Card,
+CardContent,
+Dialog,
+DialogContent,
+DialogTitle,
+DropdownMenu,
+DropdownMenuContent,
+DropdownMenuItem,
+DropdownMenuTrigger,
   EmptyState,
   Input,
   Textarea,
@@ -34,9 +43,15 @@ import {
   OnboardingHighlight,
   OnboardingStepList,
   OnboardingTour,
-  Panel,
-  Sheet,
-  Skeleton,
+Panel,
+Select,
+SelectContent,
+SelectItem,
+SelectTrigger,
+SelectValue,
+Sheet,
+SheetContent,
+Skeleton,
   sheetVariants,
   SheetTrigger,
   sharedComponentStyleImports,
@@ -137,9 +152,45 @@ describe('all-web-ui exports', () => {
     const emptyStateHtml = renderToStaticMarkup(<EmptyState description="비어 있음" />);
     const panelHtml = renderToStaticMarkup(<Panel>내용</Panel>);
     const cardHtml = renderToStaticMarkup(<Card><CardContent>카드</CardContent></Card>);
-    const skeletonHtml = renderToStaticMarkup(<Skeleton />);
-    const alertHtml = renderToStaticMarkup(<Alert>Saved</Alert>);
-    const inputHtml = renderToStaticMarkup(<Input placeholder="입력" />);
+const skeletonHtml = renderToStaticMarkup(<Skeleton />);
+const alertHtml = renderToStaticMarkup(<Alert>Saved</Alert>);
+const alertDialogButtonsHtml = renderToStaticMarkup(
+  <AlertDialog>
+    <AlertDialogAction>Delete</AlertDialogAction>
+    <AlertDialogCancel>Cancel</AlertDialogCancel>
+  </AlertDialog>
+);
+const dialogHtml = renderToStaticMarkup(
+  <Dialog defaultOpen>
+    <DialogContent>
+      <DialogTitle>Profile</DialogTitle>
+    </DialogContent>
+  </Dialog>
+);
+const sheetHtml = renderToStaticMarkup(
+  <Sheet defaultOpen>
+    <SheetContent>Panel</SheetContent>
+  </Sheet>
+);
+const selectHtml = renderToStaticMarkup(
+  <Select defaultOpen defaultValue="daily">
+    <SelectTrigger>
+      <SelectValue placeholder="Cadence" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectItem value="daily">Daily</SelectItem>
+    </SelectContent>
+  </Select>
+);
+const dropdownMenuHtml = renderToStaticMarkup(
+  <DropdownMenu defaultOpen>
+    <DropdownMenuTrigger>Open</DropdownMenuTrigger>
+    <DropdownMenuContent>
+      <DropdownMenuItem>Profile</DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+);
+const inputHtml = renderToStaticMarkup(<Input placeholder="입력" />);
     const textareaHtml = renderToStaticMarkup(<Textarea placeholder="메모" />);
     const avatarHtml = renderToStaticMarkup(<Avatar><AvatarFallback>KL</AvatarFallback></Avatar>);
     const radioHtml = renderToStaticMarkup(
@@ -164,11 +215,21 @@ describe('all-web-ui exports', () => {
     expect(panelHtml).toContain('astryx-card');
     expect(cardHtml).toContain('kui-panel');
     expect(cardHtml).toContain('astryx-card');
-    expect(skeletonHtml).toContain('astryx-skeleton');
-    expect(alertHtml).toContain('astryx-banner');
-    expect(renderToStaticMarkup(<MetricCard><MetricValue>12.4%</MetricValue></MetricCard>)).toContain('kui-metric-card--padding-md');
-    expect(renderToStaticMarkup(<MetricValue size="xl">1,204</MetricValue>)).toContain('kui-metric-value--xl');
-    expect(renderToStaticMarkup(<DataNumber>3.1415</DataNumber>)).toContain('kui-data-number');
+expect(skeletonHtml).toContain('astryx-skeleton');
+expect(alertHtml).toContain('astryx-banner');
+expect(alertDialogButtonsHtml).toContain('astryx-button');
+expect(alertDialogButtonsHtml).toContain('data-alert-dialog-cancel');
+expect(dialogHtml).toContain('astryx-button');
+expect(sheetHtml).toContain('astryx-button');
+expect(selectHtml).toContain('astryx-text');
+expect(dropdownMenuHtml).toContain('astryx-text');
+expect(renderToStaticMarkup(<MetricCard><MetricValue>12.4%</MetricValue></MetricCard>)).toContain('kui-metric-card--padding-md');
+const metricValueHtml = renderToStaticMarkup(<MetricValue size="xl">1,204</MetricValue>);
+const dataNumberHtml = renderToStaticMarkup(<DataNumber>3.1415</DataNumber>);
+expect(metricValueHtml).toContain('kui-metric-value--xl');
+expect(metricValueHtml).toContain('astryx-text');
+expect(dataNumberHtml).toContain('kui-data-number');
+expect(dataNumberHtml).toContain('astryx-text');
     expect(badgeHtml).toContain('kui-badge--accent');
     expect(badgeHtml).toContain('astryx-badge');
     expect(renderToStaticMarkup(<Badge variant="secondary">보조</Badge>)).toContain('kui-badge--muted');
@@ -261,12 +322,15 @@ describe('all-web-ui exports', () => {
     const selectSource = readFileSync(new URL('../src/components/select.tsx', import.meta.url), 'utf8');
     const dropdownSource = readFileSync(new URL('../src/components/dropdown-menu.tsx', import.meta.url), 'utf8');
     const defaultAlertHtml = renderToStaticMarkup(<Alert>Saved</Alert>);
-    const destructiveAlertHtml = renderToStaticMarkup(<Alert variant="destructive">Failed</Alert>);
-    const breadcrumbPageHtml = renderToStaticMarkup(<BreadcrumbPage>Reports</BreadcrumbPage>);
+const destructiveAlertHtml = renderToStaticMarkup(<Alert variant="destructive">Failed</Alert>);
+const breadcrumbLinkHtml = renderToStaticMarkup(<BreadcrumbLink href="/reports">Reports</BreadcrumbLink>);
+const breadcrumbPageHtml = renderToStaticMarkup(<BreadcrumbPage>Reports</BreadcrumbPage>);
 
     expect(defaultAlertHtml).toContain('role="status"');
-    expect(destructiveAlertHtml).toContain('role="alert"');
-    expect(breadcrumbPageHtml).toContain('aria-current="page"');
+expect(destructiveAlertHtml).toContain('role="alert"');
+expect(breadcrumbLinkHtml).toContain('astryx-link');
+expect(breadcrumbPageHtml).toContain('aria-current="page"');
+expect(breadcrumbPageHtml).toContain('astryx-text');
     expect(breadcrumbPageHtml).not.toContain('role="link"');
     expect(breadcrumbPageHtml).not.toContain('aria-disabled');
     expect(selectSource).toContain('ariaLabel = "Scroll options up"');
@@ -459,9 +523,10 @@ describe('all-web-ui exports', () => {
     expect(financeHtml).toContain('data-onboarding-theme="finance"');
     expect(financeHtml).toContain('data-step-state="active"');
     expect(financeHtml).toContain('aria-current="step"');
-    expect(financeHtml).toContain('Current step');
-    expect(financeHtml).toContain('kui-onboarding-highlight--accent');
-    expect(adminHtml).toContain('admin-bw-theme');
+expect(financeHtml).toContain('Current step');
+expect(financeHtml).toContain('kui-onboarding-highlight--accent');
+expect(financeHtml).toContain('astryx-text');
+expect(adminHtml).toContain('admin-bw-theme');
     expect(adminHtml).toContain('kui-onboarding-steps--horizontal');
     expect(adminHtml).toContain('data-step-state="complete"');
     expect(adminHtml).toContain('Completed step');
@@ -488,21 +553,23 @@ describe('all-web-ui exports', () => {
     expect(metadata.project.remoteSource.designSystems).toBe('stitch_list_design_systems');
     expect(metadata.project.remoteSource.screens).toBe('stitch_list_screens');
 
-    expect(metadata.designSystems.current.status).toBe('remote-current');
-    expect(metadata.designSystems.current.displayName).toBe('all-web-ui');
-    expect(metadata.designSystems.current.assetName).toBe('assets/b710cd5d4e5c45ffa898c221f7bfb4e1');
-    expect(metadata.designSystems.current.assetId).toBe('b710cd5d4e5c45ffa898c221f7bfb4e1');
-    expect(metadata.designSystems.current.localDesignMdSha256).toBe(localDesignMdSha256);
-    expect(metadata.designSystems.current.matchesLocalDesignMd).toBe(false);
-    expect(metadata.designSystems.current.remoteDesignMdSha256).toBe('2cb350030b47db5ea585c5bdf627e8077e51b667639ff1fed62fa30e67d0407f');
-    expect(metadata.designSystems.current.remoteDesignMdSha256).not.toBe(localDesignMdSha256);
-    expect(metadata.designSystems.current.remoteDesignMdSha256Status).toContain('stitch_list_design_systems');
-    expect(metadata.designSystems.latestUpload.status).toBe('remote-uploaded');
-    expect(metadata.designSystems.latestUpload.assetName).toBe('assets/4ec2002f915a4324b9e5c96fce002e5f');
-    expect(metadata.designSystems.latestUpload.sourceScreen).toBe('projects/3340586322886510921/screens/1536177765000794144');
-    expect(metadata.designSystems.latestUpload.localDesignMdSha256).toBe(localDesignMdSha256);
-    expect(metadata.designSystems.latestUpload.remoteDesignMdSha256).toBe('55c66363378a7f0e576c80249d03ca5ce43cd2827333765314957c40c4ae367a');
-    expect(metadata.designSystems.latestUpload.matchesLocalDesignMd).toBe(false);
+expect(metadata.designSystems.current.status).toBe('remote-current-updated');
+expect(metadata.designSystems.current.displayName).toBe('all-web-ui');
+expect(metadata.designSystems.current.assetName).toBe('assets/b710cd5d4e5c45ffa898c221f7bfb4e1');
+expect(metadata.designSystems.current.assetId).toBe('b710cd5d4e5c45ffa898c221f7bfb4e1');
+expect(metadata.designSystems.current.version).toBe('2');
+expect(metadata.designSystems.current.localDesignMdSha256).toBe(localDesignMdSha256);
+expect(metadata.designSystems.current.matchesLocalDesignMd).toBe(true);
+expect(metadata.designSystems.current.remoteDesignMdSha256).toBe(localDesignMdSha256);
+expect(metadata.designSystems.current.remoteDesignMdSha256Status).toContain('stitch_update_design_system');
+expect(metadata.designSystems.current.projectMatchesLocalDesignMd).toBe(false);
+expect(metadata.designSystems.current.projectDesignMdSha256).toBe('dbd4240f195c84f02cc19351e4d4e659c78f82f53353ab48258dd130b784532d');
+expect(metadata.designSystems.latestUpload.status).toBe('remote-created-from-upload');
+expect(metadata.designSystems.latestUpload.assetName).toBe('assets/e819f84cbef04d4f83a72a439854bc3a');
+expect(metadata.designSystems.latestUpload.sourceScreen).toBe('projects/3340586322886510921/screens/4888807428283837831');
+expect(metadata.designSystems.latestUpload.localDesignMdSha256).toBe(localDesignMdSha256);
+expect(metadata.designSystems.latestUpload.appliedSessionId).toBe('18395048367323164223');
+expect(metadata.designSystems.latestUpload.matchesLocalDesignMd).toBe(false);
 
     expect(staleAssetIds).toEqual([
       '7fc8f56dd0184c9c8ccacd823fd7286c',

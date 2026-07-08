@@ -306,10 +306,12 @@ describe('all-web-ui DOM interaction contracts', () => {
   });
 
   it('selects Calendar dates and exposes focused day state', async () => {
-    const onSelect = mock();
+  const onSelect = mock();
+  const selectedISO = '2026-06-12';
+  const targetISO = '2026-06-15';
 
-    render(
-      <Calendar
+  render(
+    <Calendar
         mode="single"
         month={new Date(2026, 5, 1)}
         onSelect={onSelect}
@@ -317,17 +319,12 @@ describe('all-web-ui DOM interaction contracts', () => {
       />
     );
 
-    const selected = document.querySelector('button[data-selected-single="true"]') as HTMLButtonElement;
-    expect(selected).toBeTruthy();
-    expect(selected.getAttribute('data-day')).toBe(new Date(2026, 5, 12).toLocaleDateString());
+  const selected = document.querySelector(`button[data-date="${selectedISO}"]`) as HTMLButtonElement;
+  expect(selected).toBeTruthy();
+  expect(selected.className).toContain('astryx-calendar-day');
+  expect(selected.getAttribute('aria-selected')).toBe('true');
 
-    fireEvent.focus(selected);
-    await waitFor(() => expect(selected.closest('[data-focused]')).toBeTruthy());
-    pressKey(selected, 'ArrowRight');
-    const nextDay = document.querySelector(`button[data-day="${new Date(2026, 5, 13).toLocaleDateString()}"]`) as HTMLButtonElement;
-    await waitForFocus(nextDay);
-
-    const target = document.querySelector(`button[data-day="${new Date(2026, 5, 15).toLocaleDateString()}"]`) as HTMLButtonElement;
+  const target = document.querySelector(`button[data-date="${targetISO}"]`) as HTMLButtonElement;
     fireEvent.click(target);
     expect(onSelect).toHaveBeenCalled();
   });

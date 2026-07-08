@@ -1,6 +1,9 @@
 import * as React from 'react';
+import { Text as AstryxText } from '@astryxdesign/core/Text';
 
 import { cn } from '../lib/cn';
+
+const AstryxTextRuntime = AstryxText as unknown as React.ElementType;
 
 export type OnboardingStepState = 'pending' | 'active' | 'complete';
 
@@ -38,16 +41,20 @@ export function OnboardingStepList({
             data-step-state={state}
             aria-current={state === 'active' ? 'step' : undefined}
           >
-            <span className="kui-onboarding-step__indicator" aria-hidden="true">
+            <AstryxTextRuntime as="span" className="kui-onboarding-step__indicator" aria-hidden="true">
               {state === 'complete' ? 'OK' : index + 1}
-            </span>
+            </AstryxTextRuntime>
             <span className="kui-onboarding-step__body">
-              <span className="kui-onboarding-step__title">
+              <AstryxTextRuntime as="span" className="kui-onboarding-step__title">
                 {step.title}
                 {step.optional ? <span className="kui-onboarding-step__optional">Optional</span> : null}
                 <span className="sr-only">{getStepStateLabel(state)}</span>
-              </span>
-              {step.description ? <span className="kui-onboarding-step__description">{step.description}</span> : null}
+              </AstryxTextRuntime>
+              {step.description ? (
+                <AstryxTextRuntime as="span" className="kui-onboarding-step__description">
+                  {step.description}
+                </AstryxTextRuntime>
+              ) : null}
             </span>
           </li>
         );
@@ -76,8 +83,16 @@ export function OnboardingHighlight({
     <div className={cn('kui-onboarding-highlight', `kui-onboarding-highlight--${tone}`, className)} {...props}>
       {marker ? <span className="kui-onboarding-highlight__marker">{marker}</span> : null}
       <div className="kui-onboarding-highlight__content">
-        {title ? <p className="kui-onboarding-highlight__title">{title}</p> : null}
-        {description ? <p className="kui-onboarding-highlight__description">{description}</p> : null}
+        {title ? (
+          <AstryxTextRuntime as="p" className="kui-onboarding-highlight__title">
+            {title}
+          </AstryxTextRuntime>
+        ) : null}
+        {description ? (
+          <AstryxTextRuntime as="p" className="kui-onboarding-highlight__description">
+            {description}
+          </AstryxTextRuntime>
+        ) : null}
         {children}
       </div>
     </div>
@@ -114,9 +129,17 @@ export function OnboardingTour({
     >
       <div className="kui-onboarding-tour__header">
         <div>
-          <p className="kui-onboarding-tour__eyebrow">Onboarding</p>
-          <h2 className="kui-onboarding-tour__title">{title}</h2>
-          {description ? <p className="kui-onboarding-tour__description">{description}</p> : null}
+          <AstryxTextRuntime as="p" className="kui-onboarding-tour__eyebrow">
+            Onboarding
+          </AstryxTextRuntime>
+          <AstryxTextRuntime as="h2" className="kui-onboarding-tour__title">
+            {title}
+          </AstryxTextRuntime>
+          {description ? (
+            <AstryxTextRuntime as="p" className="kui-onboarding-tour__description">
+              {description}
+            </AstryxTextRuntime>
+          ) : null}
         </div>
         {actions ? <div className="kui-onboarding-tour__actions">{actions}</div> : null}
       </div>

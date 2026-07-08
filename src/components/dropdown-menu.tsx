@@ -1,9 +1,12 @@
 'use client';
 
 import * as React from 'react';
+import { Text as AstryxText } from '@astryxdesign/core/Text';
 import { Check, ChevronRight, Circle } from 'lucide-react';
 
 import { cn } from '../lib/cn';
+
+const AstryxTextRuntime = AstryxText as unknown as React.ElementType;
 
 type DropdownMenuContextValue = {
   open: boolean;
@@ -254,8 +257,9 @@ export const DropdownMenuSubTrigger = React.forwardRef<
   const context = useDropdownMenuSubContext('DropdownMenuSubTrigger');
 
   return (
-    <div
+    <AstryxTextRuntime
       ref={ref}
+      as="div"
       role="menuitem"
       aria-disabled={disabled ? 'true' : undefined}
       aria-haspopup="menu"
@@ -267,13 +271,13 @@ export const DropdownMenuSubTrigger = React.forwardRef<
         disabled && 'pointer-events-none opacity-50',
         className
       )}
-      onClick={(event) => {
+      onClick={(event: React.MouseEvent<HTMLDivElement>) => {
         onClick?.(event);
         if (!event.defaultPrevented && !disabled) {
           context.setOpen(true);
         }
       }}
-      onKeyDown={(event) => {
+      onKeyDown={(event: React.KeyboardEvent<HTMLDivElement>) => {
         onKeyDown?.(event);
         if (event.defaultPrevented || disabled) {
           return;
@@ -288,7 +292,7 @@ export const DropdownMenuSubTrigger = React.forwardRef<
     >
       {children}
       <ChevronRight aria-hidden="true" focusable="false" className="ml-auto h-4 w-4" />
-    </div>
+    </AstryxTextRuntime>
   );
 });
 
@@ -303,8 +307,9 @@ export const DropdownMenuSubContent = React.forwardRef<
   }
 
   return (
-    <div
+    <AstryxTextRuntime
       ref={ref}
+      as="div"
       role="menu"
       className={cn(
         'z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg',
@@ -396,9 +401,10 @@ export const DropdownMenuItem = React.forwardRef<HTMLDivElement, DropdownMenuIte
     };
 
     return (
-      <div
-        ref={ref}
-        role="menuitem"
+    <AstryxTextRuntime
+      ref={ref}
+      as="div"
+      role="menuitem"
         aria-disabled={disabled ? 'true' : undefined}
         tabIndex={disabled ? undefined : -1}
         className={cn(
@@ -408,13 +414,13 @@ export const DropdownMenuItem = React.forwardRef<HTMLDivElement, DropdownMenuIte
           className
         )}
         data-disabled={disabled ? '' : undefined}
-        onClick={(event) => {
+onClick={(event: React.MouseEvent<HTMLDivElement>) => {
           onClick?.(event);
           if (!event.defaultPrevented) {
             selectItem(event.nativeEvent);
           }
         }}
-        onKeyDown={(event) => {
+onKeyDown={(event: React.KeyboardEvent<HTMLDivElement>) => {
           onKeyDown?.(event);
           if (event.defaultPrevented) {
             return;
@@ -432,9 +438,9 @@ export const DropdownMenuItem = React.forwardRef<HTMLDivElement, DropdownMenuIte
           }
         }}
         {...props}
-      />
-    );
-  }
+    />
+  );
+}
 );
 
 export const DropdownMenuCheckboxItem = React.forwardRef<
@@ -508,8 +514,9 @@ export const DropdownMenuRadioItem = React.forwardRef<
 export const DropdownMenuLabel = React.forwardRef<HTMLDivElement, DropdownMenuLabelProps>(
   function DropdownMenuLabel({ className, inset, ...props }, ref) {
     return (
-      <div
+      <AstryxTextRuntime
         ref={ref}
+        as="div"
         className={cn('px-2 py-1.5 text-sm font-semibold', inset && 'pl-8', className)}
         {...props}
       />
@@ -525,5 +532,5 @@ export const DropdownMenuSeparator = React.forwardRef<
 });
 
 export function DropdownMenuShortcut({ className, ...props }: DropdownMenuShortcutProps) {
-  return <span className={cn('ml-auto text-xs tracking-widest opacity-60', className)} {...props} />;
+  return <AstryxTextRuntime as="span" className={cn('ml-auto text-xs tracking-widest opacity-60', className)} {...props} />;
 }
