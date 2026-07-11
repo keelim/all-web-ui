@@ -50,6 +50,11 @@
       "import": "./dist/components/input.js",
       "default": "./dist/components/input.js"
     },
+    "./field": {
+      "types": "./dist/components/field.d.ts",
+      "import": "./dist/components/field.js",
+      "default": "./dist/components/field.js"
+    },
     "./panel": {
       "types": "./dist/components/panel.d.ts",
       "import": "./dist/components/panel.js",

@@ -458,8 +458,32 @@
 }
 
 /* ==========================================================================
-   Input
+   Field and Input
    ========================================================================== */
+.kui-field {
+  display: grid;
+  gap: var(--kui-space-2, 0.5rem);
+}
+
+.kui-field__label {
+  color: var(--kui-color-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.kui-field__description {
+  margin: 0;
+  color: var(--kui-color-muted);
+  font-size: 0.875rem;
+}
+
+.kui-field__error {
+  margin: 0;
+  color: var(--kui-color-danger-text);
+  font-size: 0.875rem;
+}
+
 .kui-input {
   width: 100%;
   min-height: 3rem;

@@ -1,6 +1,16 @@
 export { Button, buttonVariants, type ButtonProps } from './components/button';
 export { Calendar, CalendarDayButton, type CalendarDayButtonProps, type CalendarProps } from './components/calendar';
 export { Input, type InputProps } from './components/input';
+export {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+  type FieldDescriptionProps,
+  type FieldErrorProps,
+  type FieldLabelProps,
+  type FieldProps
+} from './components/field';
 export { Panel, type PanelProps } from './components/panel';
 export { Badge, badgeVariants, type BadgeProps } from './components/badge';
 export { LoadingStatus, type LoadingStatusProps } from './components/loading-status';

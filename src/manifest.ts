@@ -1,6 +1,6 @@
 import { kuiThemeSelectors, type KuiThemeScopeName } from './theme-contract';
 
-export type ComponentLifecycle = 'stable' | 'deprecated' | 'removed';
+export type ComponentLifecycle = 'experimental' | 'stable' | 'deprecated' | 'removed';
 
 export type ComponentStyleImport = '@keelim/all-web-ui/styles.css';
 
@@ -62,6 +62,7 @@ const componentManifestEntries = [
   { name: 'Dialog', exportPath: '@keelim/all-web-ui/dialog', lifecycle: 'stable', styleImports: sharedComponentStyleImports, themeScopes: sharedComponentThemeScopes },
   { name: 'DropdownMenu', exportPath: '@keelim/all-web-ui/dropdown-menu', lifecycle: 'stable', styleImports: sharedComponentStyleImports, themeScopes: sharedComponentThemeScopes },
   { name: 'EmptyState', exportPath: '@keelim/all-web-ui/empty-state', lifecycle: 'stable', styleImports: sharedComponentStyleImports, themeScopes: sharedComponentThemeScopes },
+  { name: 'Field', exportPath: '@keelim/all-web-ui/field', lifecycle: 'experimental', styleImports: sharedComponentStyleImports, themeScopes: sharedComponentThemeScopes },
   { name: 'HoverCard', exportPath: '@keelim/all-web-ui/hover-card', lifecycle: 'stable', styleImports: sharedComponentStyleImports, themeScopes: sharedComponentThemeScopes },
   { name: 'Input', exportPath: '@keelim/all-web-ui/input', lifecycle: 'stable', styleImports: sharedComponentStyleImports, themeScopes: sharedComponentThemeScopes },
   { name: 'Label', exportPath: '@keelim/all-web-ui/label', lifecycle: 'stable', styleImports: sharedComponentStyleImports, themeScopes: sharedComponentThemeScopes },

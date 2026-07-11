@@ -4,6 +4,7 @@ import * as React from "react";
 import { TextInput as AstryxTextInput } from "@astryxdesign/core/TextInput";
 
 import { cn } from "../lib/cn";
+import { useFieldControlProps } from "./field";
 
 export type InputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -62,12 +63,21 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       type = "text",
     title,
     "aria-label": ariaLabel,
+    "aria-describedby": ariaDescribedBy,
+    "aria-errormessage": ariaErrorMessage,
+    "aria-invalid": ariaInvalid,
     readOnly,
     id,
     ...props
   },
     ref
   ) {
+    const fieldControlProps = useFieldControlProps({
+      id,
+      "aria-describedby": ariaDescribedBy,
+      "aria-errormessage": ariaErrorMessage,
+      "aria-invalid": ariaInvalid
+    });
     const [uncontrolledValue, setUncontrolledValue] = React.useState(
       toInputValue(defaultValue)
     );
@@ -75,11 +85,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const astryxType =
       type === "password" ? "password" : type === "email" ? "email" : "text";
 
-    if (id || !astryxInputTypes.has(type) || readOnly) {
+    if (fieldControlProps.id || !astryxInputTypes.has(type) || readOnly) {
       return (
         <input
           ref={ref}
-          id={id}
+          id={fieldControlProps.id}
           className={cn("kui-input", className)}
           value={value}
           defaultValue={defaultValue}
@@ -93,6 +103,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           type={type}
           title={title}
           aria-label={ariaLabel}
+          aria-describedby={fieldControlProps["aria-describedby"]}
+          aria-errormessage={fieldControlProps["aria-errormessage"]}
+          aria-invalid={fieldControlProps["aria-invalid"]}
           readOnly={readOnly}
           {...props}
         />
@@ -118,6 +131,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         placeholder={placeholder}
         type={astryxType}
         className={cn("kui-input", className)}
+        aria-describedby={fieldControlProps["aria-describedby"]}
+        aria-errormessage={fieldControlProps["aria-errormessage"]}
+        aria-invalid={fieldControlProps["aria-invalid"]}
         {...props}
       />
     );
