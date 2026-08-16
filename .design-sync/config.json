@@ -1,0 +1,8 @@
+{
+  "projectId": "a45ec8b9-9931-4357-920d-4192b83bf4ea",
+  "shape": "package",
+  "pkg": "@keelim/all-web-ui",
+  "globalName": "AllWebUI",
+  "buildCmd": "bun run build",
+  "cssEntry": ".design-sync/generated/styles.compiled.css"
+}
