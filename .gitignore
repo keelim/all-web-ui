@@ -11,3 +11,6 @@ ds-bundle/
 .design-sync/learnings/
 .design-sync/node_modules
 .design-sync/generated/
+
+# Local review state and backups
+.dryforge/

@@ -64,10 +64,10 @@ npm token that can read the `@keelim` scope and an `.npmrc` registry mapping:
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
-Install the exact released version expected by the current consumer lockfiles:
+The inspected local provider/consumer manifests declare 0.1.5. Confirm that release is available in the registry before installing; local declarations do not prove publication:
 
 ```bash
-bun add @keelim/all-web-ui@0.1.4
+bun add @keelim/all-web-ui@0.1.5
 ```
 
 The package expects React and React DOM `^19.0.0` peer dependencies. If a
@@ -79,8 +79,8 @@ Current consumer mapping:
 
 | Consumer | Package | Global CSS | Theme CSS |
 | --- | --- | --- | --- |
-| `keelim-vercel` | `@keelim/all-web-ui@0.1.4` | `@keelim/all-web-ui/styles.css` | `@keelim/all-web-ui/themes/finance.css` |
-| `rich/web` | `@keelim/all-web-ui@0.1.4` | `@keelim/all-web-ui/styles.css` | `@keelim/all-web-ui/themes/admin-bw.css` |
+| `keelim-vercel` | `@keelim/all-web-ui@0.1.5` | `@keelim/all-web-ui/styles.css` | `@keelim/all-web-ui/themes/finance.css` |
+| `rich/web` | `@keelim/all-web-ui@0.1.5` | `@keelim/all-web-ui/styles.css` | `@keelim/all-web-ui/themes/admin-bw.css` |
 
 ### Add Theme CSS
 

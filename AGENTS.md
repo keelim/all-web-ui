@@ -1,107 +1,49 @@
-# all-web-ui Agent Guidance
+# all-web-ui working guide
 
-## Scope
+An autonomous React library supplying shared primitives, semantic themes, and integration contracts to keelim web applications. Product routes and workflows stay in the consumers.
 
-all-web-ui is an autonomous shared React UI package for keelim web apps. Keep
-changes scoped to reusable primitives, theme tokens, package exports, tests, and
-docs. Do not add app routes or product-specific workflows here.
+## Project structure
 
-## Stitch Skills
-
-The project is prepared for `google-labs-code/stitch-skills` through
-`DESIGN.md`, `.stitch/DESIGN.md`, and `.stitch/README.md`.
-
-- Use root `DESIGN.md` as the canonical design-system source when prompting
-  Stitch or another coding agent.
-- Keep `DESIGN.md` compatible with the `google-labs-code/design.md` concept:
-  YAML token front matter first, then ordered markdown rationale sections.
-- Treat `.stitch/DESIGN.md` as a compatibility pointer, not a second source of
-  truth.
-- Store downloaded Stitch HTML/screenshots under `.stitch/designs/`.
-- Treat `stitch-design`, `design-md`, `react:components`, and `shadcn-ui` as
-  workflow references, not vendored source.
-- Convert Stitch output into durable package primitives only when the result
-  belongs in this shared library.
-- Keep `.stitch/component-reference-board.prompt.md` reference-only. Do not put
-  color tokens, font tokens, hex/HSL values, or theme instructions there; encode
-  durable token semantics in root `DESIGN.md` and CSS token files.
-- When mutating or verifying a remote Stitch design system, treat
-  `get_project.designTheme.designMd` parity with root `DESIGN.md` as the success
-  criterion. Do not mark `.stitch/metadata.json` as synced just because
-  create/upload/apply calls succeeded.
-
-## Package Contract
-
-New shared primitives must update all contract surfaces:
-
-- `src/components/<name>.tsx`
-- `src/index.ts`
-- `src/manifest.ts`
-- `package.json` exports
-- focused tests under `tests/`
-
-Use `--kui-*` theme variables and the existing shadcn HSL bridge instead of
-hardcoded component colors.
-
-When token semantics change, update `DESIGN.md` and the CSS token files
-together so agent prompts and package styles do not drift.
-
-Any change to `DESIGN.md` must include a fresh `bun run design:lint` result
-before the work is called complete. Do not treat design.md lint as optional for
-design-token, Stitch, or visual-identity edits.
-
-For public API, theme, telemetry, build, or publishing contract changes, inspect
-the coupled contract layers together: `src/index.ts`, `package.json` exports,
-`src/manifest.ts`, theme CSS entries, `src/telemetry.ts`, `scripts/build.mjs`,
-and `.github/workflows/publish-package.yml`. If one layer changes, update or
-explicitly clear the related layers so package consumers do not get drift.
-
-## Research Exports
-
-When producing `all-web-ui` improvement or research artifacts from the
-`keelim-maestro` root, keep the analyzed source of truth in this child repo and
-write root-owned artifacts under
-`/Users/keelim/Desktop/keelim-maestro/docs/research/...`. Do not place root
-research exports in this package unless the user explicitly asks.
-
-For evidence-only exports, validate item count/schema, URL bans, duplicate
-intent, actual file-path existence, and line-number ranges before calling the
-saved artifact complete.
-
-## Verification
-
-Run these before calling package work complete:
-
-```bash
-bun run typecheck
-bun test
-bun run build
+```text
+./
+├── AGENTS.md → Working guide
+├── CLAUDE.md → Same guide for Claude
+├── docs/
+│   ├── architecture.md → Components and data flow
+│   ├── business-rules.md → Domain meaning and edge cases
+│   ├── security.md → Access, credentials, and protected data
+│   ├── standards.md → Change and verification rules
+│   ├── engineering-notes.md → Operational traps
+│   ├── operations.md → Setup and scoped commands
+│   ├── contracts.md → Consumer inputs, outputs, and failures
+│   └── tracking/
+│       ├── status.md → Capabilities and verified scope
+│       ├── findings.md → Unresolved issues
+│       └── decisions/
+│           ├── index.md → Decision index
+│           ├── 0001-shared-primitives.md → Shared primitives with independent consumers
+│           └── 0002-opt-in-telemetry.md → Caller-owned opt-in telemetry
+├── src/
+│   └── AGENTS.md → Public package implementation
+├── scripts/
+│   └── AGENTS.md → Build and packaging
+└── tests/
+    └── AGENTS.md → Component and contract tests
 ```
 
-Run this whenever `DESIGN.md` changes:
+## Hard gates
 
-```bash
-bun run design:lint
-```
+1. Keep reusable presentation here and product behavior in the consuming repository.
+2. Maintain exports, declarations, styles, manifest, and tests as one public contract.
+3. Keep canonical design tokens and CSS synchronized; remote parity requires readback.
+4. Telemetry stays opt-in; publication and remote design edits require authorization.
 
-When a shared primitive change should affect consumers, also verify from the
-workspace root with:
+## Before work
 
-```bash
-./scripts/verify-all-web-ui-integration.sh --full
-```
+Read `docs/standards.md`, `docs/engineering-notes.md`, and the closest module guide.
 
-## CodeGraph Search
+Before token/Stitch changes read `DESIGN.md` and `.stitch/README.md`. Before API or release work inspect `package.json`, `src/index.ts`, `src/manifest.ts`, `src/telemetry.ts`, `scripts/build.mjs`, and `.github/workflows/publish-package.yml`. For consumer changes read that owner’s guide and the parent shared-UI report.
 
-When working from the `keelim-maestro` workspace root, use the root dispatcher
-instead of a root aggregate graph:
+## Problem routing
 
-```bash
-bun run cg -- context all-web-ui "<task>"
-bun run cg -- query all-web-ui <symbol>
-bun run cg -- files all-web-ui --max-depth 2
-```
-
-If an AI starts inside this repo directly, first check `/Users/keelim/Desktop/keelim-maestro`
-for the dispatcher and prefer its child-targeted `--path` calls. Do not initialize
-or rely on a workspace-root `.codegraph/` that mixes child repositories.
+Immediately report exposed registry credentials, telemetry without consent, or unauthorized publication. Record other unresolved integration defects in `docs/tracking/findings.md` with affected exports and reproduction evidence.
