@@ -4,5 +4,21 @@
   "pkg": "@keelim/all-web-ui",
   "globalName": "AllWebUI",
   "buildCmd": "bun run build",
-  "cssEntry": ".design-sync/generated/styles.compiled.css"
+  "cssEntry": ".design-sync/generated/styles.compiled.css",
+  "readmeHeader": ".design-sync/conventions.md",
+  "overrides": {
+    "Dialog": { "cardMode": "single", "viewport": "720x520" },
+    "AlertDialog": { "cardMode": "single", "viewport": "720x440" },
+    "Sheet": { "cardMode": "single", "viewport": "760x560" },
+    "DropdownMenu": { "cardMode": "single", "viewport": "480x380" },
+    "Popover": { "cardMode": "single", "viewport": "480x320" },
+    "HoverCard": { "cardMode": "single", "viewport": "480x300" },
+    "Tooltip": { "cardMode": "single", "viewport": "420x220" },
+    "Select": { "cardMode": "single", "viewport": "480x420" },
+    "SelectScrollUpButton": { "cardMode": "single", "viewport": "480x420" },
+    "SelectScrollDownButton": { "cardMode": "single", "viewport": "480x420" },
+    "Toast": { "cardMode": "single", "viewport": "640x360" },
+    "Table": { "cardMode": "column" },
+    "OnboardingTour": { "cardMode": "column" }
+  }
 }
