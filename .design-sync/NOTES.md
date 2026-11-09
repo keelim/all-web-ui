@@ -39,6 +39,14 @@ loader in JS) — the host app is expected to provide them itself.
 sourcing these from a public registry or wiring `runtimeFontPrefixes`. If the real fonts
 should ship, add them via `cfg.extraFonts` on a future sync.
 
+## Guidelines — none shipped (`guidelinesGlob: []`)
+
+The converter's default `guidelinesGlob` includes `docs/*.md`. Since a339afc those are the
+repo's operating guides (architecture, standards, operations, …), not design guidance,
+and the remote project was synced without a `guidelines/` dir. `guidelinesGlob: []` keeps
+local builds at parity with the remote (`auxSha` match, 2026-11-10). If real design
+guidance is added later, point the glob at it explicitly.
+
 ## Known render warns
 
 - `[TOKENS_MISSING]`: `--x-borderWidth`, `--x-gap`, `--x-marginInline`, `--x-counterReset`,

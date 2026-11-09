@@ -4,5 +4,6 @@
   "pkg": "@keelim/all-web-ui",
   "globalName": "AllWebUI",
   "buildCmd": "bun run build",
-  "cssEntry": ".design-sync/generated/styles.compiled.css"
+  "cssEntry": ".design-sync/generated/styles.compiled.css",
+  "guidelinesGlob": []
 }
