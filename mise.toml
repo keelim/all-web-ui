@@ -1,2 +1,44 @@
+min_version = "2026.10.8"
+
 [tools]
-bun = "1.3.12"
+bun = "1.4.4"
+
+[tool_config]
+locked = true
+
+[settings.task]
+run_auto_install = false
+
+[tasks.doctor]
+description = "Check the active Bun and committed tool/package-manager pins without installing"
+run = """
+bun -e 'const config = Bun.TOML.parse(await Bun.file("mise.toml").text()); const lock = Bun.TOML.parse(await Bun.file("mise.lock").text()); const pkg = await Bun.file("package.json").json(); const version = config.tools.bun; if (Bun.version !== version || pkg.packageManager !== `bun@${version}` || !lock.tools.bun.some(tool => tool.version === version)) throw new Error("Bun runtime, mise config/lock, and packageManager must agree"); console.log(`Bun ${Bun.version}: runtime, mise config/lock, and packageManager agree`);'
+"""
+
+[tasks.install]
+depends = ["doctor"]
+description = "Install dependencies from the existing Bun lockfile (explicit setup only)"
+run = "bun install --frozen-lockfile"
+
+[tasks.lint]
+depends = ["doctor"]
+description = "Run the package's existing static TypeScript check"
+run = "bun run typecheck"
+
+[tasks.test]
+depends = ["doctor"]
+description = "Run the existing component and contract tests"
+run = "bun test"
+
+[tasks.build]
+depends = ["doctor"]
+description = "Build and verify the package exports, declarations, and CSS"
+run = "bun run build"
+
+[tasks.verify]
+description = "Run doctor, static checks, tests, and build in order"
+run = ["mise run doctor", "mise run lint", "mise run test", "mise run build"]
+
+[tasks.default]
+description = "Inspect the development environment without installing dependencies or building"
+run = "mise run doctor"
